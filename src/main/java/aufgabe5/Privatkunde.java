@@ -1,4 +1,4 @@
-package aufagbe5;
+package aufgabe5;
 
 public class Privatkunde extends Kunde {
     private String vorname;
