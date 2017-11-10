@@ -31,7 +31,7 @@
       <w>120</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Activity posten</panel_attributes>
+    <panel_attributes>Aktivität posten</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -42,7 +42,8 @@
       <w>120</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Activitys anzeigen</panel_attributes>
+    <panel_attributes>Aktivitäten
+anzeigen</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -53,7 +54,7 @@
       <w>120</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>Activitys filtern</panel_attributes>
+    <panel_attributes>Aktivitäten filtern</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -64,7 +65,8 @@
       <w>150</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>Activitydetails anzeigen</panel_attributes>
+    <panel_attributes>Aktivitätsdetails
+anzeigen</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -143,7 +145,8 @@ hochladen</panel_attributes>
       <w>150</w>
       <h>50</h>
     </coordinates>
-    <panel_attributes>/Mit Activity interagieren/</panel_attributes>
+    <panel_attributes>/Mit Aktivität/
+/interagieren/</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -165,7 +168,8 @@ hochladen</panel_attributes>
       <w>120</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>liken</panel_attributes>
+    <panel_attributes>Aktivität
+liken</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -176,7 +180,8 @@ hochladen</panel_attributes>
       <w>120</w>
       <h>40</h>
     </coordinates>
-    <panel_attributes>kommentieren</panel_attributes>
+    <panel_attributes>Aktivität
+kommentieren</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
