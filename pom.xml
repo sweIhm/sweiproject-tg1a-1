@@ -8,8 +8,8 @@
     <packaging>pom</packaging>
     <version>0.1.0</version>
     <modules>
-        <module>backend</module>
         <module>frontend</module>
+        <module>backend</module>
     </modules>
 
     <properties>
