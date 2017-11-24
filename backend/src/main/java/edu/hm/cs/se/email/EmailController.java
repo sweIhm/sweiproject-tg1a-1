@@ -8,49 +8,55 @@ import javax.activation.*;
 
 public class EmailController {
     public static String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
+    public static String GMAILUSER = "activity.meterhm@gmail.com";
+    public static String GMAILUPASS = "holzwurm3";
+    public static String SUBJECT = "Aktivity-Meter activation key";
+    public static String TEXT = "Dear User, \n" +
+                                "to aktivate your post on the aktivity-meter klick the folowing link:";
 
-    public static boolean sendEmail(String adress){
+    public static boolean sendEmail(String adress,String aktivLink){
         String to = "leon.lukas11@web.de";
 
-        // Sender's email ID needs to be mentioned
-        String from = "noreply@acivitymeter.com";
 
-        // Assuming you are sending email from localhost
-        String host = "localhost";
+        if(adress.split("@")[1] == VALIDEMAILS[0]||adress.split("@")[1] == VALIDEMAILS[1]){
+            Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
 
-        // Get system properties
-        Properties properties = System.getProperties();
+            Session session = Session.getInstance(props,
+                    new GMailAuthenticator(GMAILUSER, GMAILUPASS));
 
-        // Setup mail server
-        properties.setProperty("mail.smtp.host", host);
+            try {
 
-        // Get the default Session object.
-        Session session = Session.getDefaultInstance(properties);
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress("noreply@aktivity-meter.edu"));
+                message.setRecipients(Message.RecipientType.TO,
+                        InternetAddress.parse(to));
+                message.setSubject(SUBJECT);
+                message.setText(TEXT);
 
-        try {
-            // Create a default MimeMessage object.
-            MimeMessage message = new MimeMessage(session);
+                Transport.send(message);
 
-            // Set From: header field of the header.
-            message.setFrom(new InternetAddress(from));
+                System.out.println("Done");
 
-            // Set To: header field of the header.
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-
-            // Set Subject: header field
-            message.setSubject("This is the Subject Line!");
-
-            // Now set the actual message
-            message.setText("This is actual message");
-
-            // Send message
-            Transport.send(message);
-            System.out.println("Sent message successfully....");
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
             return true;
-        } catch (MessagingException mex) {
-            mex.printStackTrace();
-            return false;
         }
+
+        return false;
+
+
+    }
+
+
+    public static String generateKey(){
+        String result = UUID.randomUUID().toString();
+        result = result.replace("-","");
+        return result;
     }
 }
 
