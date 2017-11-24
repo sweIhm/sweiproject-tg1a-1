@@ -43,7 +43,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.version}</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.3</version>
             </plugin>
         </plugins>
+
+
+        <resources>
+            <resource>
+                <directory>../frontend/target/frontend</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+                <targetPath>static</targetPath>
+            </resource>
+        </resources>
     </build>
 </project>
