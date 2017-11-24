@@ -14,7 +14,7 @@ public class EmailController {
     public static String TEXT = "Dear User, \n" +
                                 "to aktivate your post on the aktivity-meter klick the folowing link:";
 
-    public static boolean sendEmail(String adress,String aktivLink){
+    public static boolean sendEmail(String adress,String aktivCode){
         String to = "leon.lukas11@web.de";
 
 
