@@ -1,6 +1,6 @@
-spring.datasource.url: jdbc:postgresql://${db.url} 
+spring.datasource.url: jdbc:${db.url}:${db.port}/${db.name} 
 
-spring.datasource.username: ${db.name} 
+spring.datasource.username: ${db.uname} 
 spring.datasource.password:  ${db.password} 
 
 spring.jpa.hibernate.ddl-auto: create-drop
