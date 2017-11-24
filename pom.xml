@@ -13,8 +13,8 @@
     </properties>
          
     <modules>
-        <module>frontend</module>
         <module>backend</module>
+        <module>frontend</module>
     </modules>
 
 </project>
