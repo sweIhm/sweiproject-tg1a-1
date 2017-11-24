@@ -1,0 +1,9 @@
+---
+
+spring:
+  profiles: prod
+  datasource:
+    url: jdbc:${DATABASE_URL}
+  jpa.hibernate.ddl-auto: validate
+
+---
