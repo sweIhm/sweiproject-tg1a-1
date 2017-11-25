@@ -10,8 +10,6 @@ public class ActivationKey {
 	private String key;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activation_key_id_seq")
-	@SequenceGenerator(name="activation_key_id_seq", sequenceName="activation_key_id_seq", allocationSize=1)
 	@Column(name = "id")
 	private long activity_id;
 
