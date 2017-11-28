@@ -1,7 +1,5 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 
 @Entity
