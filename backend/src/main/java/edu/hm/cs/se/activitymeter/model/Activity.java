@@ -12,7 +12,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activity_id_seq")
     @SequenceGenerator(name="activity_id_seq", sequenceName="activity_id_seq", allocationSize=1)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "text", nullable = false)
     private String text;
