@@ -30,7 +30,7 @@ public class ActivityDTO {
 		this.author = author;
 	}
 
-	public ActvityDTO(Activity a) {
+	public ActivityDTO(Activity a) {
 		this(a.getText(), a.getTitle(), a.getAuthor());
 	}
 
