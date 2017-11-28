@@ -1,9 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
-import edu.hm.cs.se.activitymeter.model.ActivationKey;
-import edu.hm.cs.se.activitymeter.model.ActivationKeyRepository;
-import edu.hm.cs.se.activitymeter.model.ActivityRepository;
-import edu.hm.cs.se.activitymeter.model.Activity;
+import edu.hm.cs.se.activitymeter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
@@ -33,16 +30,16 @@ public class ActivityController {
     }
 
     @GetMapping("{id}")
-    public Activity find(@PathVariable Long id) {
-        return activityRepository.findOne(id);
+    public ActivityDTO find(@PathVariable Long id) {
+        return new ActivityDTO(activityRepository.findOne(id));
     }
 
     @PostMapping
-    public Activity create(@RequestBody Activity input) {
+    public ActivityDTO create(@RequestBody Activity input) {
         Activity newActivity = activityRepository.save(new Activity(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
         ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newActivity.getId(), emailController.generateKey()));
         emailController.sendEmail(newActivity, activationKey.getKey());
-        return newActivity;
+        return new ActivityDTO(newActivity);
     }
 
     @DeleteMapping("{id}")
@@ -51,7 +48,7 @@ public class ActivityController {
     }
 
     @PutMapping("{id}")
-    public Activity update(@PathVariable Long id, @RequestBody Activity input) {
+    public ActivityDTO update(@PathVariable Long id, @RequestBody ActivityDTO input) {
         Activity activity = activityRepository.findOne(id);
         if (activity == null) {
             return null;
@@ -59,9 +56,7 @@ public class ActivityController {
             activity.setText(input.getText());
             activity.setTitle(input.getTitle());
             activity.setAuthor(input.getAuthor());
-            activity.setEmail(input.getEmail());
-            activity.setPublished(input.isPublished());
-            return activityRepository.save(activity);
+            return new ActivityDTO(activityRepository.save(activity));
         }
     }
 
