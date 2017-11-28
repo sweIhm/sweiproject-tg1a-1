@@ -1,5 +1,7 @@
 package edu.hm.cs.se.activitymeter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,12 +24,15 @@ public class Activity {
     private String author;
 
     @Column(name = "email", nullable = false)
+    @JsonIgnore
     private String email;
 
     @Column(name = "published", nullable = false)
+    @JsonIgnore
     private boolean published;
 
     @OneToOne(mappedBy = "activity", fetch = FetchType.LAZY)
+    @JsonIgnore
     private ActivationKey key;
 
     public Activity (){}
