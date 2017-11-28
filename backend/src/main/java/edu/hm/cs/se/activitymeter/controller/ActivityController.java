@@ -30,8 +30,8 @@ public class ActivityController {
     }
 
     @GetMapping("{id}")
-    public Activity find(@PathVariable Long id) {
-        return activityRepository.findOne(id);
+    public ActivityDTO find(@PathVariable Long id) {
+        return new ActivityDTO(activityRepository.findOne(id));
     }
 
     @PostMapping
