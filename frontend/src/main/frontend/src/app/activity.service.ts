@@ -7,7 +7,7 @@ import {Activity} from "./activity";
 @Injectable()
 export class ActivityService {
 
-  url : string = 'http://localhost:8080/activity';
+  url : string = '/activity';
 
   constructor(private http:HttpClient) { }
 

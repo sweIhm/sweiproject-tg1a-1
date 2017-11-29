@@ -9,6 +9,7 @@ import {ActivityService} from "../activity.service";
 })
 export class PostComponent implements OnInit {
 
+  submitted: boolean = false;
   toBePosted: ActivityDto = {
     title: '',
     text: '',
@@ -23,6 +24,18 @@ export class PostComponent implements OnInit {
 
   onSubmit() {
     this.service.addActivity(this.toBePosted).subscribe();
-    alert('Activity posted');
+    this.toBePosted = {
+      title: '',
+      text: '',
+      email: '',
+      author: ''
+    }
+    this.submitted = true;
   }
+
+  dismissAlert() {
+    this.submitted = false;
+  }
+
+  get diagnostic() { return JSON.stringify(this.toBePosted); }
 }
