@@ -1,0 +1,9 @@
+<h2>Post Activity</h2>
+Author: <input [(ngModel)]="toBePosted.author"> <br>
+Email: <input [(ngModel)]="toBePosted.email" type="email"> <br>
+Title: <input [(ngModel)]="toBePosted.title"> <br>
+Text: <br>
+<textarea [(ngModel)]="toBePosted.text"></textarea><br>
+<form (ngSubmit)="onSubmit()">
+  <input type="submit">
+</form>
