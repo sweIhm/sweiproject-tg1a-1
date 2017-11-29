@@ -1,5 +1,8 @@
 package edu.hm.cs.se.email;
 
+import edu.hm.cs.se.activitymeter.Activity;
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.List;
 import java.util.*;
 import javax.mail.*;
@@ -8,17 +11,24 @@ import javax.activation.*;
 
 public class EmailController {
     public static String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
-    public static String GMAILUSER = "activity.meterhm@gmail.com";
-    public static String GMAILUPASS = "holzwurm3";
     public static String SUBJECT = "Aktivity-Meter activation key";
-    public static String TEXT = "Dear User, \n" +
-                                "to aktivate your post on the aktivity-meter klick the folowing link:";
+    public static String TEXT = "Dear User, %s to aktivate your post on the aktivity-meter klick the folowing link: %n"
+                                   + "%s/activation/%s?key=%s";
 
-    public static boolean sendEmail(String adress,String aktivCode){
-        String to = "leon.lukas11@web.de";
+    @Value("${email.name}")
+    private static String GMAILUSER;
+
+    @Value("${email.password}")
+    private static String GMAILUPASS;
+
+    @Value("${host.url}")
+    private static String host;
+
+    public static boolean sendEmail(Activity activity, String aktivCode){
 
 
-        if(adress.split("@")[1] == VALIDEMAILS[0]||adress.split("@")[1] == VALIDEMAILS[1]){
+        if(Arrays.stream(VALIDEMAILS).anyMatch(activity.getEmail()::endsWith)){
+
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
             props.put("mail.smtp.starttls.enable", "true");
@@ -33,9 +43,9 @@ public class EmailController {
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress("noreply@aktivity-meter.edu"));
                 message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(to));
+                        InternetAddress.parse(activity.getEmail()));
                 message.setSubject(SUBJECT);
-                message.setText(TEXT);
+                message.setText(String.format(TEXT, activity.getAuthor(), host, activity.getId(), aktivCode));
 
                 Transport.send(message);
 
