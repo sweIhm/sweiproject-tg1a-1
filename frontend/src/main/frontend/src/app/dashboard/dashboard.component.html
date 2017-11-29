@@ -1,5 +1,19 @@
-<h2>Dashboard</h2>
-<div *ngFor="let activity of activities" (click)="onSelect(activity)">
-  {{activity.title}}
+<div class="container">
+  <h2>View all Activities</h2>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let activity of activities">
+        <th scope="row">{{activity.id}}</th>
+        <td>{{activity.title}}</td>
+        <td>{{activity.author}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
-<!--<app-view [activity]="selectedActivity"></app-view>-->
