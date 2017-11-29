@@ -1,0 +1,5 @@
+<h2>Dashboard</h2>
+<div *ngFor="let activity of activities" (click)="onSelect(activity)">
+  {{activity.title}}
+</div>
+<!--<app-view [activity]="selectedActivity"></app-view>-->

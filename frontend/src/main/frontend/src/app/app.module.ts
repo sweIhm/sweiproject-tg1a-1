@@ -4,19 +4,24 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ActivitiesComponent } from './activities/activities.component';
+import { PostComponent } from './post/post.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import {ActivityService} from "./activity.service";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
     AppComponent,
-    ActivitiesComponent
+    PostComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ActivityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
