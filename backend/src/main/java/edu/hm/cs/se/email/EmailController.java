@@ -16,15 +16,15 @@ public class EmailController {
                                    + "%s/activation/%s?key=%s";
 
     @Value("${email.name}")
-    private static String GMAILUSER;
+    private  String GMAILUSER;
 
     @Value("${email.password}")
-    private static String GMAILUPASS;
+    private String GMAILUPASS;
 
     @Value("${host.url}")
-    private static String host;
+    private  String host;
 
-    public static boolean sendEmail(Activity activity, String aktivCode){
+    public  boolean sendEmail(Activity activity, String aktivCode){
 
 
         if(Arrays.stream(VALIDEMAILS).anyMatch(activity.getEmail()::endsWith)){
