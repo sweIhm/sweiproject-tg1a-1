@@ -1,9 +1,22 @@
-<h2>Post Activity</h2>
-Author: <input [(ngModel)]="toBePosted.author"> <br>
-Email: <input [(ngModel)]="toBePosted.email" type="email"> <br>
-Title: <input [(ngModel)]="toBePosted.title"> <br>
-Text: <br>
-<textarea [(ngModel)]="toBePosted.text"></textarea><br>
-<form (ngSubmit)="onSubmit()">
-  <input type="submit">
-</form>
+<div class="container">
+  <h2>Post Activity</h2>
+  <div class="form-group">
+    <label>Author</label>
+    <input [(ngModel)]="toBePosted.author" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Email</label>
+    <input [(ngModel)]="toBePosted.email" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Title: </label>
+    <input [(ngModel)]="toBePosted.title" class="form-control">
+  </div>
+  <div class="form-group">
+    <label>Text</label>
+    <textarea [(ngModel)]="toBePosted.text" class="form-control"></textarea>
+  </div>
+  <form (ngSubmit)="onSubmit()">
+    <input type="submit" class="btn">
+  </form>
+</div>

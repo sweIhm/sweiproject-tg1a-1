@@ -8,6 +8,7 @@ import { PostComponent } from './post/post.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {ActivityService} from "./activity.service";
 import {HttpClientModule} from "@angular/common/http";
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpClientModule} from "@angular/common/http";
     BrowserModule,
     FormsModule,
     HttpModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule.forRoot()
   ],
   providers: [ActivityService],
   bootstrap: [AppComponent]
