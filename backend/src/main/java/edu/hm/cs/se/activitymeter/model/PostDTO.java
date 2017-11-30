@@ -31,6 +31,7 @@ public class PostDTO {
 
     public PostDTO(Post p) {
         this(p.getText(), p.getTitle(), p.getAuthor());
+        this.id = p.getId();
     }
 
     public Long getId() {
