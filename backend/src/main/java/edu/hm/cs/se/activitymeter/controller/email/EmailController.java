@@ -1,13 +1,11 @@
-package edu.hm.cs.se.email;
+package edu.hm.cs.se.activitymeter.controller.email;
 
-import edu.hm.cs.se.activitymeter.Activity;
+import edu.hm.cs.se.activitymeter.model.Post;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.List;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
-import javax.activation.*;
 
 public class EmailController {
     public static String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
@@ -24,10 +22,10 @@ public class EmailController {
     @Value("${host.url}")
     private  String host;
 
-    public  boolean sendEmail(Activity activity, String aktivCode){
+    public  boolean sendEmail(Post post, String aktivCode){
 
 
-        if(Arrays.stream(VALIDEMAILS).anyMatch(activity.getEmail()::endsWith)){
+        if(Arrays.stream(VALIDEMAILS).anyMatch(post.getEmail()::endsWith)){
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", "true");
@@ -43,9 +41,9 @@ public class EmailController {
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress("noreply@aktivity-meter.edu"));
                 message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(activity.getEmail()));
+                        InternetAddress.parse(post.getEmail()));
                 message.setSubject(SUBJECT);
-                message.setText(String.format(TEXT, activity.getAuthor(), host, activity.getId(), aktivCode));
+                message.setText(String.format(TEXT, post.getAuthor(), host, post.getId(), aktivCode));
 
                 Transport.send(message);
 

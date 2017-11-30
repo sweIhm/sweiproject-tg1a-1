@@ -1,4 +1,4 @@
-package edu.hm.cs.se.email;
+package edu.hm.cs.se.activitymeter.controller.email;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
