@@ -10,12 +10,7 @@ import {ActivityService} from "../activity.service";
 export class PostComponent implements OnInit {
 
   submitted: boolean = false;
-  toBePosted: ActivityDto = {
-    title: '',
-    text: '',
-    email: '',
-    author: ''
-  };
+  toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
   constructor(private service: ActivityService) { }
 
@@ -24,12 +19,7 @@ export class PostComponent implements OnInit {
 
   onSubmit() {
     this.service.addActivity(this.toBePosted).subscribe();
-    this.toBePosted = {
-      title: '',
-      text: '',
-      email: '',
-      author: ''
-    }
+    this.toBePosted = new ActivityDto('', '', '', '');
     this.submitted = true;
   }
 
