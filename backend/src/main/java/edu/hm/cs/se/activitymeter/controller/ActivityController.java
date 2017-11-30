@@ -58,8 +58,12 @@ public class ActivityController {
 >>>>>>> 5721b05... Added EmailController to ActiviyController
 =======
         ArrayList<PostDTO> activities = new ArrayList<>();
+<<<<<<< HEAD
         activityRepository.findAll().forEach(post -> activities.add(new PostDTO(post)));
 >>>>>>> 668e259... fix
+=======
+        activityRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
+>>>>>>> eac58b2... Fixed get returning unpublished activities
         return activities;
     }
 
