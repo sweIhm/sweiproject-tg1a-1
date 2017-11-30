@@ -1,5 +1,6 @@
 <div class="container">
   <h2>View all Activities</h2>
+  <ngb-alert type="success" *ngIf="refreshed" (close)="refreshed=false">Data refreshed!</ngb-alert>
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
@@ -16,4 +17,5 @@
       </tr>
     </tbody>
   </table>
+  <button class="btn btn-primary" (click)="refresh(); refreshed=true">Refresh Data</button>
 </div>
