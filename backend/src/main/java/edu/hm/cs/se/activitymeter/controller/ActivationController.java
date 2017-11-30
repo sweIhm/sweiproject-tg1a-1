@@ -11,6 +11,7 @@ import edu.hm.cs.se.activitymeter.model.PostRepository;
 >>>>>>> f883b29... email
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.context.annotation.Bean;
 
 @RestController
 @RequestMapping("/activation")
@@ -52,4 +53,7 @@ public class ActivationController {
         return false;
     }
 }
+<<<<<<< HEAD
 >>>>>>> f883b29... email
+=======
+>>>>>>> dcb03df... Missing import added
