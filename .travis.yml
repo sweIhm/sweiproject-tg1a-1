@@ -5,4 +5,4 @@ addons:
    sonarcloud:
        organization: "sweiws2017_18"
 script:
-  mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install -Pdev sonar:sonar
+  mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
