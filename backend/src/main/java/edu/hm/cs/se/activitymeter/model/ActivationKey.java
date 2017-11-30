@@ -51,17 +51,19 @@ public class ActivationKey {
 
     @Id
     @Column(name = "id")
-    private long post_id;
+    private long postId;
 
     @OneToOne
     @JoinColumn(name = "id")
     private Post post;
 
-    public ActivationKey() {}
+    public ActivationKey() {
+    	// Leerer Konstruktor für JPA
+	}
 
-    public ActivationKey(long post_id, String key) {
+    public ActivationKey(long postId, String key) {
         this.key = key;
-        this.post_id = post_id;
+        this.postId = postId;
     }
 
     public String getKey() {
@@ -72,12 +74,12 @@ public class ActivationKey {
         this.key = key;
     }
 
-    public long getActivity_id() {
-        return post_id;
+    public long getPostId() {
+        return postId;
     }
 
-    public void setActivity_id(long activity_id) {
-        this.post_id = activity_id;
+    public void setPostId(long activity_id) {
+        this.postId = activity_id;
     }
 
     public Post getPost() {

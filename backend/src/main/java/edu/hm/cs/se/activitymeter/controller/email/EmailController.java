@@ -17,10 +17,10 @@ public class EmailController {
             "Munich University of Applied Sciences by clicking the link below: %n%s/activation/%s?key=%s";
 
     @Value("${email.name}")
-    private  String GMAILUSER;
+    private String gmailuser;
 
     @Value("${email.password}")
-    private String GMAILUPASS;
+    private String gmailupass;
 
     @Value("${host.url}")
     private String host;
@@ -38,7 +38,7 @@ public class EmailController {
             props.put("mail.smtp.port", "587");
 
             Session session = Session.getInstance(props,
-                    new GMailAuthenticator(GMAILUSER, GMAILUPASS));
+                    new GMailAuthenticator(gmailuser, gmailupass));
 
             log.info("Try sending email to " + post.getEmail());
             try {
