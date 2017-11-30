@@ -1,6 +1,9 @@
 export class ActivityDto {
-  title: string;
-  text: string;
-  author: string;
-  email: string;
+
+  constructor (
+    public title: string,
+    public text: string,
+    public author: string,
+    public email: string
+  ) { };
 }
