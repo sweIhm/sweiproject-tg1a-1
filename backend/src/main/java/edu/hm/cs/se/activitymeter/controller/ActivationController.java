@@ -5,7 +5,6 @@ import edu.hm.cs.se.activitymeter.model.KeyRepo;
 import edu.hm.cs.se.activitymeter.model.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.context.annotation.Bean;
 
 @RestController
 @RequestMapping("/activation")
