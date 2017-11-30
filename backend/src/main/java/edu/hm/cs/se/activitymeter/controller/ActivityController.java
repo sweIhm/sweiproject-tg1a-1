@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RestController;
+import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 
 @RestController
 @RequestMapping("/activity")
@@ -15,12 +16,13 @@ public class ActivityController {
     @Autowired
     private PostRepository activityRepository;
 
-    //TODO Mail-Controller Objekt.
+    @Autowired
+    private EmailController emailController;
 
     @GetMapping
-    public ArrayList<Post> listAll() {
+    public ArrayList<PostDTO> listAll() {
         ArrayList<Post> activities = new ArrayList<>();
-        activityRepository.findAll().forEach(post -> activities.add(post));
+        activityRepository.findAll().forEach(post -> new PostDTO(activities.add(post)));
         return activities;
     }
 
@@ -31,8 +33,9 @@ public class ActivityController {
 
     @PostMapping
     public PostDTO create(@RequestBody Post input) {
-        Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), input.isPublished()));
-        //TODO Mail-Gedöns
+        Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
+        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), emailController.generateKey()));
+        emailController.sendEmail(newPost, activationKey.getKey());
         return new PostDTO(newPost);
     }
 
@@ -54,6 +57,9 @@ public class ActivityController {
         }
     }
 
-    //TODO Mail-Controller
+    @Bean
+    public static EmailController newEmailController() {
+        return new EmailController();
+    }
 
 }
