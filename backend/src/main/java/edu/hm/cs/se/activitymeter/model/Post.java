@@ -36,11 +36,11 @@ public class Post {
     }
 
     public Post(String text, String title, String author, String email, boolean published) {
-        setText(text);
-        setTitle(title);
-        setAuthor(author);
-        setEmail(email);
-        setPublished(published);
+        this.text = text;
+        this.title = title;
+        this.author = author;
+        this.email = email;
+        this.published = published;
     }
 
     public Long getId() {
