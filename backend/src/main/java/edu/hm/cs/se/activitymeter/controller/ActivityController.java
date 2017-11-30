@@ -24,7 +24,7 @@ public class ActivityController {
     @GetMapping
     public ArrayList<PostDTO> listAll() {
         ArrayList<PostDTO> activities = new ArrayList<>();
-        activityRepository.findAll().forEach(post -> activities.add(new PostDTO(post)));
+        activityRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
         return activities;
     }
 
@@ -36,7 +36,7 @@ public class ActivityController {
     @PostMapping
     public PostDTO create(@RequestBody Post input) {
         Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), emailController.generateKey()));
+        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), EmailController.generateKey()));
         emailController.sendEmail(newPost, activationKey.getKey());
         return new PostDTO(newPost);
     }
