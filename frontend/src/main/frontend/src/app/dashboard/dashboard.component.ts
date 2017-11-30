@@ -11,14 +11,24 @@ export class DashboardComponent implements OnInit {
 
   activities : Activity[];
   selectedActivity: Activity;
+  refreshed: boolean = false;
 
   constructor(private service:ActivityService) { }
 
   ngOnInit() {
-    this.service.getActivities().subscribe(activities => this.activities = activities);
+    this.getActivities();
   }
 
   onSelect(activity: Activity) {
     this.selectedActivity = activity;
+  }
+
+  getActivities() {
+    this.service.getActivities().subscribe(activities => this.activities = activities);
+  }
+
+  refresh() {
+    this.getActivities();
+    this.refreshed = true;
   }
 }
