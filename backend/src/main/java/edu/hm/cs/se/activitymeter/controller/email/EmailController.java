@@ -10,9 +10,9 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class EmailController {
-    public static String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
-    public static String SUBJECT = "Your activity on Activitymeter";
-    public static String TEXT = "Hello %s! \nThank you for your submission! Your activity will appear on Activitymeter " +
+    private static final String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
+    private static final String SUBJECT = "Your activity on Activitymeter";
+    private static final String TEXT = "Hello %s! \nThank you for your submission! Your activity will appear on Activitymeter " +
             "as soon as you authenticate yourself as a member of the California Polytechnic State University or the " +
             "Munich University of Applied Sciences by clicking the link below: %n%s/activation/%s?key=%s";
 
