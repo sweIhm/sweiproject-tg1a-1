@@ -78,8 +78,8 @@ public class ActivationKey {
         return postId;
     }
 
-    public void setPostId(long activity_id) {
-        this.postId = activity_id;
+    public void setPostId(long postId) {
+        this.postId = postId;
     }
 
     public Post getPost() {

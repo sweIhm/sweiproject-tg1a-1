@@ -87,7 +87,7 @@ public class ActivityController {
     @PostMapping
     public PostDTO create(@RequestBody Post input) {
         Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), emailController.generateKey()));
+        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), EmailController.generateKey()));
         emailController.sendEmail(newPost, activationKey.getKey());
         return new PostDTO(newPost);
 >>>>>>> fa24110... Added Data Transfer Object (DTO) for Post.
