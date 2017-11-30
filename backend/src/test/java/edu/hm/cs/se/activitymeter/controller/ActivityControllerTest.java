@@ -1,7 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.ActivityMeter;
-import edu.hm.cs.se.activitymeter.model.PostDTO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,16 +15,21 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import edu.hm.cs.se.activitymeter.model.PostRepository;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration( classes = { ActivityMeter.class} )
+@ContextConfiguration(classes = { ActivityMeter.class})
 @AutoConfigureMockMvc
 public class ActivityControllerTest {
 
     @Autowired
     MockMvc mvc;
+
+    @Autowired
+    PostRepository p;
 
     @Test
     public void listAll() throws Exception {
@@ -45,5 +49,4 @@ public class ActivityControllerTest {
         mvc.perform(MockMvcRequestBuilders.get("/activity/1")).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(update)).andReturn();
         mvc.perform(MockMvcRequestBuilders.put("/activity/1").contentType("application/json").content(original)).andDo(MockMvcResultHandlers.print()).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content().json(original)).andReturn();
     }
-
 }
