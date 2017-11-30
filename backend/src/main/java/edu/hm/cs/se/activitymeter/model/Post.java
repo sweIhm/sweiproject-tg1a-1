@@ -1,11 +1,10 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import edu.hm.cs.se.activitymeter.Kommentar;
 import javax.persistence.*;
 
 
 @Entity
-@Table(name = "Post")
+@Table(name = "Activity")
 public class Post {
 
     @Id
@@ -29,7 +28,7 @@ public class Post {
     @Column(name = "published", nullable = false)
     private boolean published;
 
-    @OneToOne(mappedBy = "activity", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
 
     public Post(){}
