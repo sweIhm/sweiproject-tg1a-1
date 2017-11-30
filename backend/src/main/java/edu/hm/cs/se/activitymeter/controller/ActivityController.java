@@ -1,9 +1,8 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.model.PostDTO;
-import edu.hm.cs.se.activitymeter.model.PostRepository;
-import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,12 +16,15 @@ public class ActivityController {
     private PostRepository activityRepository;
 
     @Autowired
+    private ActivationKeyRepository activationKeyRepository;
+
+    @Autowired
     private EmailController emailController;
 
     @GetMapping
     public ArrayList<PostDTO> listAll() {
-        ArrayList<Post> activities = new ArrayList<>();
-        activityRepository.findAll().forEach(post -> new PostDTO(activities.add(post)));
+        ArrayList<PostDTO> activities = new ArrayList<>();
+        activityRepository.findAll().forEach(post -> activities.add(new PostDTO(post)));
         return activities;
     }
 
