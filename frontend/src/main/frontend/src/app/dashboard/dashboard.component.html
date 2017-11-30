@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let activity of activities">
+      <tr *ngFor="let activity of activities" (click)="selectActivity(activity)">
         <th scope="row">{{activity.id}}</th>
         <td>{{activity.title}}</td>
         <td>{{activity.author}}</td>

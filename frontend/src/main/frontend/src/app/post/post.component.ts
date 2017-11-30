@@ -26,6 +26,5 @@ export class PostComponent implements OnInit {
   dismissAlert() {
     this.submitted = false;
   }
-
-  get diagnostic() { return JSON.stringify(this.toBePosted); }
+  
 }
