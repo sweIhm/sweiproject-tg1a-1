@@ -10,10 +10,9 @@ import java.util.ArrayList;
 
 =======
 
-import edu.hm.cs.se.activitymeter.model.PostDTO;
-import edu.hm.cs.se.activitymeter.model.PostRepository;
-import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 >>>>>>> fa24110... Added Data Transfer Object (DTO) for Post.
@@ -42,10 +41,14 @@ public class ActivityController {
     private PostRepository activityRepository;
 
     @Autowired
+    private ActivationKeyRepository activationKeyRepository;
+
+    @Autowired
     private EmailController emailController;
 
     @GetMapping
     public ArrayList<PostDTO> listAll() {
+<<<<<<< HEAD
         ArrayList<Post> activities = new ArrayList<>();
 <<<<<<< HEAD
         activityRepository.findAll().forEach(post -> activities.add(post));
@@ -53,6 +56,10 @@ public class ActivityController {
 =======
         activityRepository.findAll().forEach(post -> new PostDTO(activities.add(post)));
 >>>>>>> 5721b05... Added EmailController to ActiviyController
+=======
+        ArrayList<PostDTO> activities = new ArrayList<>();
+        activityRepository.findAll().forEach(post -> activities.add(new PostDTO(post)));
+>>>>>>> 668e259... fix
         return activities;
     }
 
