@@ -31,14 +31,16 @@ public class Post {
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
 
-    public Post(){}
+    public Post() {
+        // Leerer Konstruktor für JPA
+    }
 
     public Post(String text, String title, String author, String email, boolean published) {
-        this.text = text;
-        this.title = title;
-        this.author = author;
-        this.email = email;
-        this.published = published;
+        setText(text);
+        setTitle(title);
+        setAuthor(author);
+        setEmail(email);
+        setPublished(published);
     }
 
     public Long getId() {
