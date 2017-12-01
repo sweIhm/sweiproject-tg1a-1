@@ -7,6 +7,7 @@ import javax.persistence.*;
 public class ActivationKey {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	@Column(name = "key", unique = true, nullable = false)
 	private String key;
 
@@ -46,6 +47,8 @@ public class ActivationKey {
 	}
 }
 =======
+=======
+>>>>>>> 1fe7c08... Sprint 2 Branch
     @Column(name = "key", unique = true, nullable = false)
     private String key;
 
@@ -85,5 +88,9 @@ public class ActivationKey {
     public Post getPost() {
         return post;
     }
+<<<<<<< HEAD
 }
 >>>>>>> f883b29... email
+=======
+}
+>>>>>>> 1fe7c08... Sprint 2 Branch

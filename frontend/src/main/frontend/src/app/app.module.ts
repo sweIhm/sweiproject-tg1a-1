@@ -5,11 +5,14 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 @NgModule({
   declarations: [
     AppComponent
 =======
+=======
+>>>>>>> 1fe7c08... Sprint 2 Branch
 import { PostComponent } from './post/post.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {ActivityService} from "./activity.service";
@@ -23,12 +26,17 @@ import { ViewComponent } from './view/view.component';
     AppComponent,
     PostComponent,
 <<<<<<< HEAD
+<<<<<<< HEAD
     DashboardComponent
 >>>>>>> 8118831... Post-requests und anzeige der freigeschalteten activities
 =======
     DashboardComponent,
     ViewComponent
 >>>>>>> ff9e405... -Detailansicht für Activity in Form eines modalen Fensters
+=======
+    DashboardComponent,
+    ViewComponent
+>>>>>>> 1fe7c08... Sprint 2 Branch
   ],
   imports: [
     BrowserModule,
