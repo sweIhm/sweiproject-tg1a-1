@@ -1,8 +1,6 @@
 package edu.hm.cs.se.activitymeter.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
@@ -29,6 +27,9 @@ public class Post {
 
     @Column(name = "published", nullable = false)
     private boolean published;
+
+    @OneToMany(mappedBy = "post")
+    private List<Keyword> keywords;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     @JoinColumn(name="Comment_id")
@@ -96,9 +97,5 @@ public class Post {
 
     public void setPublished(boolean published) {
         this.published = published;
-    }
-
-    public boolean addComment(Kommentar k){
-        return kommentare.add(k);
     }
 }
