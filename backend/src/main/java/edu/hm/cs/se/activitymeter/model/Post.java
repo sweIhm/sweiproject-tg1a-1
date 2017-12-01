@@ -1,6 +1,7 @@
 package edu.hm.cs.se.activitymeter.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -27,6 +28,9 @@ public class Post {
 
     @Column(name = "published", nullable = false)
     private boolean published;
+
+    @OneToMany(mappedBy = "post")
+    private List<Keyword> keywords;
 
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
