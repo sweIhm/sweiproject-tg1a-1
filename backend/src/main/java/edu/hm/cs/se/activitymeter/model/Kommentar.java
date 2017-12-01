@@ -1,25 +1,20 @@
 package edu.hm.cs.se.activitymeter.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
-@Table(name = "Activity")
-public class Post {
+@Table(name = "Comment")
+public class Kommentar {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activity_id_seq")
     @SequenceGenerator(name="activity_id_seq", sequenceName="activity_id_seq", allocationSize=1)
-    @Column(name = "id")
-    private Long id;
+    @Column(name = "Comment_id")
+    private Long comment_id;
 
     @Column(name = "text", nullable = false)
     private String text;
-
-    @Column(name = "title", nullable = false)
-    private String title;
 
     @Column(name = "author", nullable = false)
     private String author;
@@ -30,32 +25,31 @@ public class Post {
     @Column(name = "published", nullable = false)
     private boolean published;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    @JoinColumn(name="Comment_id")
-    private List<Kommentar> kommentare;
-
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
 
-    public Post() {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id")
+    private Post post;
+
+    public Kommentar() {
         // Leerer Konstruktor für JPA
     }
 
-    public Post(String text, String title, String author, String email, boolean published) {
+    public Kommentar(String text, String title, String author, String email, boolean published) {
         this.text = text;
-        this.title = title;
         this.author = author;
         this.email = email;
         this.published = published;
-        this.kommentare = new ArrayList<Kommentar>();
     }
 
-    public Long getId() {
-        return id;
+    public Long getComment_id() {
+        return comment_id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCommentid(Long id) {
+        this.comment_id = id;
     }
 
     public String getText() {
@@ -66,13 +60,6 @@ public class Post {
         this.text = text;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getAuthor() {
         return author;
@@ -98,7 +85,7 @@ public class Post {
         this.published = published;
     }
 
-    public boolean addComment(Kommentar k){
-        return kommentare.add(k);
-    }
+
+    public Post getPost() {return post;}
+
 }
