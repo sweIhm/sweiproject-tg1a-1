@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Activity} from "../activity";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-view',
@@ -11,7 +10,7 @@ export class ViewComponent implements OnInit {
 
   @Input() activity: Activity;
 
-  constructor(public activeModal:NgbActiveModal) { }
+  constructor() { }
 
   ngOnInit() {
   }

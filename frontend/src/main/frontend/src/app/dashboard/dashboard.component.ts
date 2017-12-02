@@ -13,6 +13,7 @@ export class DashboardComponent implements OnInit {
 
   activities : Activity[];
   refreshed: boolean = false;
+  selectedActivity: Activity;
 
   constructor(private service:ActivityService, private modal:NgbModal) { }
 
@@ -21,8 +22,7 @@ export class DashboardComponent implements OnInit {
   }
 
   selectActivity(activity: Activity) {
-    const modalref = this.modal.open(ViewComponent);
-    modalref.componentInstance.activity = activity;
+    this.selectedActivity = activity;
   }
 
   getActivities() {
