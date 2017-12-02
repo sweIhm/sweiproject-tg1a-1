@@ -11,13 +11,15 @@ import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './/app-routing.module';
 import { ViewComponent } from './view/view.component';
+import { FrontpageComponent } from './frontpage/frontpage.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PostComponent,
     DashboardComponent,
-    ViewComponent
+    ViewComponent,
+    FrontpageComponent
   ],
   imports: [
     BrowserModule,
