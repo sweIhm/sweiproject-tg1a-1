@@ -34,10 +34,10 @@ import static org.junit.Assert.*;
 public class ActivityControllerTest {
 
     @Autowired
-    MockMvc mvc;
+    private MockMvc mvc;
 
     @Autowired
-    JdbcTemplate db;
+    private JdbcTemplate db;
 
     private Post p;
 
@@ -51,6 +51,8 @@ public class ActivityControllerTest {
                 "author VARCHAR(255) NOT NULL," +
                 "email VARCHAR(1000) NOT NULL," +
                 "published BOOLEAN NOT NULL);");
+        db.execute("DROP SEQUENCE activity_id_seq;");
+        db.execute("CREATE SEQUENCE activity_id_seq START WITH 1 INCREMENT BY 1;");
         p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
         p.setId(1L);
     }
@@ -86,9 +88,24 @@ public class ActivityControllerTest {
         p.setText("gerstenmeier");
         p.setTitle("hopfen und malz verloren");
         mvc.perform(MockMvcRequestBuilders.put("/activity/1")
-                .content(postToJson(new PostDTO(p))).contentType("application/json"))
+                        .content(postToJson(new PostDTO(p))).contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
+    }
+
+    @Test
+    public void create() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/activity").contentType("application/json")
+                        .content(postToJson(p)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
+        mvc.perform(MockMvcRequestBuilders.get("/activity"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("[]"));
+        mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"));
+        mvc.perform(MockMvcRequestBuilders.get("/activity"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) + "]"));
     }
 
     private void addPostToDB(Post p) {
@@ -101,4 +118,8 @@ public class ActivityControllerTest {
         return w.writeValueAsString(p);
     }
 
+    private String postToJson(Post p) throws Exception {
+        ObjectWriter w = new ObjectMapper().writer();
+        return w.writeValueAsString(p);
+    }
 }
