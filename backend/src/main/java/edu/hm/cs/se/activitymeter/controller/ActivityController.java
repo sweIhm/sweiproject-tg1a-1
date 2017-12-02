@@ -36,7 +36,7 @@ public class ActivityController {
     @PostMapping
     public PostDTO create(@RequestBody Post input) {
         Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), EmailController.generateKey()));
+        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), emailController.generateKey()));
         emailController.sendEmail(newPost, activationKey.getKey());
         return new PostDTO(newPost);
     }
@@ -58,10 +58,4 @@ public class ActivityController {
             return new PostDTO(activityRepository.save(post));
         }
     }
-
-    @Bean
-    public static EmailController newEmailController() {
-        return new EmailController();
-    }
-
 }
