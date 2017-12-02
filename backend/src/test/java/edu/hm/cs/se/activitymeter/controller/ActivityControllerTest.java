@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.hm.cs.se.activitymeter.ActivityMeter;
 import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.PostDTO;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -38,6 +39,8 @@ public class ActivityControllerTest {
     @Autowired
     JdbcTemplate db;
 
+    private Post p;
+
     @Before
     public void setUp() throws Exception {
         db.execute("DROP TABLE Activity;");
@@ -48,37 +51,54 @@ public class ActivityControllerTest {
                 "author VARCHAR(255) NOT NULL," +
                 "email VARCHAR(1000) NOT NULL," +
                 "published BOOLEAN NOT NULL);");
-        Post p = new Post("tet", "3id.b", "imdronei", "ioeir", true);
-        String j = postToJson(p);
-        System.out.println(j);
-        System.out.println(jsonToPost(j));
+        p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+        p.setId(1L);
     }
 
     @Test
     public void listAll() throws Exception {
+        addPostToDB(p);
+        Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false);
+        p2.setId(2L);
+        addPostToDB(p2);
+        Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+        p3.setId(3L);
+        addPostToDB(p3);
+        mvc.perform(MockMvcRequestBuilders.get("/activity"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content()
+                        .json("[" + postToJson(new PostDTO(p)) + "," + postToJson(new PostDTO(p3)) + "]"));
     }
 
     @Test
     public void find() throws Exception {
+        p.setId(2L);
+        addPostToDB(p);
+        mvc.perform(MockMvcRequestBuilders.get("/activity/2"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
     }
 
     @Test
     public void update() throws Exception {
+        addPostToDB(p);
+        p.setAuthor("gerste");
+        p.setText("gerstenmeier");
+        p.setTitle("hopfen und malz verloren");
+        mvc.perform(MockMvcRequestBuilders.put("/activity/1")
+                .content(postToJson(new PostDTO(p))).contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
     }
 
     private void addPostToDB(Post p) {
-        db.execute(String.format("INSERT INTO VALUES(%d,%s,%s,%s,%s%s);",
+        db.execute(String.format("INSERT INTO Activity VALUES(%d,'%s','%s','%s','%s',%s);",
                 p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
     }
 
-    private String postToJson(Post p) throws Exception {
+    private String postToJson(PostDTO p) throws Exception {
         ObjectWriter w = new ObjectMapper().writer();
         return w.writeValueAsString(p);
     }
-
-    private Post jsonToPost(String p) throws Exception {
-        return new ObjectMapper().reader(Post.class).readValue(p);
-    }
-
 
 }
