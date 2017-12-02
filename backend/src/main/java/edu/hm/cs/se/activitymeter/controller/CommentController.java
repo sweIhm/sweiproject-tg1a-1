@@ -2,14 +2,13 @@ package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RestController;
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 
 @RestController
-@RequestMapping("/activity")
+@RequestMapping("/activity/{id}/comment")
 public class CommentController {
 
     @Autowired
@@ -22,46 +21,39 @@ public class CommentController {
     private EmailController emailController;
 
     @GetMapping
-    public ArrayList<PostDTO> listAll() {
-        ArrayList<PostDTO> activities = new ArrayList<>();
-        commentRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
+    public ArrayList<CommentDTO> listAll() {
+        ArrayList<CommentDTO> activities = new ArrayList<>();
+        commentRepository.findAllByPublished(true).forEach(post -> activities.add(new CommentDTO(post)));
         return activities;
     }
 
     @GetMapping("{id}")
-    public PostDTO find(@PathVariable Long id) {
-        return new PostDTO(commentRepository.findOne(id));
+    public CommentDTO find(@PathVariable Long id) {
+        return new CommentDTO(commentRepository.findOne(id));
     }
 
     @PostMapping
-    public PostDTO create(@RequestBody Post input) {
-        Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), EmailController.generateKey()));
-        emailController.sendEmail(newPost, activationKey.getKey());
-        return new PostDTO(newPost);
+    public CommentDTO create(@RequestBody Comment input) {
+        Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(), input.getEmail(), false));
+        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newComment.getId(), emailController.generateKey()));
+        emailController.sendEmail(newComment, activationKey.getKey());
+        return new CommentDTO(newComment);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
-        activityRepository.delete(id);
+        commentRepository.delete(id);
     }
 
     @PutMapping("{id}")
-    public PostDTO update(@PathVariable Long id, @RequestBody PostDTO input) {
-        Post post = activityRepository.findOne(id);
-        if (post == null) {
+    public CommentDTO update(@PathVariable Long id, @RequestBody CommentDTO input) {
+        Comment comment = commentRepository.findOne(id);
+        if (comment == null) {
             return null;
         } else {
-            post.setText(input.getText());
-            post.setTitle(input.getTitle());
-            post.setAuthor(input.getAuthor());
-            return new PostDTO(activityRepository.save(post));
+            comment.setText(input.getText());
+            comment.setAuthor(input.getAuthor());
+            return new CommentDTO(commentRepository.save(comment));
         }
     }
-
-    @Bean
-    public static EmailController newEmailController() {
-        return new EmailController();
-    }
-
 }

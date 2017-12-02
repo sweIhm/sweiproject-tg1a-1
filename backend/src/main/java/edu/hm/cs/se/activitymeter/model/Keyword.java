@@ -17,12 +17,8 @@ public class Keyword {
     @Column(name = "id")
     private long keywordId;
 
-    @ManyToMany(mappedBy = "id")
-    private List<Post> posts;
-
     public Keyword(String content) {
         this.content = content;
-        this.posts = new ArrayList<>();
     }
 
     public String getContent() {
@@ -33,11 +29,4 @@ public class Keyword {
         return keywordId;
     }
 
-    public void addPost(Post p) {
-        posts.add(p);
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
 }

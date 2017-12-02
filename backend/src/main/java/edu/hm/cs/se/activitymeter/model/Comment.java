@@ -5,13 +5,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Comment")
-public class Kommentar {
+public class Comment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activity_id_seq")
-    @SequenceGenerator(name="activity_id_seq", sequenceName="activity_id_seq", allocationSize=1)
-    @Column(name = "Comment_id")
-    private Long comment_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="comment_id_seq")
+    @SequenceGenerator(name="comment_id_seq", sequenceName="comment_id_seq", allocationSize=1)
+    @Column(name = "commentId")
+    private Long id;
 
     @Column(name = "text", nullable = false)
     private String text;
@@ -28,28 +28,23 @@ public class Kommentar {
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    private Post post;
-
-    public Kommentar() {
+    public Comment() {
         // Leerer Konstruktor für JPA
     }
 
-    public Kommentar(String text, String title, String author, String email, boolean published) {
+    public Comment(String text, String author, String email, boolean published) {
         this.text = text;
         this.author = author;
         this.email = email;
         this.published = published;
     }
 
-    public Long getComment_id() {
-        return comment_id;
+    public Long getId() {
+        return id;
     }
 
-    public void setCommentid(Long id) {
-        this.comment_id = id;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getText() {
@@ -84,8 +79,5 @@ public class Kommentar {
     public void setPublished(boolean published) {
         this.published = published;
     }
-
-
-    public Post getPost() {return post;}
 
 }

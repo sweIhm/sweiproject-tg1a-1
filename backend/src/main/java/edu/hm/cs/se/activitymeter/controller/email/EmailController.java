@@ -1,5 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller.email;
 
+import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.Post;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,11 @@ public class EmailController {
         return false;
     }
 
-    public static String generateKey(){
+    public boolean sendEmail(Comment comment, String activationKey) {
+        return true;
+    }
+
+    public String generateKey(){
         String result = UUID.randomUUID().toString();
         result = result.replace("-","");
         return result;

@@ -30,13 +30,6 @@ public class Post {
     @Column(name = "published", nullable = false)
     private boolean published;
 
-    @OneToMany(mappedBy = "post")
-    private List<Keyword> keywords;
-
-    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-    @JoinColumn(name="Comment_id")
-    private List<Kommentar> kommentare;
-
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
     private ActivationKey key;
 
@@ -50,7 +43,6 @@ public class Post {
         this.author = author;
         this.email = email;
         this.published = published;
-        this.kommentare = new ArrayList<Kommentar>();
     }
 
     public Long getId() {

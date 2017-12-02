@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Activity")
-public class KommentarDTO {
+public class CommentDTO {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activity_id_seq")
@@ -19,16 +19,16 @@ public class KommentarDTO {
     @Column(name = "author", nullable = false)
     private String author;
 
-    public KommentarDTO() {
+    public CommentDTO() {
         // Leerer Konstruktor für JPA
     }
 
-    public KommentarDTO(String text, String title, String author, String email, boolean published) {
+    public CommentDTO(String text, String title, String author, String email, boolean published) {
         this.text = text;
         this.author = author;
     }
 
-    public KommentarDTO(Kommentar k) {
+    public CommentDTO(Comment k) {
         this.text = k.getText();
         this.author = k.getAuthor();
     }
@@ -41,6 +41,14 @@ public class KommentarDTO {
         this.id = id;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
     public String getText() {
         return text;
     }
@@ -48,5 +56,4 @@ public class KommentarDTO {
     public void setText(String text) {
         this.text = text;
     }
-
 }
