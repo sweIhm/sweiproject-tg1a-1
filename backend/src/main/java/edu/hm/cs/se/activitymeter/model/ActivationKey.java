@@ -42,7 +42,7 @@ public class ActivationKey {
     this.postId = postId;
   }
 
-  Post getPost() {
+  public Post getPost() {
     return post;
   }
 }

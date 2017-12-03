@@ -35,7 +35,7 @@ public class PostDTO {
     this.author = author;
   }
 
-  PostDTO(Post p) {
+  public PostDTO(Post p) {
     this(p.getText(), p.getTitle(), p.getAuthor());
     this.id = p.getId();
   }

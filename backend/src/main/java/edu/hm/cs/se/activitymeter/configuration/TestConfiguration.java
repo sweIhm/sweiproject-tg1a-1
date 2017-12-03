@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile("default")
 public class TestConfiguration {
-  private TestConfiguration() {}
+  public TestConfiguration() {}
 
   @Bean
 	public static EmailController newFakeEmailController() {

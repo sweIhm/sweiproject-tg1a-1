@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Profile;
 @Profile({"prod", "test"})
 public class ProductionConfiguration {
 
-  private ProductionConfiguration() {}
+  public ProductionConfiguration() {}
 
   @Bean
   public static EmailController newEmailController() {
