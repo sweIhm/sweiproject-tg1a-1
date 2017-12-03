@@ -26,7 +26,7 @@ public class Comment {
     private boolean published;
 
     @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
-    private ActivationKey key;
+    private ActivationKeyComment key;
 
     public Comment() {
         // Leerer Konstruktor für JPA

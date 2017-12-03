@@ -2,7 +2,6 @@ package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RestController;

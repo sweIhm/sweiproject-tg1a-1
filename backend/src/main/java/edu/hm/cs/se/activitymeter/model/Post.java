@@ -1,8 +1,6 @@
 package edu.hm.cs.se.activitymeter.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Entity
