@@ -1,6 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Activity} from "../activity";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {ActivatedRoute} from "@angular/router";
+import {ActivityService} from "../activity.service";
 
 @Component({
   selector: 'app-view',
@@ -9,11 +10,18 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class ViewComponent implements OnInit {
 
-  @Input() activity: Activity;
+  activity: Activity;
 
-  constructor(public activeModal:NgbActiveModal) { }
+  constructor (
+    private route: ActivatedRoute,
+    private activityService: ActivityService) { }
 
   ngOnInit() {
+    this.getActivity();
   }
 
+  getActivity() {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.activityService.getActivity(id).subscribe(activity => this.activity = activity);
+  }
 }

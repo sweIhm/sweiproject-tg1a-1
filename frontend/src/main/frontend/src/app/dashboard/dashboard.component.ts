@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivityService} from "../activity.service";
 import {Activity} from "../activity";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ViewComponent} from "../view/view.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,15 +12,10 @@ export class DashboardComponent implements OnInit {
   activities : Activity[];
   refreshed: boolean = false;
 
-  constructor(private service:ActivityService, private modal:NgbModal) { }
+  constructor(private service:ActivityService) { }
 
   ngOnInit() {
     this.getActivities();
-  }
-
-  selectActivity(activity: Activity) {
-    const modalref = this.modal.open(ViewComponent);
-    modalref.componentInstance.activity = activity;
   }
 
   getActivities() {
