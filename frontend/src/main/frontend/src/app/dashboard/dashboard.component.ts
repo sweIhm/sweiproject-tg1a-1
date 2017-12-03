@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {ActivityService} from "../activity.service";
 import {Activity} from "../activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ViewComponent} from "../view/view.component";
+import {PostComponent} from "../post/post.component";
+import {AlertService} from "../alert.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -12,17 +13,11 @@ import {ViewComponent} from "../view/view.component";
 export class DashboardComponent implements OnInit {
 
   activities : Activity[];
-  refreshed: boolean = false;
 
-  constructor(private service:ActivityService, private modal:NgbModal) { }
+  constructor(private service: ActivityService, private modal: NgbModal, private alertService: AlertService) { }
 
   ngOnInit() {
     this.getActivities();
-  }
-
-  selectActivity(activity: Activity) {
-    const modalref = this.modal.open(ViewComponent);
-    modalref.componentInstance.activity = activity;
   }
 
   getActivities() {
@@ -31,6 +26,10 @@ export class DashboardComponent implements OnInit {
 
   refresh() {
     this.getActivities();
-    this.refreshed = true;
+    this.alertService.addAlert('Data refreshed!', 'success')
+  }
+
+  openPostModal() {
+    this.modal.open(PostComponent);
   }
 }
