@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivityDto} from "../activity-dto";
 import {ActivityService} from "../activity.service";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {AlertService} from "../alert.service";
 
 @Component({
   selector: 'app-post',
@@ -12,7 +14,9 @@ export class PostComponent implements OnInit {
   submitted: boolean = false;
   toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
-  constructor(private service: ActivityService) { }
+  constructor(private service: ActivityService,
+              private activeModal: NgbActiveModal,
+              private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -21,10 +25,8 @@ export class PostComponent implements OnInit {
     this.service.addActivity(this.toBePosted).subscribe();
     this.toBePosted = new ActivityDto('', '', '', '');
     this.submitted = true;
+    this.activeModal.close();
+    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
   }
 
-  dismissAlert() {
-    this.submitted = false;
-  }
-  
 }

@@ -11,8 +11,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './view/view.component';
-import { FrontpageComponent } from './frontpage/frontpage.component';
 import { ActivationComponent } from './activation/activation.component';
+import { AlertComponent } from './alert/alert.component';
+import {AlertService} from "./alert.service";
 
 @NgModule({
   declarations: [
@@ -20,8 +21,8 @@ import { ActivationComponent } from './activation/activation.component';
     PostComponent,
     DashboardComponent,
     ViewComponent,
-    FrontpageComponent,
-    ActivationComponent
+    ActivationComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -31,8 +32,8 @@ import { ActivationComponent } from './activation/activation.component';
     NgbModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [ActivityService],
+  providers: [ActivityService, AlertService],
   bootstrap: [AppComponent],
-  entryComponents: [ViewComponent]
+  entryComponents: [PostComponent]
 })
 export class AppModule { }
