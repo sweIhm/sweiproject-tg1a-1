@@ -4,9 +4,10 @@ import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.KeyRepo;
 import edu.hm.cs.se.activitymeter.model.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/activation")
 public class ActivationController {
 
@@ -17,14 +18,20 @@ public class ActivationController {
     private PostRepository postrepo;
 
     @GetMapping("{id}")
-    public boolean activate (@PathVariable Long id, @RequestParam(name = "key", defaultValue = "") String key) {
+    public String activate (@PathVariable Long id, @RequestParam(name = "key", defaultValue = "") String key) {
         ActivationKey activationKey = keyrepo.findOne(id);
+        boolean published = false;
         if (activationKey != null && key.equals(activationKey.getKey())) {
             activationKey.getPost().setPublished(true);
             postrepo.save(activationKey.getPost());
             keyrepo.delete(id);
-            return true;
+            published = true;
         }
-        return false;
+        return String.format("redirect:/activation/%d/verify?success=%s", id, published);
+    }
+
+    @GetMapping("/{id}/verify")
+    public String activated() {
+        return "../../index.html";
     }
 }

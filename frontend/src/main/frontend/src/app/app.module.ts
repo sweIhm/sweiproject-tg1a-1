@@ -9,8 +9,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {ActivityService} from "./activity.service";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './view/view.component';
+import { ActivationComponent } from './activation/activation.component';
 import { AlertComponent } from './alert/alert.component';
 import {AlertService} from "./alert.service";
 
@@ -20,6 +21,7 @@ import {AlertService} from "./alert.service";
     PostComponent,
     DashboardComponent,
     ViewComponent,
+    ActivationComponent,
     AlertComponent
   ],
   imports: [
