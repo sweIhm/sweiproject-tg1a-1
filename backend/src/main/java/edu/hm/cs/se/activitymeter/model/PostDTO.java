@@ -1,30 +1,14 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "Activity")
 public class PostDTO {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
-  @SequenceGenerator(name = "activity_id_seq", sequenceName = "activity_id_seq", allocationSize = 1)
-  @Column(name = "id")
   private Long id;
 
-  @Column(name = "text", nullable = false)
   private String text;
 
-  @Column(name = "title", nullable = false)
   private String title;
 
-  @Column(name = "author", nullable = false)
   private String author;
 
   public PostDTO(){}
