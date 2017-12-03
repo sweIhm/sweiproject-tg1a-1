@@ -4,27 +4,32 @@ import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.KeyRepo;
 import edu.hm.cs.se.activitymeter.model.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/activation")
 public class ActivationController {
 
-    @Autowired
-    private KeyRepo keyrepo;
+  @Autowired
+  private KeyRepo keyrepo;
 
-    @Autowired
-    private PostRepository postrepo;
+  @Autowired
+  private PostRepository postrepo;
 
-    @GetMapping("{id}")
-    public boolean activate (@PathVariable Long id, @RequestParam(name = "key", defaultValue = "") String key) {
-        ActivationKey activationKey = keyrepo.findOne(id);
-        if (activationKey != null && key.equals(activationKey.getKey())) {
-            activationKey.getPost().setPublished(true);
-            postrepo.save(activationKey.getPost());
-            keyrepo.delete(id);
-            return true;
-        }
-        return false;
+  @GetMapping("{id}")
+  public boolean activate(@PathVariable Long id, @RequestParam(name = "key",
+      defaultValue = "") String key) {
+    ActivationKey activationKey = keyrepo.findOne(id);
+    if (activationKey != null && key.equals(activationKey.getKey())) {
+      activationKey.getPost().setPublished(true);
+      postrepo.save(activationKey.getPost());
+      keyrepo.delete(id);
+      return true;
     }
+    return false;
+  }
 }
