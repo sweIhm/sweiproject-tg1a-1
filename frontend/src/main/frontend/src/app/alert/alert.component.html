@@ -1,0 +1,6 @@
+<div class="container mt-2">
+  <ngb-alert *ngFor="let alert of alertService.alerts; let i = index"
+             type="{{alert.type}}" (close)="alertService.removeAlert(i)">
+    {{alert.msg}}
+  </ngb-alert>
+</div>
