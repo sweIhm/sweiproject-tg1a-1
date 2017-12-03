@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="alert alert-success" *ngIf="published">
+    <strong>Hey!</strong> Your post was published and it can be seen <a routerLink="/view/{{ activity.id }}"><strong>here</strong></a>.
+    <br/>
+  </div>
+  <div class="card" style="width: 30rem;">
+    <div class="card-body">
+      <h4 class="card-title">{{ activity.title }}</h4>
+      <p class="card-body">{{ activity.text }}</p>
+    </div>
+  </div>
+  <div class="alert alert-danger" *ngIf="!published"></div>
+</div>

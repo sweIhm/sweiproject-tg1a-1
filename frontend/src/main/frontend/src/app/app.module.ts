@@ -9,9 +9,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {ActivityService} from "./activity.service";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './view/view.component';
 import { FrontpageComponent } from './frontpage/frontpage.component';
+import { ActivationComponent } from './activation/activation.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FrontpageComponent } from './frontpage/frontpage.component';
     PostComponent,
     DashboardComponent,
     ViewComponent,
-    FrontpageComponent
+    FrontpageComponent,
+    ActivationComponent
   ],
   imports: [
     BrowserModule,
