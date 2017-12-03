@@ -12,7 +12,7 @@ public class TestConfiguration {
   public TestConfiguration() {}
 
   @Bean
-	public static EmailController newFakeEmailController() {
+  public static EmailController newFakeEmailController() {
     return new FakeEmailController();
   }
 }

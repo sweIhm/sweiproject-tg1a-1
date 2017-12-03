@@ -2,9 +2,9 @@ package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
-import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
+import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;

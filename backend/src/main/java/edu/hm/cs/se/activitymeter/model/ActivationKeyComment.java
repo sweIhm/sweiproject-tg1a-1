@@ -1,6 +1,5 @@
 package edu.hm.cs.se.activitymeter.model;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
