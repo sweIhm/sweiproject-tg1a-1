@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "Activity")
+@Table(name = "Comment")
 public class CommentDTO {
 
     @Id

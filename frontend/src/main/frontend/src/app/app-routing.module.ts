@@ -6,7 +6,7 @@ import {ViewComponent} from "./view/view.component";
 
 const routes: Routes = [
   { path: '', component: FrontpageComponent },
-  { path: 'activation/:id', component: ActivationComponent },
+  { path: 'activation/:id/verify', component: ActivationComponent },
   { path: 'view/:id', component: ViewComponent}
 ];
 
