@@ -1,6 +1,6 @@
-package edu.hm.cs.se.activitymeter.model;
+package edu.hm.cs.se.activitymeter.model.dto;
 
-public class CommentDTO {
+public class AbstractEntityDTO {
 
   private Long id;
 
@@ -8,18 +8,12 @@ public class CommentDTO {
 
   private String author;
 
-  public CommentDTO() {
-    // Leerer Konstruktor für JPA
-  }
+  AbstractEntityDTO() {}
 
-  public CommentDTO(String text, String title, String author, String email, boolean published) {
+  AbstractEntityDTO(Long id, String author, String text) {
+    this.id = id;
     this.text = text;
     this.author = author;
-  }
-
-  public CommentDTO(Comment k) {
-    this.text = k.getText();
-    this.author = k.getAuthor();
   }
 
   public Long getId() {

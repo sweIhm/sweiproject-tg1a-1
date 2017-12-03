@@ -2,10 +2,10 @@ package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
-import edu.hm.cs.se.activitymeter.model.ActivationKeyRepositoryComment;
+import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.Comment;
-import edu.hm.cs.se.activitymeter.model.CommentDTO;
-import edu.hm.cs.se.activitymeter.model.CommentRepository;
+import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
+import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;

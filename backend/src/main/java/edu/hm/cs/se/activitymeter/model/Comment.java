@@ -10,35 +10,20 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "Comment")
-public class Comment {
+public class Comment extends AbstractEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="comment_id_seq")
-  @SequenceGenerator(name="comment_id_seq", sequenceName="comment_id_seq", allocationSize=1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
+  @SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
   @Column(name = "commentId")
   private Long id;
-
-  @Column(name = "text", nullable = false)
-  private String text;
-
-  @Column(name = "author", nullable = false)
-  private String author;
-
-  @Column(name = "email", nullable = false)
-  private String email;
-
-  @Column(name = "published", nullable = false)
-  private boolean published;
 
   public Comment() {
     // Leerer Konstruktor für JPA
   }
 
   public Comment(String text, String author, String email, boolean published) {
-    this.text = text;
-    this.author = author;
-    this.email = email;
-    this.published = published;
+    super(author, text, email, published);
   }
 
   public Long getId() {
@@ -48,38 +33,4 @@ public class Comment {
   public void setId(Long id) {
     this.id = id;
   }
-
-  public String getText() {
-    return text;
-  }
-
-  public void setText(String text) {
-    this.text = text;
-  }
-
-
-  public String getAuthor() {
-    return author;
-  }
-
-  public void setAuthor(String author) {
-    this.author = author;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public boolean isPublished() {
-    return published;
-  }
-
-  public void setPublished(boolean published) {
-    this.published = published;
-  }
-
 }
