@@ -18,8 +18,8 @@ public class ActivationKey {
     private Post post;
 
     public ActivationKey() {
-    	// Leerer Konstruktor für JPA
-	}
+        // Leerer Konstruktor für JPA
+    }
 
     public ActivationKey(long postId, String key) {
         this.key = key;

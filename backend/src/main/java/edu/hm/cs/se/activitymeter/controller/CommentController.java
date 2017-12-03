@@ -15,16 +15,16 @@ public class CommentController {
     private CommentRepository commentRepository;
 
     @Autowired
-    private ActivationKeyRepository activationKeyRepository;
+    private ActivationKeyRepositoryComment activationKeyRepository;
 
     @Autowired
     private EmailController emailController;
 
     @GetMapping
     public ArrayList<CommentDTO> listAll() {
-        ArrayList<CommentDTO> activities = new ArrayList<>();
-        commentRepository.findAllByPublished(true).forEach(post -> activities.add(new CommentDTO(post)));
-        return activities;
+        ArrayList<CommentDTO> comments = new ArrayList<>();
+        commentRepository.findAllByPublished(true).forEach(comment -> comments.add(new CommentDTO(comment)));
+        return comments;
     }
 
     @GetMapping("{id}")
@@ -35,7 +35,7 @@ public class CommentController {
     @PostMapping
     public CommentDTO create(@RequestBody Comment input) {
         Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newComment.getId(), emailController.generateKey()));
+        ActivationKeyComment activationKey = activationKeyRepository.save(new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
         emailController.sendEmail(newComment, activationKey.getKey());
         return new CommentDTO(newComment);
     }
