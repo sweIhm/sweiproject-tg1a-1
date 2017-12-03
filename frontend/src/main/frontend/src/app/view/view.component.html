@@ -1,8 +1,13 @@
 <div class="container" *ngIf="activity">
-  <h4><strong>{{activity.title}}</strong></h4>
-  <h5>submitted by <strong>{{activity.author}}</strong></h5>
-  <div class="modal-body">
-    <p>{{activity.text}}</p>
+  <h2><strong>{{activity.title}}</strong></h2>
+  <h3>Submitted by <strong>{{activity.author}}</strong></h3>
+
+  <h4>Description: </h4>
+  <div class="container border rounded p-2">
+    {{activity.text}}
   </div>
-  <button class="btn btn-outline-primary">Go Back</button>
+
+  <h4>Comments: </h4>
+  <h5>No Comments yet</h5>
+  <button class="btn btn-outline-primary mt-2" routerLink="/">Go Back</button>
 </div>

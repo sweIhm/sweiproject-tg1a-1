@@ -18,4 +18,8 @@ export class ActivityService {
   getActivities() : Observable<Activity[]> {
     return this.http.get(this.url);
   }
+
+  getActivity(id: number) : Observable<Activity> {
+    return this.http.get(this.url + '/' + id);
+  }
 }

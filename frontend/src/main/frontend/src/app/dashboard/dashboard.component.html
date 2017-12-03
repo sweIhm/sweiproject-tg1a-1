@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let activity of activities" (click)="selectActivity(activity)">
+      <tr *ngFor="let activity of activities" (click)="selectActivity(activity)" routerLink="/view/{{activity.id}}">
         <th scope="row">{{activity.id}}</th>
         <td>{{activity.title}}</td>
         <td>{{activity.author}}</td>
@@ -19,4 +19,3 @@
   </table>
   <button class="btn btn-primary" (click)="refresh(); refreshed=true">Refresh Data</button>
 </div>
-<app-view [activity]="selectedActivity"></app-view>
