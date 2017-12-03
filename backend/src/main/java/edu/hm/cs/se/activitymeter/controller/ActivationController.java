@@ -9,8 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequestMapping("/activation")
 public class ActivationController {
 
@@ -24,12 +26,18 @@ public class ActivationController {
   public boolean activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
     ActivationKey activationKey = keyrepo.findOne(id);
+    boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getPost().setPublished(true);
       postrepo.save(activationKey.getPost());
       keyrepo.delete(id);
-      return true;
+      published = true;
     }
-    return false;
+    return String.format("redirect:/activation/%d/verify?success=%s", id, published);
+  }
+
+  @GetMapping("/{id}/verify")
+  public String activated() {
+    return "../../index.html";
   }
 }
