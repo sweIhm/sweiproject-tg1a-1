@@ -8,8 +8,11 @@ import org.springframework.context.annotation.Profile;
 @Configuration
 @Profile({"prod", "test"})
 public class ProductionConfiguration {
-	@Bean
-	public static EmailController newEmailController() {
-		return new EmailController();
-	}
+
+  private ProductionConfiguration() {}
+
+  @Bean
+  public static EmailController newEmailController() {
+    return new EmailController();
+  }
 }
