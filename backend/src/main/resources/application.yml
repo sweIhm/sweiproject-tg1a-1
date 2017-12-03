@@ -10,7 +10,7 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
-  jpa.hibernate.ddl-auto: create-drop
+  jpa.hibernate.ddl-auto: create
 
 email.name: ""
 email.password: ""

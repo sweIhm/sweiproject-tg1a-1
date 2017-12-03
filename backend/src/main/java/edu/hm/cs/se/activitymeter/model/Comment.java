@@ -25,9 +25,6 @@ public class Comment {
     @Column(name = "published", nullable = false)
     private boolean published;
 
-    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
-    private ActivationKey key;
-
     public Comment() {
         // Leerer Konstruktor für JPA
     }
