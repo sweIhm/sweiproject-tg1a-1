@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivityDto} from "../activity-dto";
-import {ActivityService} from "../activity.service";
+import {ActivityDto} from "../../model/activity-dto";
+import {ActivityService} from "../../services/activity.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {AlertService} from "../alert.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-post',

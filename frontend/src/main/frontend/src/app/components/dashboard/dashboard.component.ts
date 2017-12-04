@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivityService} from "../activity.service";
-import {Activity} from "../activity";
+import {ActivityService} from "../../services/activity.service";
+import {Activity} from "../../model/activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PostComponent} from "../post/post.component";
-import {AlertService} from "../alert.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-dashboard',

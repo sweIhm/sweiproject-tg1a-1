@@ -4,16 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { PostComponent } from './post/post.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import {ActivityService} from "./activity.service";
+import { PostComponent } from './components/post/post.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import {ActivityService} from "./services/activity.service";
 import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
-import { ViewComponent } from './view/view.component';
-import { ActivationComponent } from './activation/activation.component';
-import { AlertComponent } from './alert/alert.component';
-import {AlertService} from "./alert.service";
+import { ViewComponent } from './components/view/view.component';
+import { ActivationComponent } from './components/activation/activation.component';
+import { AlertComponent } from './components/alert/alert.component';
+import {AlertService} from "./services/alert.service";
 
 @NgModule({
   declarations: [

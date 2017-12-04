@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {ActivityService} from '../activity.service';
-import { Activity } from '../activity';
+import {ActivityService} from '../../services/activity.service';
+import { Activity } from '../../model/activity';
 
 @Component({
   selector: 'app-activation',

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Activity} from "../activity";
+import {Activity} from "../../model/activity";
 import {ActivatedRoute} from "@angular/router";
-import {ActivityService} from "../activity.service";
+import {ActivityService} from "../../services/activity.service";
 
 @Component({
   selector: 'app-view',
