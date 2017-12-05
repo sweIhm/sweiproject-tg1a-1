@@ -7,9 +7,12 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile({"prod", "test"})
-public class productionConfiguration {
-	@Bean
-	public static EmailController newEmailController() {
-		return new EmailController();
-	}
+public class ProductionConfiguration {
+
+  public ProductionConfiguration() {}
+
+  @Bean
+  public static EmailController newEmailController() {
+    return new EmailController();
+  }
 }
