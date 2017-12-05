@@ -4,6 +4,7 @@ import {Activity} from "../../model/activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {PostComponent} from "../post/post.component";
 import {AlertService} from "../../services/alert.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,10 +15,17 @@ export class DashboardComponent implements OnInit {
 
   activities : Activity[];
 
-  constructor(private service: ActivityService, private modal: NgbModal, private alertService: AlertService) { }
+  constructor(private service: ActivityService,
+              private modal: NgbModal,
+              private alertService: AlertService,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.getActivities();
+    const param = this.route.snapshot.paramMap.get('alert');
+    if (param == 'activationfailed') {
+      this.alertService.addAlert('Activation failed! Try submitting your activity again.', 'danger');
+    }
   }
 
   getActivities() {
