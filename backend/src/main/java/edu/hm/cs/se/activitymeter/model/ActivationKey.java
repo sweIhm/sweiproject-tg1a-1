@@ -6,24 +6,24 @@ import javax.persistence.*;
 @Table(name = "Keys")
 public class ActivationKey {
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 	@Column(name = "key", unique = true, nullable = false)
 	private String key;
 
 	@Id
 	@Column(name = "id")
-	private long activity_id;
+	private long postId;
 
 	@OneToOne
 	@JoinColumn(name = "id")
-	private Activity activity;
+	private Post post;
 
-	public ActivationKey() {}
+	public ActivationKey() {
+		// Leerer Konstruktor für JPA
+	}
 
-	public ActivationKey(long activity_id, String key) {
+	public ActivationKey(long postId, String key) {
 		this.key = key;
-		this.activity_id = activity_id;
+		this.postId = postId;
 	}
 
 	public String getKey() {
@@ -34,63 +34,15 @@ public class ActivationKey {
 		this.key = key;
 	}
 
-	public long getActivity_id() {
-		return activity_id;
+	public long getPostId() {
+		return postId;
 	}
 
-	public void setActivity_id(long activity_id) {
-		this.activity_id = activity_id;
+	public void setPostId(long postId) {
+		this.postId = postId;
 	}
 
-	public Activity getActivity() {
-		return activity;
+	public Post getPost() {
+		return post;
 	}
 }
-=======
-=======
->>>>>>> 1fe7c08... Sprint 2 Branch
-    @Column(name = "key", unique = true, nullable = false)
-    private String key;
-
-    @Id
-    @Column(name = "id")
-    private long postId;
-
-    @OneToOne
-    @JoinColumn(name = "id")
-    private Post post;
-
-    public ActivationKey() {
-    	// Leerer Konstruktor für JPA
-	}
-
-    public ActivationKey(long postId, String key) {
-        this.key = key;
-        this.postId = postId;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public long getPostId() {
-        return postId;
-    }
-
-    public void setPostId(long postId) {
-        this.postId = postId;
-    }
-
-    public Post getPost() {
-        return post;
-    }
-<<<<<<< HEAD
-}
->>>>>>> f883b29... email
-=======
-}
->>>>>>> 1fe7c08... Sprint 2 Branch
