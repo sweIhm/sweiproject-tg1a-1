@@ -24,18 +24,13 @@ public class ActivationController {
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
     ActivationKey activationKey = keyrepo.findOne(id);
-    boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getPost().setPublished(true);
       postrepo.save(activationKey.getPost());
       keyrepo.delete(id);
-      published = true;
+      return String.format("redirect:/view/%d;alert=activationsucceeded", id);
     }
-    return String.format("redirect:/activation/%d/verify?success=%s", id, published);
+    return "redirect:/dashboard;alert=activationfailed";
   }
 
-  @GetMapping("/{id}/verify")
-  public String activated() {
-    return "../../index.html";
-  }
 }
