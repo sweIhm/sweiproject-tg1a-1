@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ActivationComponent } from './activation/activation.component';
-import {ViewComponent} from "./view/view.component";
-import {DashboardComponent} from "./dashboard/dashboard.component";
+import { ActivationComponent } from './components/activation/activation.component';
+import {ViewComponent} from "./components/view/view.component";
+import {DashboardComponent} from "./components/dashboard/dashboard.component";
 
 const routes: Routes = [
   { path: 'activation/:id/verify', component: ActivationComponent },

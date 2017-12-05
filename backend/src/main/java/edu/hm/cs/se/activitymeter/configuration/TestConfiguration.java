@@ -8,9 +8,11 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Profile("default")
-public class testConfiguration {
-	@Bean
-	public static EmailController newFakeEmailController() {
-		return new FakeEmailController();
-	}
+public class TestConfiguration {
+  public TestConfiguration() {}
+
+  @Bean
+  public static EmailController newFakeEmailController() {
+    return new FakeEmailController();
+  }
 }
