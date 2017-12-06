@@ -1,9 +1,11 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.model.ActivationKey;
-import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
+
+import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
+import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
+import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.KeyRepo;
-import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,23 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/activation")
-public class ActivationController {
+@RequestMapping("/activationComment")
+public class ActivationControllerComment {
 
   @Autowired
-  private ActivationKeyRepository keyrepo;
+  private ActivationKeyRepositoryComment keyrepo;
 
   @Autowired
-  private PostRepository postrepo;
+  private CommentRepository commentRepo;
 
   @GetMapping("{id}")
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
-    ActivationKey activationKey = keyrepo.findOne(id);
+    ActivationKeyComment activationKey = keyrepo.findOne(id);
     boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
-      activationKey.getPost().setPublished(true);
-      postrepo.save(activationKey.getPost());
+      activationKey.getComment().setPublished(true);
+      commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);
       published = true;
     }

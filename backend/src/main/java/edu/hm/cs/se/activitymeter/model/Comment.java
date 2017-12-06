@@ -20,12 +20,15 @@ public class Comment extends AbstractEntity {
    @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
    private ActivationKeyComment key;
 
+
   @ManyToOne(fetch = FetchType.LAZY)
+
   @JoinColumn(name = "id", nullable = false)
   private Post post;
 
-  public Comment(String text, String author, String email, boolean published) {
+  public Comment(String text, String author, String email, boolean published, Post post) {
     super(author, text, email, published);
+    this.post = post;
   }
 
   public Long getId() {
@@ -34,5 +37,13 @@ public class Comment extends AbstractEntity {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Post getPost() {
+    return post;
+  }
+
+  public void setPost(Post post) {
+    this.post = post;
   }
 }
