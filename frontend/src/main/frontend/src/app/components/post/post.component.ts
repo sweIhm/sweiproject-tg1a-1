@@ -11,7 +11,6 @@ import {AlertService} from "../../services/alert.service";
 })
 export class PostComponent implements OnInit {
 
-  submitted: boolean = false;
   toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
   constructor(private service: ActivityService,
@@ -23,8 +22,6 @@ export class PostComponent implements OnInit {
 
   onSubmit() {
     this.service.addActivity(this.toBePosted).subscribe();
-    this.toBePosted = new ActivityDto('', '', '', '');
-    this.submitted = true;
     this.activeModal.close();
     this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
   }

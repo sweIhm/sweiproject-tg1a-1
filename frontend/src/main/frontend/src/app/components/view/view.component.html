@@ -1,13 +1,23 @@
 <div class="container" *ngIf="activity">
-  <h2><strong>{{activity.title}}</strong></h2>
-  <h3>Submitted by <strong>{{activity.author}}</strong></h3>
-
-  <h4>Description: </h4>
-  <div class="container border rounded p-2">
-    {{activity.text}}
+  <h2>Details</h2>
+  <div class="card">
+    <div class="card-header">
+      <h3>Activity <strong>{{activity.title}}</strong></h3>
+      <h4>submitted by <strong>{{activity.author}}</strong></h4>
+    </div>
+    <div class="card-body">{{activity.text}}</div>
   </div>
-
-  <h4>Comments: </h4>
-  <h5>No Comments yet</h5>
   <button class="btn btn-primary mt-2" routerLink="/">Go Back</button>
+  <button class="btn btn-primary mt-2" (click)="openPostcommentModal()">Comment</button>
+
+  <h3 class="ml-5">Comments: </h3>
+  TODO Kommentare implementieren <!--TODO Kommentare implementieren-->
+  <div class="card ml-5">
+    <div class="card-header">
+      <h5><strong>Axel Scheiß</strong> wrote: </h5>
+    </div>
+    <div class="card-body">Das muss stinken!</div>
+  </div>
+  <button class="btn btn-primary mt-2 ml-5" routerLink="/">Go Back</button>
+  <button class="btn btn-primary mt-2" (click)="openPostcommentModal()">Comment</button>
 </div>

@@ -3,6 +3,8 @@ import {Activity} from "../../model/activity";
 import {ActivatedRoute} from "@angular/router";
 import {ActivityService} from "../../services/activity.service";
 import {AlertService} from "../../services/alert.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {PostcommentComponent} from "../postcomment/postcomment.component";
 
 @Component({
   selector: 'app-view',
@@ -16,7 +18,8 @@ export class ViewComponent implements OnInit {
   constructor (
     private route: ActivatedRoute,
     private activityService: ActivityService,
-    private alertService: AlertService) { }
+    private alertService: AlertService,
+    private modal: NgbModal) { }
 
   ngOnInit() {
     this.getActivity();
@@ -29,5 +32,10 @@ export class ViewComponent implements OnInit {
   getActivity() {
     const id = +this.route.snapshot.paramMap.get('id');
     this.activityService.getActivity(id).subscribe(activity => this.activity = activity);
+  }
+
+  openPostcommentModal() {
+    const modalref = this.modal.open(PostcommentComponent);
+    modalref.componentInstance.activityId = this.activity.id;
   }
 }
