@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 @RunWith(SpringRunner.class)
@@ -101,6 +102,23 @@ public class ActivityControllerTest {
     mvc.perform(MockMvcRequestBuilders.get("/activity"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) + "]"));
+  }
+
+  @Test
+  public void delete() throws Exception {
+    addPostToDB(p);
+    mvc.perform(MockMvcRequestBuilders.delete("/activity/1"))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+  }
+
+  @Test
+  public void udateNonExisting() throws Exception {
+    mvc.perform(MockMvcRequestBuilders.put("/activity/1")
+        .contentType("application/json")
+        .content(postToJson(p)))
+        .andDo(MockMvcResultHandlers.print())
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().string(""));
   }
 
   private void addPostToDB(Post p) {
