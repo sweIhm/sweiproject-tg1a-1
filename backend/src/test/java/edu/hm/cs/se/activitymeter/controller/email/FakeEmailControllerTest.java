@@ -10,7 +10,7 @@ public class FakeEmailControllerTest {
 
   @Test
   public void sendEmail() throws Exception {
-    EmailController ec = new EmailController();
+    EmailController ec = new FakeEmailController();
     assertTrue(ec.sendEmail(new Post(), ""));
   }
 
