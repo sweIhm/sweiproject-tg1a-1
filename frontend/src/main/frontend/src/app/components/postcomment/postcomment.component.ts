@@ -26,7 +26,7 @@ export class PostcommentComponent implements OnInit {
     this.toBePosted.activityId = this.activityId;
     this.activeModal.close();
     // TODO diagnose nachricht entfernen
-    this.alertService.addAlert(JSON.stringify(this.toBePosted), 'warning');
+    this.alertService.addAlert('Diagnosedaten: ' + JSON.stringify(this.toBePosted), 'warning');
     this.alertService.addAlert('Thank you very much! Check your mails so you can post your comment!', 'info')
   }
 
