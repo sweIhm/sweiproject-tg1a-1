@@ -17,6 +17,11 @@ public class FakeEmailController extends EmailController {
   }
 
   @Override
+  public boolean sendNotification(Post post) {
+    return true;
+  }
+
+  @Override
   public String generateKey() {
     return "1234";
   }

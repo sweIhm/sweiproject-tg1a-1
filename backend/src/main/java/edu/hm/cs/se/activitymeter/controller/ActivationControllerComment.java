@@ -1,6 +1,7 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 
+import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
@@ -30,6 +31,8 @@ public class ActivationControllerComment {
     boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
+      EmailController emailController = new EmailController();
+      emailController.sendNotification(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);
       published = true;
