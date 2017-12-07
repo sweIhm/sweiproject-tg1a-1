@@ -11,7 +11,6 @@ import {HttpClientModule} from "@angular/common/http";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './components/view/view.component';
-import { ActivationComponent } from './components/activation/activation.component';
 import { AlertComponent } from './components/alert/alert.component';
 import {AlertService} from "./services/alert.service";
 
@@ -21,7 +20,6 @@ import {AlertService} from "./services/alert.service";
     PostComponent,
     DashboardComponent,
     ViewComponent,
-    ActivationComponent,
     AlertComponent
   ],
   imports: [

@@ -10,4 +10,14 @@ public class HomeController {
   public String home() {
     return "index.html";
   }
+
+  @GetMapping("/view/{id}")
+  public String view() {
+    return "/index.html";
+  }
+
+  @GetMapping("/dashboard")
+  public String dashboard() {
+    return "/index.html";
+  }
 }
