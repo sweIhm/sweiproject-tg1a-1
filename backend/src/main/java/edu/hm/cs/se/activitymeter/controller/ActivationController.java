@@ -1,6 +1,7 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
+import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.KeyRepo;
 import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ActivationController {
 
   @Autowired
-  private KeyRepo keyrepo;
+  private ActivationKeyRepository keyrepo;
 
   @Autowired
   private PostRepository postrepo;
