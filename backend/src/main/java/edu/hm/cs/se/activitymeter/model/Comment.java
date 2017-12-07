@@ -1,6 +1,16 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Comment")
@@ -12,14 +22,12 @@ public class Comment extends AbstractEntity {
   @Column(name = "commentId")
   private Long id;
 
-
   public Comment() {
     // Leerer Konstruktor für JPA
   }
 
-   @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
-   private ActivationKeyComment key;
-
+  @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
+  private ActivationKeyComment key;
 
   @ManyToOne(fetch = FetchType.LAZY)
 
