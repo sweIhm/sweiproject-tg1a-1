@@ -3,7 +3,6 @@ package edu.hm.cs.se.activitymeter.controller;
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.Comment;
-import edu.hm.cs.se.activitymeter.model.JsonComment;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
@@ -56,10 +55,10 @@ public class CommentController {
   }
 
   @PostMapping
-  public CommentDTO create(@PathVariable Long id,@RequestBody JsonComment input) {
+  public CommentDTO create(@PathVariable Long id,@RequestBody Comment input) {
     Post post = activityRepository.findOne(id);
     Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(),
-            input.getEmail(), false,post));
+            input.getEmail(), false, post));
     ActivationKeyComment activationKey = activationKeyRepository.save(
         new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
     emailController.sendActivationMail(newComment, activationKey.getKey());
