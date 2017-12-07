@@ -62,7 +62,7 @@ public class CommentController {
             input.getEmail(), false,post));
     ActivationKeyComment activationKey = activationKeyRepository.save(
         new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
-    emailController.sendEmail(newComment, activationKey.getKey());
+    emailController.sendActivationMail(newComment, activationKey.getKey());
     return new CommentDTO(newComment);
   }
 

@@ -48,7 +48,7 @@ public class ActivityController {
         input.getText(),input.getEmail(), false));
     ActivationKey activationKey = activationKeyRepository.save(
         new ActivationKey(newPost.getId(), emailController.generateKey()));
-    emailController.sendEmail(newPost, activationKey.getKey());
+    emailController.sendActivationMail(newPost, activationKey.getKey());
     return new PostDTO(newPost);
   }
 
