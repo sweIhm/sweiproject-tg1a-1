@@ -8,9 +8,9 @@ import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
+import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import java.util.ArrayList;
 
-import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,9 +40,9 @@ public class CommentController {
   @GetMapping
   public ArrayList<CommentDTO> listAll(@PathVariable Long id) {
     ArrayList<CommentDTO> comments = new ArrayList<>();
-    Iterable<Comment> publishedComments =commentRepository.findAllByPublished(true);
+    Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
     for (Comment comment: publishedComments) {
-      if(comment.getPost().getId() == id){
+      if (comment.getPost().getId() == id) {
         comments.add(new CommentDTO(comment));
       }
     }
