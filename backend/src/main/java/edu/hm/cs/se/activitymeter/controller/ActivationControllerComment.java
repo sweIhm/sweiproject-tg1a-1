@@ -1,10 +1,8 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
-import edu.hm.cs.se.activitymeter.model.repositories.KeyRepo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +21,12 @@ public class ActivationControllerComment {
   @Autowired
   private CommentRepository commentRepo;
 
+  /**
+   * Activates comment.
+   * @param id comment id
+   * @param key activation key
+   * @return redirect
+   */
   @GetMapping("{id}")
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {

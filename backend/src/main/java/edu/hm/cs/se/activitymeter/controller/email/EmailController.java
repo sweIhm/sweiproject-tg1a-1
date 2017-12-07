@@ -23,10 +23,10 @@ public class EmailController {
       + "California Polytechnic State University or the Munich University of Applied Sciences "
       + "by clicking the link below: %n%s/activation/%s?key=%s";
 
-  private static final String TEXTCOMMENT = "Hello %s! \nThank you for your submission! Your comment "
-          + "will appear on Activitymeter as soon as you authenticate yourself as a member of the "
-          + "California Polytechnic State University or the Munich University of Applied Sciences "
-          + "by clicking the link below: %n%s/activation/%s?key=%s";
+  private static final String TEXTCOMMENT = "Hello %s!\nThank you for your submission! "
+          + "Your comment will appear on Activitymeter as soon as you authenticate yourself as a "
+          + "member of the California Polytechnic State University or the Munich University of "
+          + "Applied Sciences by clicking the link below: %n%s/activation/%s?key=%s";
 
   private static final String SUBJECTCOMMENT = "Your comment on Activitymeter";
 
@@ -45,6 +45,12 @@ public class EmailController {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
+  /**
+   * Sends activation mail for a post.
+   * @param post Post to be activated
+   * @param activationKey Activation key
+   * @return if email was send successfully
+   */
   public boolean sendEmail(Post post, String activationKey) {
 
     if (Arrays.stream(VALIDEMAILS).anyMatch(post.getEmail()::endsWith)) {
@@ -76,6 +82,12 @@ public class EmailController {
     return false;
   }
 
+  /**
+   * Sends activation mail for a comment.
+   * @param comment Comment to be activated
+   * @param activationKey Activation key
+   * @return if email was send successfully
+   */
   public boolean sendEmail(Comment comment, String activationKey) {
     if (Arrays.stream(VALIDEMAILS).anyMatch(comment.getEmail()::endsWith)) {
 
@@ -94,7 +106,8 @@ public class EmailController {
         message.setRecipients(Message.RecipientType.TO,
                 InternetAddress.parse(comment.getEmail()));
         message.setSubject(SUBJECTCOMMENT);
-        message.setText(String.format(TEXTCOMMENT, comment.getAuthor(), host, comment.getId(), activationKey));
+        message.setText(String.format(TEXTCOMMENT, comment.getAuthor(),
+                host, comment.getId(), activationKey));
 
         Transport.send(message);
         log.info("Email send successful!");
@@ -108,6 +121,11 @@ public class EmailController {
 
   }
 
+  /**
+   * Sends notification mail about comment.
+   * @param post Post which was commented on
+   * @return if email was send successfully
+   */
   public boolean sendNotification(Post post) {
 
     Properties props = new Properties();
@@ -136,7 +154,10 @@ public class EmailController {
     return false;
   }
 
-
+  /**
+   * Generates activation key.
+   * @return activation key
+   */
   public String generateKey() {
     String result = UUID.randomUUID().toString();
     result = result.replace("-","");

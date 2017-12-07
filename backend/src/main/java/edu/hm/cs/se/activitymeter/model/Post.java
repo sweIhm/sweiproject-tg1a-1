@@ -1,8 +1,18 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Activity")
@@ -27,6 +37,14 @@ public class Post extends AbstractEntity {
     // Leerer Konstruktor für JPA
   }
 
+  /**
+   * Create a new Post.
+   * @param author Author of this Post
+   * @param title Title of this Post
+   * @param text Content of this Post
+   * @param email Email of author
+   * @param published If post is already published
+   */
   public Post(String author, String title, String text, String email, boolean published) {
     super(author, text, email, published);
     this.title = title;
