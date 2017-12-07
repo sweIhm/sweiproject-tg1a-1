@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Activity} from "../../model/activity";
 import {ActivatedRoute} from "@angular/router";
 import {ActivityService} from "../../services/activity.service";
+import {AlertService} from "../../services/alert.service";
 
 @Component({
   selector: 'app-view',
@@ -14,10 +15,15 @@ export class ViewComponent implements OnInit {
 
   constructor (
     private route: ActivatedRoute,
-    private activityService: ActivityService) { }
+    private activityService: ActivityService,
+    private alertService: AlertService) { }
 
   ngOnInit() {
     this.getActivity();
+    const param = this.route.snapshot.paramMap.get('alert');
+    if (param == 'activationsucceeded') {
+      this.alertService.addAlert('Activity successfully published. Thank you for your submission!', 'success');
+    }
   }
 
   getActivity() {
