@@ -1,5 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 
+import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
@@ -21,12 +22,6 @@ public class ActivationControllerComment {
   @Autowired
   private CommentRepository commentRepo;
 
-  /**
-   * Activates comment.
-   * @param id comment id
-   * @param key activation key
-   * @return redirect
-   */
   @GetMapping("{id}")
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
@@ -34,6 +29,8 @@ public class ActivationControllerComment {
     boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
+      EmailController emailController = new EmailController();
+      emailController.sendNotification(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);
       published = true;

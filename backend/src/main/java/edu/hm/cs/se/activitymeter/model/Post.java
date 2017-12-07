@@ -37,14 +37,6 @@ public class Post extends AbstractEntity {
     // Leerer Konstruktor für JPA
   }
 
-  /**
-   * Create a new Post.
-   * @param author Author of this Post
-   * @param title Title of this Post
-   * @param text Content of this Post
-   * @param email Email of author
-   * @param published If post is already published
-   */
   public Post(String author, String title, String text, String email, boolean published) {
     super(author, text, email, published);
     this.title = title;

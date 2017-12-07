@@ -110,8 +110,6 @@ public class EmailController {
                 host, comment.getId(), activationKey));
 
         Transport.send(message);
-        log.info("Email send successful!");
-        sendNotification(comment.getPost());
         return true;
       } catch (MessagingException e) {
         log.error(e.toString());

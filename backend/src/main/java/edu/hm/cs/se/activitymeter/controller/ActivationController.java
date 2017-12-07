@@ -33,5 +33,4 @@ public class ActivationController {
     }
     return "redirect:/dashboard;alert=activationfailed";
   }
-
 }

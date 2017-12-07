@@ -1,7 +1,5 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.*;
-
 
 public class JsonComment extends AbstractEntity {
 

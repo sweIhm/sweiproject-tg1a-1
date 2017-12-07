@@ -39,10 +39,14 @@ public class CommentController {
   private PostRepository activityRepository;
 
   @GetMapping
-  public ArrayList<CommentDTO> listAll() {
+  public ArrayList<CommentDTO> listAll(@PathVariable Long id) {
     ArrayList<CommentDTO> comments = new ArrayList<>();
-    commentRepository.findAllByPublished(true)
-        .forEach(comment -> comments.add(new CommentDTO(comment)));
+    Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
+    for (Comment comment: publishedComments) {
+      if (comment.getPost().getId() == id) {
+        comments.add(new CommentDTO(comment));
+      }
+    }
     return comments;
   }
 

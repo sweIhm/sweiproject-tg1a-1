@@ -112,7 +112,7 @@ public class ActivityControllerTest {
   }
 
   @Test
-  public void udateNonExisting() throws Exception {
+  public void updateNonExisting() throws Exception {
     mvc.perform(MockMvcRequestBuilders.put("/activity/1")
         .contentType("application/json")
         .content(postToJson(p)))
