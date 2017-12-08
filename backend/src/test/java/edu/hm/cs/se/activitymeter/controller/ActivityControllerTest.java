@@ -20,6 +20,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = { ActivityMeter.class})
@@ -48,17 +50,17 @@ public class ActivityControllerTest {
         "published BOOLEAN NOT NULL);");
     db.execute("DROP SEQUENCE activity_id_seq;");
     db.execute("CREATE SEQUENCE activity_id_seq START WITH 1 INCREMENT BY 1;");
-    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
     p.setId(1L);
   }
 
   @Test
   public void listAll() throws Exception {
     addPostToDB(p);
-    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false);
+    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
     p2.setId(2L);
     addPostToDB(p2);
-    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
     p3.setId(3L);
     addPostToDB(p3);
     mvc.perform(MockMvcRequestBuilders.get(ACTIVITY_API))
