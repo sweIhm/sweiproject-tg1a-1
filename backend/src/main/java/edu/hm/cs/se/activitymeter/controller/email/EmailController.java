@@ -28,7 +28,7 @@ public class EmailController {
   private static final String COMMENT_ACTIVATION_TEXT = "Hello %s!%nThank you for your submission! "
           + "Your comment will appear on Activitymeter as soon as you authenticate yourself as a "
           + "member of the California Polytechnic State University or the Munich University of "
-          + "Applied Sciences by clicking the link below: %n%s/activation/%s?key=%s";
+          + "Applied Sciences by clicking the link below: %n%s/activation/comment/%s?key=%s";
 
   private static final String NOTIFICATION_SUBJECT = "Someone commented on your Activity";
   private static final String NOTIFICATION_TEXT = "Hello %s!%nSomeone commented on your Activity. "
