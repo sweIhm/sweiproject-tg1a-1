@@ -22,13 +22,15 @@ public class ActivationControllerComment {
   @Autowired
   private CommentRepository commentRepo;
 
+  @Autowired
+  private EmailController emailController;
+
   @GetMapping("{id}")
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
     ActivationKeyComment activationKey = keyrepo.findOne(id);
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
-      EmailController emailController = new EmailController();
       emailController.sendNotificationMail(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);

@@ -43,6 +43,8 @@ public class EmailController {
   @Value("${host.url}")
   private String host;
 
+  private Session session = null;
+
   private final Logger log = LoggerFactory.getLogger(this.getClass());
 
   /**
@@ -96,7 +98,7 @@ public class EmailController {
 
   private String extractDomain(String mailAddress) {
     String[] tmp = mailAddress.split("@", -1);
-    if (tmp.length < 1) {
+    if (tmp.length != 2) {
       throw new IllegalArgumentException();
     }
     return tmp[tmp.length - 1];
@@ -118,12 +120,15 @@ public class EmailController {
   }
 
   private Session createSession() {
-    Properties props = new Properties();
-    props.put("mail.smtp.auth", "true");
-    props.put("mail.smtp.starttls.enable", "true");
-    props.put("mail.smtp.host", "smtp.gmail.com");
-    props.put("mail.smtp.port", "587");
-    return Session.getInstance(props, new GMailAuthenticator(gmailUser, gmailPassword));
+    if (session == null) {
+      Properties props = new Properties();
+      props.put("mail.smtp.auth", "true");
+      props.put("mail.smtp.starttls.enable", "true");
+      props.put("mail.smtp.host", "smtp.gmail.com");
+      props.put("mail.smtp.port", "587");
+      session = Session.getInstance(props, new GMailAuthenticator(gmailUser, gmailPassword));
+    }
+    return session;
   }
 
   /**
