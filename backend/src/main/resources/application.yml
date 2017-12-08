@@ -12,8 +12,8 @@ spring:
     driver-class-name: org.h2.Driver
   jpa.hibernate.ddl-auto: create
 
-email.name: "activity.meterhm@gmail.com"
-email.password: "holzwurm3"
+email.name: ""
+email.password: ""
 host.url: "http://www.localhost:8080"
 
 ---
