@@ -32,7 +32,8 @@ public class ActivationControllerComment {
       emailController.sendNotificationMail(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);
-      return String.format("redirect:/view/%d;alert=commentactivationsucceeded", id);
+      // TODO Weiterleitung auf kommentierte Activity
+      return "redirect:/dashboard;alert=commentactivationsucceeded";
     }
     return "redirect:/dashboard;alert=commentactivationfailed";
   }

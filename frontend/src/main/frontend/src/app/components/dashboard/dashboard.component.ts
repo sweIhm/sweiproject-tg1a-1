@@ -26,6 +26,7 @@ export class DashboardComponent implements OnInit {
     if (param == 'activationfailed') {
       this.alertService.addAlert('Activation failed! Try submitting your activity again.', 'danger');
     }
+    // TODO alerts für comments handeln
   }
 
   getActivities() {
@@ -39,5 +40,11 @@ export class DashboardComponent implements OnInit {
 
   openPostModal() {
     this.modal.open(PostComponent);
+  }
+
+  activitiesIsEmpty(): boolean {
+    if (this.activities)
+      return this.activities.length == 0;
+    return false;
   }
 }

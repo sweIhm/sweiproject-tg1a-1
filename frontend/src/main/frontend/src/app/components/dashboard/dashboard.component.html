@@ -1,6 +1,6 @@
 <div class="container">
   <h2>View all Activities</h2>
-  <table class="table table-hover table-bordered">
+  <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
         <th scope="col">ID</th>
@@ -14,7 +14,7 @@
         <td>{{activity.title}}</td>
         <td>{{activity.author}}</td>
       </tr>
-      <tr *ngIf="activities.length == 0">
+      <tr *ngIf="activitiesIsEmpty()">
         <th colspan="3" class="text-center">No Activities submitted</th>
       </tr>
     </tbody>

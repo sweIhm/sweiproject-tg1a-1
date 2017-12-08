@@ -12,9 +12,9 @@ import {AlertService} from "../../services/alert.service";
 export class PostcommentComponent implements OnInit {
 
   activityId: number;
-  toBePosted: CommentDto = new CommentDto('', '', '', 0);
+  toBePosted: CommentDto = new CommentDto('', '', '');
 
-  constructor(private service: CommentService,
+  constructor(private commentService: CommentService,
               private activeModal: NgbActiveModal,
               private alertService: AlertService) { }
 
@@ -22,11 +22,8 @@ export class PostcommentComponent implements OnInit {
   }
 
   onSubmit() {
-    // TODO mittels commentService Comment submitten
-    this.toBePosted.activityId = this.activityId;
+    this.commentService.addComment(this.activityId, this.toBePosted).subscribe();
     this.activeModal.close();
-    // TODO diagnose nachricht entfernen
-    this.alertService.addAlert('Diagnosedaten: ' + JSON.stringify(this.toBePosted), 'warning');
     this.alertService.addAlert('Thank you very much! Check your mails so you can post your comment!', 'info')
   }
 

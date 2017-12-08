@@ -12,47 +12,11 @@
   <button class="btn btn-primary mt-2 ml-2" (click)="openPostcommentModal()">Comment</button>
   <!--TODO Kommentare implementieren-->
   <hr>
-  <div class="card ml-5 mt-2">
+  <div class="card ml-5 mt-2" *ngFor="let comment of comments">
     <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
+      <h5><strong>{{comment.author}}</strong> wrote: </h5>
     </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
-  </div>
-  <div class="card ml-5 mt-2">
-    <div class="card-header">
-      <h5><strong>Axel Scheiß</strong> wrote: </h5>
-    </div>
-    <div class="card-body">Das muss stinken!</div>
+    <div class="card-body">{{comment.text}}</div>
   </div>
   <hr>
   <button class="btn btn-primary" routerLink="/">Go Back</button>

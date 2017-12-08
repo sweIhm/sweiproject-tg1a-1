@@ -85,7 +85,7 @@ public class EmailController {
    * @return if email was send successfully
    */
   public boolean sendNotificationMail(Post post) {
-    log.info("Try sending email to " + post.getEmail());
+    log.info("Try sending notification email to " + post.getEmail());
     return sendMail(post.getEmail(), String.format(NOTIFICATION_SUBJECT),
               String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
   }
