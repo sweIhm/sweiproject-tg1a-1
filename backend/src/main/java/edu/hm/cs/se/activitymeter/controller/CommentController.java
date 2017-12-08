@@ -1,8 +1,8 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
-import edu.hm.cs.se.activitymeter.model.CommentActivationKey;
 import edu.hm.cs.se.activitymeter.model.Comment;
+import edu.hm.cs.se.activitymeter.model.CommentActivationKey;
 import edu.hm.cs.se.activitymeter.model.JsonComment;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
