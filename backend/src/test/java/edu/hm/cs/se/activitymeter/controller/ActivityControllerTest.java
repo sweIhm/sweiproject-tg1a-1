@@ -34,6 +34,8 @@ public class ActivityControllerTest {
 
   private Post p;
 
+  private static final String URL = "/api/activity/";
+
   @Before
   public void setUp() throws Exception {
     db.execute("DROP TABLE Activity;");
@@ -59,7 +61,7 @@ public class ActivityControllerTest {
     Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
     p3.setId(3L);
     addPostToDB(p3);
-    mvc.perform(MockMvcRequestBuilders.get("/activity"))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content()
             .json("[" + postToJson(new PostDTO(p)) + "," + postToJson(new PostDTO(p3)) + "]"));
@@ -69,7 +71,7 @@ public class ActivityControllerTest {
   public void find() throws Exception {
     p.setId(2L);
     addPostToDB(p);
-    mvc.perform(MockMvcRequestBuilders.get("/activity/2"))
+    mvc.perform(MockMvcRequestBuilders.get(URL + "2"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
   }
@@ -80,7 +82,7 @@ public class ActivityControllerTest {
     p.setAuthor("gerste");
     p.setText("gerstenmeier");
     p.setTitle("hopfen und malz verloren");
-    mvc.perform(MockMvcRequestBuilders.put("/activity/1")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1")
         .content(postToJson(new PostDTO(p))).contentType("application/json"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
@@ -88,18 +90,18 @@ public class ActivityControllerTest {
 
   @Test
   public void create() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.post("/activity").contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post(URL).contentType("application/json")
         .content(postToJson(p)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
-    mvc.perform(MockMvcRequestBuilders.get("/activity"))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[]"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
         .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=activationsucceeded"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
         .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=activationfailed"));
-    mvc.perform(MockMvcRequestBuilders.get("/activity"))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) + "]"));
   }
@@ -107,13 +109,13 @@ public class ActivityControllerTest {
   @Test
   public void delete() throws Exception {
     addPostToDB(p);
-    mvc.perform(MockMvcRequestBuilders.delete("/activity/1"))
+    mvc.perform(MockMvcRequestBuilders.delete(URL + "1"))
         .andExpect(MockMvcResultMatchers.status().isOk());
   }
 
   @Test
   public void updateNonExisting() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.put("/activity/1")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1")
         .contentType("application/json")
         .content(postToJson(p)))
         .andDo(MockMvcResultHandlers.print())

@@ -7,7 +7,7 @@ import {Activity} from "../model/activity";
 @Injectable()
 export class ActivityService {
 
-  url : string = '/activity';
+  url : string = '/api/activity';
 
   constructor(private http:HttpClient) { }
 
