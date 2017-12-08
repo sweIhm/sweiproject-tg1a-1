@@ -8,7 +8,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Keys")
+@Table(name = "comment_key")
 public class ActivationKeyComment {
 
   @Column(name = "key", unique = true, nullable = false)

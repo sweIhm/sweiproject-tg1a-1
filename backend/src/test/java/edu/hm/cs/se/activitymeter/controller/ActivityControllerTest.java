@@ -38,16 +38,16 @@ public class ActivityControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    db.execute("DROP TABLE Activity;");
-    db.execute("CREATE TABLE Activity(" +
-        "id INTEGER PRIMARY KEY," +
+    db.execute("DROP TABLE Post;");
+    db.execute("CREATE TABLE Post(" +
+        "post_id INTEGER PRIMARY KEY," +
         "title VARCHAR(255) NOT NULL," +
         "text VARCHAR(255) NOT NULL," +
         "author VARCHAR(255) NOT NULL," +
         "email VARCHAR(1000) NOT NULL," +
         "published BOOLEAN NOT NULL);");
-    db.execute("DROP SEQUENCE activity_id_seq;");
-    db.execute("CREATE SEQUENCE activity_id_seq START WITH 1 INCREMENT BY 1;");
+    db.execute("DROP SEQUENCE post_id_seq;");
+    db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
     p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
     p.setId(1L);
   }
@@ -124,7 +124,7 @@ public class ActivityControllerTest {
   }
 
   private void addPostToDB(Post p) {
-    db.execute(String.format("INSERT INTO Activity VALUES(%d,'%s','%s','%s','%s',%s);",
+    db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
   }
 
