@@ -45,7 +45,7 @@ public class ActivityController {
   @PostMapping
   public PostDTO create(@RequestBody Post input) {
     Post newPost = activityRepository.save(new Post(input.getAuthor(), input.getTitle(),
-        input.getText(),input.getEmail(), false));
+        input.getText(),input.getEmail(), false, input.getKeywords()));
     ActivationKey activationKey = activationKeyRepository.save(
         new ActivationKey(newPost.getId(), emailController.generateKey()));
     emailController.sendEmail(newPost, activationKey.getKey());

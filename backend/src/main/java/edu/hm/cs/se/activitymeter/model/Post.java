@@ -1,14 +1,7 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Activity")
@@ -26,13 +19,17 @@ public class Post extends AbstractEntity {
   @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
   private ActivationKey key;
 
+  @ManyToMany()
+  private List<Keyword> keywords;
+
   public Post() {
     // Leerer Konstruktor für JPA
   }
 
-  public Post(String author, String title, String text, String email, boolean published) {
+  public Post(String author, String title, String text, String email, boolean published, List<Keyword> keywords) {
     super(author, text, email, published);
     this.title = title;
+    this.keywords = keywords;
   }
 
   public Long getId() {
@@ -49,5 +46,13 @@ public class Post extends AbstractEntity {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public List<Keyword> getKeywords() {
+    return keywords;
+  }
+
+  public void setKeywords(List<Keyword> keywords) {
+    this.keywords = keywords;
   }
 }
