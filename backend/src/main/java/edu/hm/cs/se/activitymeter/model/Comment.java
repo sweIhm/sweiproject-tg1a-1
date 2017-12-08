@@ -19,7 +19,7 @@ public class Comment extends AbstractEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
   @SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
-  @Column(name = "commentId")
+  @Column(name = "comment_id")
   private Long id;
 
   public Comment() {

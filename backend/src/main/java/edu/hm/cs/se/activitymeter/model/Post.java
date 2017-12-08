@@ -15,13 +15,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Activity")
+@Table(name = "Post")
 public class Post extends AbstractEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
-  @SequenceGenerator(name = "activity_id_seq", sequenceName = "activity_id_seq", allocationSize = 1)
-  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
+  @SequenceGenerator(name = "post_id_seq", sequenceName = "post_id_seq", allocationSize = 1)
+  @Column(name = "post_id")
   private Long id;
 
   @Column(name = "title", nullable = false)
