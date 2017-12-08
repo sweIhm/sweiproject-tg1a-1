@@ -19,8 +19,8 @@ import javax.persistence.Table;
 public class Post extends AbstractEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
-  @SequenceGenerator(name = "activity_id_seq", sequenceName = "activity_id_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
+  @SequenceGenerator(name = "post_id_seq", sequenceName = "post_id_seq", allocationSize = 1)
   @Column(name = "post_id")
   private Long id;
 
