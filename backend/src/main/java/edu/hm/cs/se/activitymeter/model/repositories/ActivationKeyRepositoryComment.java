@@ -1,7 +1,7 @@
 package edu.hm.cs.se.activitymeter.model.repositories;
 
-import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
+import edu.hm.cs.se.activitymeter.model.CommentActivationKey;
 import org.springframework.data.repository.CrudRepository;
 
-public interface ActivationKeyRepositoryComment extends CrudRepository<ActivationKeyComment, Long> {
+public interface ActivationKeyRepositoryComment extends CrudRepository<CommentActivationKey, Long> {
 }

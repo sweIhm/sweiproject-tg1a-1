@@ -19,7 +19,7 @@ public class Comment extends AbstractEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_id_seq")
   @SequenceGenerator(name = "comment_id_seq", sequenceName = "comment_id_seq", allocationSize = 1)
-  @Column(name = "commentId")
+  @Column(name = "comment_id")
   private Long id;
 
   public Comment() {
@@ -27,11 +27,11 @@ public class Comment extends AbstractEntity {
   }
 
   @OneToOne(mappedBy = "comment", fetch = FetchType.LAZY)
-  private ActivationKeyComment key;
+  private CommentActivationKey key;
 
   @ManyToOne(fetch = FetchType.LAZY)
 
-  @JoinColumn(name = "id", nullable = false)
+  @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 
   public Comment(String text, String author, String email, boolean published, Post post) {

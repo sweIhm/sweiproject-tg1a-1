@@ -1,7 +1,7 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
-import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
+import edu.hm.cs.se.activitymeter.model.CommentActivationKey;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
 
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/activationComment")
+@RequestMapping("/activation/comment")
 public class ActivationControllerComment {
 
   @Autowired
@@ -25,7 +25,7 @@ public class ActivationControllerComment {
   @GetMapping("{id}")
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
-    ActivationKeyComment activationKey = keyrepo.findOne(id);
+    CommentActivationKey activationKey = keyrepo.findOne(id);
     boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
