@@ -3,10 +3,15 @@ package edu.hm.cs.se.activitymeter.controller;
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.Comment;
+import edu.hm.cs.se.activitymeter.model.JsonComment;
+import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
+import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
+
 import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +35,18 @@ public class CommentController {
   @Autowired
   private EmailController emailController;
 
+  @Autowired
+  private PostRepository activityRepository;
+
   @GetMapping
-  public ArrayList<CommentDTO> listAll() {
+  public ArrayList<CommentDTO> listAll(@PathVariable Long id) {
     ArrayList<CommentDTO> comments = new ArrayList<>();
-    commentRepository.findAllByPublished(true)
-        .forEach(comment -> comments.add(new CommentDTO(comment)));
+    Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
+    for (Comment comment: publishedComments) {
+      if (comment.getPost().getId() == id) {
+        comments.add(new CommentDTO(comment));
+      }
+    }
     return comments;
   }
 
@@ -44,9 +56,10 @@ public class CommentController {
   }
 
   @PostMapping
-  public CommentDTO create(@RequestBody Comment input) {
+  public CommentDTO create(@PathVariable Long id,@RequestBody JsonComment input) {
+    Post post = activityRepository.findOne(id);
     Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(),
-        input.getEmail(), false));
+            input.getEmail(), false,post));
     ActivationKeyComment activationKey = activationKeyRepository.save(
         new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
     emailController.sendEmail(newComment, activationKey.getKey());
