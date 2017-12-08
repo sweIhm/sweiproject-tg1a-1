@@ -18,7 +18,7 @@ public class Keyword {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "keyword_id_seq")
   @SequenceGenerator(name = "keyword_id_seq", sequenceName = "keyword_id_seq", allocationSize = 1)
-  @Column(name = "id")
+  @Column(name = "tag_id")
   private long keywordId;
 
   public Keyword(String content) {

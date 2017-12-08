@@ -15,11 +15,11 @@ public class ActivationKey {
   private String key;
 
   @Id
-  @Column(name = "id")
+  @Column(name = "post_id")
   private long postId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "post_id")
   private Post post;
 
   public ActivationKey() {

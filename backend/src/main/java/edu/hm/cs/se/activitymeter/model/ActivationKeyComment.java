@@ -15,11 +15,11 @@ public class ActivationKeyComment {
   private String key;
 
   @Id
-  @Column(name = "id")
+  @Column(name = "comment_id")
   private long commentId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "comment_id")
   private Comment comment;
 
   public ActivationKeyComment() {
