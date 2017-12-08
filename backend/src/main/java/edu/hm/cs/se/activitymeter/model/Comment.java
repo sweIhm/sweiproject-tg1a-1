@@ -31,7 +31,7 @@ public class Comment extends AbstractEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
 
-  @JoinColumn(name = "id", nullable = false)
+  @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 
   public Comment(String text, String author, String email, boolean published, Post post) {
