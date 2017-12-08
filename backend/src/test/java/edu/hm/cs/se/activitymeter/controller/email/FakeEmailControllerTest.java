@@ -11,7 +11,7 @@ public class FakeEmailControllerTest {
   @Test
   public void sendEmail() throws Exception {
     EmailController ec = new FakeEmailController();
-    assertTrue(ec.sendEmail(new Post(), ""));
+    assertTrue(ec.sendActivationMail(new Post(), ""));
   }
 
   @Test

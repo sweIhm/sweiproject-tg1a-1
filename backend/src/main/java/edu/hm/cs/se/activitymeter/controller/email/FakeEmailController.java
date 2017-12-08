@@ -5,19 +5,17 @@ import edu.hm.cs.se.activitymeter.model.Post;
 
 public class FakeEmailController extends EmailController {
   @Override
-  public boolean sendEmail(Post post, String activationKey) {
-    System.out.println(post.getId() + "||" + activationKey);
+  public boolean sendActivationMail(Post post, String activationKey) {
     return true;
   }
 
   @Override
-  public boolean sendEmail(Comment comment, String activationKey) {
-    System.out.println(comment.getId() + "||" + activationKey);
+  public boolean sendActivationMail(Comment comment, String activationKey) {
     return true;
   }
 
   @Override
-  public boolean sendNotification(Post post) {
+  public boolean sendNotificationMail(Post post) {
     return true;
   }
 

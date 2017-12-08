@@ -26,16 +26,16 @@ public class ActivationControllerComment {
   public String activate(@PathVariable Long id, @RequestParam(name = "key",
       defaultValue = "") String key) {
     ActivationKeyComment activationKey = keyrepo.findOne(id);
-    boolean published = false;
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
       EmailController emailController = new EmailController();
-      emailController.sendNotification(activationKey.getComment().getPost());
+      emailController.sendNotificationMail(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
       keyrepo.delete(id);
-      published = true;
+      // TODO Weiterleitung auf kommentierte Activity
+      return "redirect:/dashboard;alert=commentactivationsucceeded";
     }
-    return String.format("redirect:/activation/%d/verify?success=%s", id, published);
+    return "redirect:/dashboard;alert=commentactivationfailed";
   }
 
   @GetMapping("/{id}/verify")

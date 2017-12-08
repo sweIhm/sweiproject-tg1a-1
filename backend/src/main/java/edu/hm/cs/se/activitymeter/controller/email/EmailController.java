@@ -3,6 +3,7 @@ package edu.hm.cs.se.activitymeter.controller.email;
 import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.Post;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 import javax.mail.Message;
@@ -16,30 +17,29 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 public class EmailController {
-  private static final String[] VALIDEMAILS = {"calpoly.edu","hm.edu"};
-  private static final String SUBJECT = "Your activity on Activitymeter";
-  private static final String TEXT = "Hello %s! \nThank you for your submission! Your activity "
-      + "will appear on Activitymeter as soon as you authenticate yourself as a member of the "
-      + "California Polytechnic State University or the Munich University of Applied Sciences "
-      + "by clicking the link below: %n%s/activation/%s?key=%s";
 
-  private static final String TEXTCOMMENT = "Hello %s!\nThank you for your submission! "
+  private static final String ACTIVITY_ACTIVATION_SUBJECT = "Your activity on Activitymeter";
+  private static final String ACTIVITY_ACTIVATION_TEXT = "Hello %s!%nThank you for your "
+      + "submission! Your activity will appear on Activitymeter as soon as you authenticate "
+      + "yourself as a member of the California Polytechnic State University or the Munich "
+      + "University of Applied Sciences by clicking the link below: %n%s/activation/%s?key=%s";
+
+  private static final String COMMENT_ACTIVATION_SUBJECT = "Your comment on Activitymeter";
+  private static final String COMMENT_ACTIVATION_TEXT = "Hello %s!%nThank you for your submission! "
           + "Your comment will appear on Activitymeter as soon as you authenticate yourself as a "
           + "member of the California Polytechnic State University or the Munich University of "
           + "Applied Sciences by clicking the link below: %n%s/activation/comment/%s?key=%s";
 
-  private static final String SUBJECTCOMMENT = "Your comment on Activitymeter";
+  private static final String NOTIFICATION_SUBJECT = "Someone commented on your Activity";
+  private static final String NOTIFICATION_TEXT = "Hello %s!%nSomeone commented on your Activity. "
+          + "Click on the link below to see your activity: %n%s/view/%s";
 
-  private static final String TEXTNOTE = "Hello %s! \nyour Activity %s has been commented!";
-
-  private static final String SUBJECTNOTE = "%s has been commented";
+  private static final List<String> VALID_DOMAINS = Arrays.asList("calpoly.edu", "hm.edu");
 
   @Value("${email.name}")
-  private String gmailuser;
-
+  private String gmailUser;
   @Value("${email.password}")
-  private String gmailupass;
-
+  private String gmailPassword;
   @Value("${host.url}")
   private String host;
 
@@ -51,34 +51,14 @@ public class EmailController {
    * @param activationKey Activation key
    * @return if email was send successfully
    */
-  public boolean sendEmail(Post post, String activationKey) {
-
-    if (Arrays.stream(VALIDEMAILS).anyMatch(post.getEmail()::endsWith)) {
-
-      Properties props = new Properties();
-      props.put("mail.smtp.auth", "true");
-      props.put("mail.smtp.starttls.enable", "true");
-      props.put("mail.smtp.host", "smtp.gmail.com");
-      props.put("mail.smtp.port", "587");
-
-      Session session = Session.getInstance(props,
-          new GMailAuthenticator(gmailuser, gmailupass));
-
-      log.info("Try sending email to " + post.getEmail());
-      try {
-        Message message = new MimeMessage(session);
-        message.setRecipients(Message.RecipientType.TO,
-            InternetAddress.parse(post.getEmail()));
-        message.setSubject(SUBJECT);
-        message.setText(String.format(TEXT, post.getAuthor(), host, post.getId(), activationKey));
-
-        Transport.send(message);
-        log.info("Email send successful!");
-        return true;
-      } catch (MessagingException e) {
-        log.error(e.toString());
-      }
+  public boolean sendActivationMail(Post post, String activationKey) {
+    if (isValidAddress(post.getEmail())) {
+      log.info("Try sending activation email to " + post.getEmail());
+      return sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
+              String.format(ACTIVITY_ACTIVATION_TEXT, post.getAuthor(), host,
+                      post.getId(), activationKey));
     }
+    log.error("Invalid email: " + post.getEmail());
     return false;
   }
 
@@ -88,35 +68,15 @@ public class EmailController {
    * @param activationKey Activation key
    * @return if email was send successfully
    */
-  public boolean sendEmail(Comment comment, String activationKey) {
-    if (Arrays.stream(VALIDEMAILS).anyMatch(comment.getEmail()::endsWith)) {
-
-      Properties props = new Properties();
-      props.put("mail.smtp.auth", "true");
-      props.put("mail.smtp.starttls.enable", "true");
-      props.put("mail.smtp.host", "smtp.gmail.com");
-      props.put("mail.smtp.port", "587");
-
-      Session session = Session.getInstance(props,
-              new GMailAuthenticator(gmailuser, gmailupass));
-
-      log.info("Try sending email to " + comment.getEmail());
-      try {
-        Message message = new MimeMessage(session);
-        message.setRecipients(Message.RecipientType.TO,
-                InternetAddress.parse(comment.getEmail()));
-        message.setSubject(SUBJECTCOMMENT);
-        message.setText(String.format(TEXTCOMMENT, comment.getAuthor(),
-                host, comment.getId(), activationKey));
-
-        Transport.send(message);
-        return true;
-      } catch (MessagingException e) {
-        log.error(e.toString());
-      }
+  public boolean sendActivationMail(Comment comment, String activationKey) {
+    if (isValidAddress(comment.getEmail())) {
+      log.info("Try sending comment activation email to " + comment.getEmail());
+      return sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
+              String.format(COMMENT_ACTIVATION_TEXT, comment.getAuthor(), host,
+                      comment.getId(), activationKey));
     }
+    log.error("Invalid email: " + comment.getEmail());
     return false;
-
   }
 
   /**
@@ -124,32 +84,46 @@ public class EmailController {
    * @param post Post which was commented on
    * @return if email was send successfully
    */
-  public boolean sendNotification(Post post) {
+  public boolean sendNotificationMail(Post post) {
+    log.info("Try sending notification email to " + post.getEmail());
+    return sendMail(post.getEmail(), String.format(NOTIFICATION_SUBJECT),
+              String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
+  }
 
+  private boolean isValidAddress(String mailAddress) {
+    return VALID_DOMAINS.contains(extractDomain(mailAddress));
+  }
+
+  private String extractDomain(String mailAddress) {
+    String[] tmp = mailAddress.split("@", -1);
+    if (tmp.length < 1) {
+      throw new IllegalArgumentException();
+    }
+    return tmp[tmp.length - 1];
+  }
+
+  private boolean sendMail(String recipient, String subject, String text) {
+    try {
+      Message msg = new MimeMessage(createSession());
+      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+      msg.setSubject(subject);
+      msg.setText(text);
+      Transport.send(msg);
+    } catch (MessagingException e) {
+      log.error(e.toString());
+      return false;
+    }
+    log.info("Mail send successfully!");
+    return true;
+  }
+
+  private Session createSession() {
     Properties props = new Properties();
     props.put("mail.smtp.auth", "true");
     props.put("mail.smtp.starttls.enable", "true");
     props.put("mail.smtp.host", "smtp.gmail.com");
     props.put("mail.smtp.port", "587");
-
-    Session session = Session.getInstance(props,
-            new GMailAuthenticator(gmailuser, gmailupass));
-
-    log.info("Try sending email to " + post.getEmail());
-    try {
-      Message message = new MimeMessage(session);
-      message.setRecipients(Message.RecipientType.TO,
-              InternetAddress.parse(post.getEmail()));
-      message.setSubject(String.format(SUBJECTNOTE,post.getTitle()));
-      message.setText(String.format(TEXTNOTE, post.getAuthor(),post.getTitle()));
-
-      Transport.send(message);
-      log.info("Email send successful!");
-      return true;
-    } catch (MessagingException e) {
-      log.error(e.toString());
-    }
-    return false;
+    return Session.getInstance(props, new GMailAuthenticator(gmailUser, gmailPassword));
   }
 
   /**
@@ -161,5 +135,5 @@ public class EmailController {
     result = result.replace("-","");
     return result;
   }
-}
 
+}
