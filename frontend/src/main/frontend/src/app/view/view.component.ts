@@ -11,6 +11,8 @@ export class ViewComponent implements OnInit {
 
   @Input() activity: Activity;
 
+  id: number;
+
   constructor(public activeModal:NgbActiveModal) { }
 
   ngOnInit() {
