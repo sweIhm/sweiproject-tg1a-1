@@ -1,0 +1,29 @@
+import { Component, OnInit } from '@angular/core';
+import {ActivityDto} from "../../model/activity-dto";
+import {ActivityService} from "../../services/activity.service";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {AlertService} from "../../services/alert.service";
+
+@Component({
+  selector: 'app-post',
+  templateUrl: './post.component.html',
+  styleUrls: ['./post.component.css']
+})
+export class PostComponent implements OnInit {
+
+  toBePosted: ActivityDto = new ActivityDto('', '', '', '');
+
+  constructor(private service: ActivityService,
+              private activeModal: NgbActiveModal,
+              private alertService: AlertService) { }
+
+  ngOnInit() {
+  }
+
+  onSubmit() {
+    this.service.addActivity(this.toBePosted).subscribe();
+    this.activeModal.close();
+    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
+  }
+
+}

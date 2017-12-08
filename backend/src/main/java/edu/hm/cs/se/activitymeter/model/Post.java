@@ -1,93 +1,61 @@
 package edu.hm.cs.se.activitymeter.model;
 
-import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "Activity")
-public class Post {
+@Table(name = "Post")
+public class Post extends AbstractEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="activity_id_seq")
-    @SequenceGenerator(name="activity_id_seq", sequenceName="activity_id_seq", allocationSize=1)
-    @Column(name = "id")
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
+  @SequenceGenerator(name = "post_id_seq", sequenceName = "post_id_seq", allocationSize = 1)
+  @Column(name = "post_id")
+  private Long id;
 
-    @Column(name = "text", nullable = false)
-    private String text;
+  @Column(name = "title", nullable = false)
+  private String title;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+  @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
+  private ActivationKey key;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+  private List<Comment> comments;
 
-    @Column(name = "email", nullable = false)
-    private String email;
+  public Post() {
+    // Leerer Konstruktor für JPA
+  }
 
-    @Column(name = "published", nullable = false)
-    private boolean published;
+  public Post(String author, String title, String text, String email, boolean published) {
+    super(author, text, email, published);
+    this.title = title;
+    this.comments = new ArrayList<>();
+  }
 
-    @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
-    private ActivationKey key;
+  public Long getId() {
+    return id;
+  }
 
-    public Post() {
-        // Leerer Konstruktor für JPA
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public Post(String text, String title, String author, String email, boolean published) {
-        this.text = text;
-        this.title = title;
-        this.author = author;
-        this.email = email;
-        this.published = published;
-    }
+  public String getTitle() {
+    return title;
+  }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isPublished() {
-        return published;
-    }
-
-    public void setPublished(boolean published) {
-        this.published = published;
-    }
+  public void setTitle(String title) {
+    this.title = title;
+  }
 }

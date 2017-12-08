@@ -1,6 +1,5 @@
 <div class="container">
   <h2>View all Activities</h2>
-  <ngb-alert type="success" *ngIf="refreshed" (close)="refreshed=false">Data refreshed!</ngb-alert>
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
@@ -10,12 +9,16 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let activity of activities" (click)="selectActivity(activity)">
+      <tr *ngFor="let activity of activities" routerLink="/view/{{activity.id}}">
         <th scope="row">{{activity.id}}</th>
         <td>{{activity.title}}</td>
         <td>{{activity.author}}</td>
       </tr>
+      <tr *ngIf="activitiesIsEmpty()">
+        <th colspan="3" class="text-center">No Activities submitted</th>
+      </tr>
     </tbody>
   </table>
-  <button class="btn btn-primary" (click)="refresh(); refreshed=true">Refresh Data</button>
+  <button class="btn btn-primary" (click)="refresh();">Refresh Data</button>
+  <button class="btn btn-primary" (click)="openPostModal();">Create Activity</button>
 </div>
