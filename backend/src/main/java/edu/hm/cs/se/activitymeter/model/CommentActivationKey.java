@@ -8,25 +8,25 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Keys")
-public class ActivationKeyComment {
+@Table(name = "comment_key")
+public class CommentActivationKey {
 
-  @Column(name = "key", unique = true, nullable = false)
+  @Column(name = "comment_key", unique = true, nullable = false)
   private String key;
 
   @Id
-  @Column(name = "id")
+  @Column(name = "comment_id")
   private long commentId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "comment_id")
   private Comment comment;
 
-  public ActivationKeyComment() {
+  public CommentActivationKey() {
     // Leerer Konstruktor für JPA
   }
 
-  public ActivationKeyComment(long commentId, String key) {
+  public CommentActivationKey(long commentId, String key) {
     this.key = key;
     this.commentId = commentId;
   }

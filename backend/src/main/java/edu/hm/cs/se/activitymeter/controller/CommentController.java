@@ -1,7 +1,7 @@
 package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
-import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
+import edu.hm.cs.se.activitymeter.model.CommentActivationKey;
 import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.JsonComment;
 import edu.hm.cs.se.activitymeter.model.Post;
@@ -60,8 +60,8 @@ public class CommentController {
     Post post = activityRepository.findOne(id);
     Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(),
             input.getEmail(), false,post));
-    ActivationKeyComment activationKey = activationKeyRepository.save(
-        new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
+    CommentActivationKey activationKey = activationKeyRepository.save(
+        new CommentActivationKey(newComment.getId(), emailController.generateKey()));
     emailController.sendEmail(newComment, activationKey.getKey());
     return new CommentDTO(newComment);
   }

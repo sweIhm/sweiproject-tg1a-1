@@ -19,7 +19,7 @@ public class ActivationKey {
   private long postId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "post_id")
   private Post post;
 
   public ActivationKey() {
