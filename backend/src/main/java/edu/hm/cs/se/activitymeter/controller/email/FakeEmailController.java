@@ -20,6 +20,16 @@ public class FakeEmailController extends EmailController {
   }
 
   @Override
+  public boolean sendDeleteMail(Post post, String activationKey) {
+    return true;
+  }
+
+  @Override
+  public boolean sendDeleteMail(Comment comment, String activationKey) {
+    return true;
+  }
+
+  @Override
   public String generateKey() {
     return "1234";
   }
