@@ -46,6 +46,11 @@ public class EmailController {
   private static final String NOTIFICATION_TEXT = "Hello %s!%nSomeone commented on your Activity. "
           + "Click on the link below to see your activity: %n%s/view/%s";
 
+  private static final String NOTIFICATION_COMMENT_SUBJECT = "Someone commented on the same"
+          + "Activity as you";
+  private static final String NOTIFICATION_COMMENT_TEXT = "Hello %s!%nSomeone commented on the"
+          + "same Activity as you. Click on the link below to see the activity: %n%s/view/%s";
+
   private static final List<String> VALID_DOMAINS = Arrays.asList("calpoly.edu", "hm.edu");
 
   @Value("${email.name}")
@@ -118,9 +123,18 @@ public class EmailController {
    */
   public boolean sendNotificationMail(Post post) {
     log.info("Try sending notification email to " + post.getEmail());
-    return sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
+    boolean result = sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
               String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
+
+    for (Comment comment:post.getComments()) {
+      log.info("Try sending notification(comment) email to " + comment.getEmail());
+      result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
+              String.format(NOTIFICATION_COMMENT_TEXT, post.getAuthor(), host, post.getId()));
+    }
+    return result;
   }
+
+
 
   private boolean isValidAddress(String mailAddress) {
     return VALID_DOMAINS.contains(extractDomain(mailAddress));

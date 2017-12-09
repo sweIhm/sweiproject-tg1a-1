@@ -58,4 +58,8 @@ public class Post extends AbstractEntity {
   public void setTitle(String title) {
     this.title = title;
   }
+
+  public List<Comment> getComments() {
+    return comments;
+  }
 }
