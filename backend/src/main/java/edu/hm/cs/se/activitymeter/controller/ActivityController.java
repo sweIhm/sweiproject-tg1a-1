@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ActivityController {
 
   @Autowired
-  private PostRepository activityRepository;
+  private PostRepository postRepository;
 
   @Autowired
   private ActivationKeyRepository activationKeyRepository;
@@ -33,18 +33,18 @@ public class ActivityController {
   @GetMapping
   public ArrayList<PostDTO> listAll() {
     ArrayList<PostDTO> activities = new ArrayList<>();
-    activityRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
+    postRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
     return activities;
   }
 
   @GetMapping("{id}")
   public PostDTO find(@PathVariable Long id) {
-    return new PostDTO(activityRepository.findOne(id));
+    return new PostDTO(postRepository.findOne(id));
   }
 
   @PostMapping
   public PostDTO create(@RequestBody Post input) {
-    Post newPost = activityRepository.save(new Post(input.getAuthor(), input.getTitle(),
+    Post newPost = postRepository.save(new Post(input.getAuthor(), input.getTitle(),
         input.getText(),input.getEmail(), false));
     ActivationKey activationKey = activationKeyRepository.save(
         new ActivationKey(newPost.getId(), emailController.generateKey()));
@@ -54,19 +54,21 @@ public class ActivityController {
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) {
-    activityRepository.delete(id);
+    String key = emailController.generateKey();
+    activationKeyRepository.save(new ActivationKey(id, key));
+    emailController.sendDeleteMail(postRepository.findOne(id), key);
   }
 
   @PutMapping("{id}")
   public PostDTO update(@PathVariable Long id, @RequestBody PostDTO input) {
-    Post post = activityRepository.findOne(id);
+    Post post = postRepository.findOne(id);
     if (post == null) {
       return null;
     } else {
       post.setText(input.getText());
       post.setTitle(input.getTitle());
       post.setAuthor(input.getAuthor());
-      return new PostDTO(activityRepository.save(post));
+      return new PostDTO(postRepository.save(post));
     }
   }
 }

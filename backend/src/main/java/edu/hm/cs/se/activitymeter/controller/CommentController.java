@@ -67,7 +67,9 @@ public class CommentController {
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) {
-    commentRepository.delete(id);
+    String key = emailController.generateKey();
+    activationKeyRepository.save(new ActivationKeyComment(id, key));
+    emailController.sendDeleteMail(commentRepository.findOne(id), key);
   }
 
   @PutMapping("{id}")

@@ -30,6 +30,18 @@ public class EmailController {
           + "member of the California Polytechnic State University or the Munich University of "
           + "Applied Sciences by clicking the link below: %n%s/activation/comment/%s?key=%s";
 
+  private static final String ACTIVITY_DELETE_SUBJECT = "Deleting your activity on Activitymeter";
+  private static final String ACTIVITY_DELETE_TEXT = "Hello %s!%n You are about to delete your "
+      + "activity. Please click the link below to confirm the deletion of your activity:%n"
+      + "%s/activation/%d/delete?key=%s%n%n"
+      + "If you did not initiate this action, you can ignore this email.";
+
+  private static final String COMMENT_DELETE_SUBJECT = "Deleting your comment on Activitymeter";
+  private static final String COMMENT_DELETE_TEXT = "Hello %s!%n You are about to delete your "
+      + "comment. Please click the link below to confirm the deletion of your comment:%n"
+      + "%s/activation/comment/%d/delete?key=%s%n%n"
+      + "If you did not initiate this action, you can ignore this email.";
+
   private static final String NOTIFICATION_SUBJECT = "Someone commented on your Activity";
   private static final String NOTIFICATION_TEXT = "Hello %s!%nSomeone commented on your Activity. "
           + "Click on the link below to see your activity: %n%s/view/%s";
@@ -54,14 +66,10 @@ public class EmailController {
    * @return if email was send successfully
    */
   public boolean sendActivationMail(Post post, String activationKey) {
-    if (isValidAddress(post.getEmail())) {
-      log.info("Try sending activation email to " + post.getEmail());
-      return sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
+    log.info("Try sending activation email to " + post.getEmail());
+    return sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
               String.format(ACTIVITY_ACTIVATION_TEXT, post.getAuthor(), host,
                       post.getId(), activationKey));
-    }
-    log.error("Invalid email: " + post.getEmail());
-    return false;
   }
 
   /**
@@ -71,14 +79,36 @@ public class EmailController {
    * @return if email was send successfully
    */
   public boolean sendActivationMail(Comment comment, String activationKey) {
-    if (isValidAddress(comment.getEmail())) {
-      log.info("Try sending comment activation email to " + comment.getEmail());
-      return sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
+    log.info("Try sending comment activation email to " + comment.getEmail());
+    return sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
               String.format(COMMENT_ACTIVATION_TEXT, comment.getAuthor(), host,
                       comment.getId(), activationKey));
-    }
-    log.error("Invalid email: " + comment.getEmail());
-    return false;
+  }
+
+  /**
+   * Sends a deletion mail for a activity.
+   * @param post Activity to delete
+   * @param activationKey Activation key
+   * @return if email was send successfully
+   */
+  public boolean sendDeleteMail(Post post, String activationKey) {
+    log.info("Try sending deletion email to " + post.getEmail());
+    return sendMail(post.getEmail(), ACTIVITY_DELETE_SUBJECT,
+        String.format(ACTIVITY_DELETE_TEXT, post.getAuthor(), host,
+            post.getId(), activationKey));
+  }
+
+  /**
+   * Sends a deletion mail for a activity.
+   * @param comment Comment to delete
+   * @param activationKey Activation key
+   * @return if email was send successfully
+   */
+  public boolean sendDeleteMail(Comment comment, String activationKey) {
+    log.info("Try sending deletion email to " + comment.getEmail());
+    return sendMail(comment.getEmail(), COMMENT_DELETE_SUBJECT,
+        String.format(COMMENT_DELETE_TEXT, comment.getAuthor(), host,
+            comment.getId(), activationKey));
   }
 
   /**
@@ -88,7 +118,7 @@ public class EmailController {
    */
   public boolean sendNotificationMail(Post post) {
     log.info("Try sending notification email to " + post.getEmail());
-    return sendMail(post.getEmail(), String.format(NOTIFICATION_SUBJECT),
+    return sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
               String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
   }
 
@@ -105,6 +135,10 @@ public class EmailController {
   }
 
   private boolean sendMail(String recipient, String subject, String text) {
+    if (!isValidAddress(recipient)) {
+      log.error("Invalid email: " + recipient);
+      return false;
+    }
     try {
       Message msg = new MimeMessage(createSession());
       msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
