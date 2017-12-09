@@ -7,5 +7,6 @@ addons:
        branches:
        - master
        - sprint-2
+install: true
 script:
   mvn -Ptravis clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
