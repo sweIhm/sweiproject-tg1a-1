@@ -117,7 +117,7 @@ public class EmailController {
   }
 
   /**
-   * Sends notification mail about comment.
+   * Sends notification mail about comment to post author and commentators.
    * @param post Post which was commented on
    * @return if email was send successfully
    */
