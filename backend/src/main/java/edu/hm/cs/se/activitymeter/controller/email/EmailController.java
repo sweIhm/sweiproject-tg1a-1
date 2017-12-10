@@ -129,7 +129,7 @@ public class EmailController {
     for (Comment comment:post.getComments()) {
       log.info("Try sending notification(comment) email to " + comment.getEmail());
       result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
-              String.format(NOTIFICATION_COMMENT_TEXT, post.getAuthor(), host, post.getId()));
+              String.format(NOTIFICATION_COMMENT_TEXT, comment.getAuthor(), host, post.getId()));
     }
     return result;
   }
