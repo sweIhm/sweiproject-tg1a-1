@@ -14,7 +14,7 @@ export class PostComponent implements OnInit {
 
   toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
-  tags: Tag[];
+  tags: Tag[] = [];
   limit: number = 2;
 
   constructor(private service: ActivityService,
