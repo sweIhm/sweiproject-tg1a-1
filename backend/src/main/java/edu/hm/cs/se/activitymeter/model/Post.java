@@ -36,7 +36,7 @@ public class Post extends AbstractEntity {
   private List<Comment> comments;
 
   @ManyToMany(mappedBy = "posts")
-  private List<Keyword> keywords;
+  private List<Keyword> keywords = new ArrayList();
 
   public Post() {
     // Leerer Konstruktor für JPA
@@ -45,7 +45,6 @@ public class Post extends AbstractEntity {
   public Post(String author, String title, String text, String email, boolean published) {
     super(author, text, email, published);
     this.title = title;
-    this.comments = new ArrayList<>();
   }
 
   public Long getId() {
