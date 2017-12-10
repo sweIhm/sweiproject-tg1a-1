@@ -142,7 +142,7 @@ public class EmailController {
 
   private boolean sendMail(String recipient, String subject, String text) {
     if (!isValidAddress(recipient)) {
-      log.error("Invalid email: " + recipient);
+      log.error("Invalid email: %s", recipient);
       return false;
     }
     try {

@@ -39,8 +39,8 @@ public class ActivityController {
   private EmailController emailController;
 
   @GetMapping
-  public ArrayList<PostDTO> listAll() {
-    ArrayList<PostDTO> activities = new ArrayList<>();
+  public List<PostDTO> listAll() {
+    List<PostDTO> activities = new ArrayList<>();
     postRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
     return activities;
   }
