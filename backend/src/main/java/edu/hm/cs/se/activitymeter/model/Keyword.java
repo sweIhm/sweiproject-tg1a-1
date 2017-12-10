@@ -19,6 +19,7 @@ public class Keyword {
   @Column(name = "content", nullable = false, unique = true)
   private String content;
 
+  @JsonIgnore
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "keyword_id_seq")
   @SequenceGenerator(name = "keyword_id_seq", sequenceName = "keyword_id_seq", allocationSize = 1)
@@ -42,8 +43,7 @@ public class Keyword {
     return content;
   }
 
-  @JsonIgnore
-  public long getKeywordId() {
+  public long getId() {
     return id;
   }
 
