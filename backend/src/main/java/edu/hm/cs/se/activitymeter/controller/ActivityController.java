@@ -2,11 +2,15 @@ package edu.hm.cs.se.activitymeter.controller;
 
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
+import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
+import edu.hm.cs.se.activitymeter.model.repositories.KeywordRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -28,11 +33,14 @@ public class ActivityController {
   private ActivationKeyRepository activationKeyRepository;
 
   @Autowired
+  private KeywordRepository keywordRepository;
+
+  @Autowired
   private EmailController emailController;
 
   @GetMapping
-  public ArrayList<PostDTO> listAll() {
-    ArrayList<PostDTO> activities = new ArrayList<>();
+  public List<PostDTO> listAll() {
+    List<PostDTO> activities = new ArrayList<>();
     postRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
     return activities;
   }
@@ -70,5 +78,21 @@ public class ActivityController {
       post.setAuthor(input.getAuthor());
       return new PostDTO(postRepository.save(post));
     }
+  }
+
+  @GetMapping("tags")
+  public List<Keyword> getTags() {
+    return keywordRepository.findAll();
+  }
+
+  @GetMapping("tags/find")
+  public List<Post> getPostsbyTag(@RequestParam(value = "tag",
+      defaultValue = "You ain't gonna get anything") List<String> tag) {
+    return keywordRepository.findAllByContentIn(tag).stream()
+        .flatMap(x -> x.getPosts().stream())
+        .filter(x -> tag.stream().allMatch(
+            k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
+        .distinct()
+        .collect(Collectors.toList());
   }
 }

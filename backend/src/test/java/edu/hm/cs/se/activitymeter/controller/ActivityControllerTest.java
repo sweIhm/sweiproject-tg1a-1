@@ -48,6 +48,7 @@ public class ActivityControllerTest {
         "published BOOLEAN NOT NULL);");
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
+    db.execute("DELETE FROM POST_KEYWORD;");
     p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
     p.setId(1L);
   }
@@ -136,6 +137,7 @@ public class ActivityControllerTest {
 
   private String postToJson(PostDTO p) throws Exception {
     ObjectWriter w = new ObjectMapper().writer();
+    System.out.println(w.writeValueAsString(p));
     return w.writeValueAsString(p);
   }
 

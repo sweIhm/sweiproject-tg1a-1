@@ -11,6 +11,7 @@ import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 
 import java.util.ArrayList;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,8 +39,8 @@ public class CommentController {
   private PostRepository activityRepository;
 
   @GetMapping
-  public ArrayList<CommentDTO> listAll(@PathVariable Long id) {
-    ArrayList<CommentDTO> comments = new ArrayList<>();
+  public List<CommentDTO> listAll(@PathVariable Long id) {
+    List<CommentDTO> comments = new ArrayList<>();
     Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
     for (Comment comment: publishedComments) {
       if (comment.getPost().getId() == id) {

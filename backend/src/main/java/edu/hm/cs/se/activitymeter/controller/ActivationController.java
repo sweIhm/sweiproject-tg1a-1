@@ -68,7 +68,7 @@ public class ActivationController {
     if (activationKey != null && key.equals(activationKey.getKey())) {
       postrepo.delete(activationKey.getPost());
       keyrepo.delete(id);
-      return String.format("redirect:/dashboard;alert=deletesucceeded", id);
+      return "redirect:/dashboard;alert=deletesucceeded";
     }
     return "redirect:/dashboard;alert=deletefailed";
   }

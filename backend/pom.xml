@@ -5,7 +5,7 @@
     <parent>
         <artifactId>activitymemer</artifactId>
         <groupId>edu.hm.se.tg1a1</groupId>
-        <version>0.1.0</version>
+        <version>0.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
