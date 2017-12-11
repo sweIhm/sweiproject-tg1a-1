@@ -52,8 +52,12 @@ public class ActivityController {
 
   @PostMapping
   public PostDTO create(@RequestBody Post input) {
+    List<Keyword> keywordList = keywordRepository.findAllByContentIn(input.getKeywords().stream()
+        .map(Keyword::getContent)
+        .distinct()
+        .collect(Collectors.toList()));
     Post newPost = postRepository.save(new Post(input.getAuthor(), input.getTitle(),
-        input.getText(),input.getEmail(), false));
+        input.getText(),input.getEmail(), false, keywordList));
     ActivationKey activationKey = activationKeyRepository.save(
         new ActivationKey(newPost.getId(), emailController.generateKey()));
     emailController.sendActivationMail(newPost, activationKey.getKey());

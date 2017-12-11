@@ -26,7 +26,7 @@ public class PostDTO extends AbstractEntityDTO {
     this.title = title;
   }
 
-  public List<Keyword> getTags() {
+  public List<Keyword> getKeywords() {
     return keywords;
   }
 }
