@@ -8,18 +8,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Keys")
+@Table(name = "post_key")
 public class ActivationKey {
 
   @Column(name = "key", unique = true, nullable = false)
   private String key;
 
   @Id
-  @Column(name = "id")
+  @Column(name = "post_id")
   private long postId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "post_id")
   private Post post;
 
   public ActivationKey() {

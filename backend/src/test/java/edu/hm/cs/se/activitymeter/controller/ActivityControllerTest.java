@@ -20,15 +20,11 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = { ActivityMeter.class})
 @AutoConfigureMockMvc
 public class ActivityControllerTest {
-
-  private final String ACTIVITY_API = "/api/activity";
 
   @Autowired
   private MockMvc mvc;
@@ -38,32 +34,35 @@ public class ActivityControllerTest {
 
   private Post p;
 
+  private static final String URL = "/api/activity/";
+
   @Before
   public void setUp() throws Exception {
-    db.execute("DROP TABLE Activity;");
-    db.execute("CREATE TABLE Activity(" +
-        "id INTEGER PRIMARY KEY," +
+    db.execute("DROP TABLE Post;");
+    db.execute("CREATE TABLE Post(" +
+        "post_id INTEGER PRIMARY KEY," +
         "title VARCHAR(255) NOT NULL," +
         "text VARCHAR(255) NOT NULL," +
         "author VARCHAR(255) NOT NULL," +
         "email VARCHAR(1000) NOT NULL," +
         "published BOOLEAN NOT NULL);");
-    db.execute("DROP SEQUENCE activity_id_seq;");
-    db.execute("CREATE SEQUENCE activity_id_seq START WITH 1 INCREMENT BY 1;");
-    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
+    db.execute("DROP SEQUENCE post_id_seq;");
+    db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
+    db.execute("DELETE FROM POST_KEYWORD;");
+    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
     p.setId(1L);
   }
 
   @Test
   public void listAll() throws Exception {
     addPostToDB(p);
-    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
+    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false);
     p2.setId(2L);
     addPostToDB(p2);
-    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
+    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
     p3.setId(3L);
     addPostToDB(p3);
-    mvc.perform(MockMvcRequestBuilders.get(ACTIVITY_API))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content()
             .json("[" + postToJson(new PostDTO(p)) + "," + postToJson(new PostDTO(p3)) + "]"));
@@ -73,7 +72,7 @@ public class ActivityControllerTest {
   public void find() throws Exception {
     p.setId(2L);
     addPostToDB(p);
-    mvc.perform(MockMvcRequestBuilders.get(ACTIVITY_API+"/2"))
+    mvc.perform(MockMvcRequestBuilders.get(URL + "2"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
   }
@@ -84,7 +83,7 @@ public class ActivityControllerTest {
     p.setAuthor("gerste");
     p.setText("gerstenmeier");
     p.setTitle("hopfen und malz verloren");
-    mvc.perform(MockMvcRequestBuilders.put(ACTIVITY_API+"/1")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1")
         .content(postToJson(new PostDTO(p))).contentType("application/json"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
@@ -92,18 +91,18 @@ public class ActivityControllerTest {
 
   @Test
   public void create() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.post(ACTIVITY_API).contentType("application/json")
+    mvc.perform(MockMvcRequestBuilders.post(URL).contentType("application/json")
         .content(postToJson(p)))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
-    mvc.perform(MockMvcRequestBuilders.get(ACTIVITY_API))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[]"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
         .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=activationsucceeded"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
         .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=activationfailed"));
-    mvc.perform(MockMvcRequestBuilders.get(ACTIVITY_API))
+    mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) + "]"));
   }
@@ -111,13 +110,19 @@ public class ActivityControllerTest {
   @Test
   public void delete() throws Exception {
     addPostToDB(p);
-    mvc.perform(MockMvcRequestBuilders.delete(ACTIVITY_API+"/1"))
+    mvc.perform(MockMvcRequestBuilders.delete(URL + "1"))
         .andExpect(MockMvcResultMatchers.status().isOk());
+    mvc.perform(MockMvcRequestBuilders.get("/activation/1/delete?key=1234"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=deletesucceeded"));
+    mvc.perform(MockMvcRequestBuilders.get(URL))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json("[]"));
   }
 
   @Test
   public void updateNonExisting() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.put(ACTIVITY_API+"/1")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1")
         .contentType("application/json")
         .content(postToJson(p)))
         .andDo(MockMvcResultHandlers.print())
@@ -126,12 +131,13 @@ public class ActivityControllerTest {
   }
 
   private void addPostToDB(Post p) {
-    db.execute(String.format("INSERT INTO Activity VALUES(%d,'%s','%s','%s','%s',%s);",
+    db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
   }
 
   private String postToJson(PostDTO p) throws Exception {
     ObjectWriter w = new ObjectMapper().writer();
+    System.out.println(w.writeValueAsString(p));
     return w.writeValueAsString(p);
   }
 

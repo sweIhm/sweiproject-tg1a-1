@@ -3,7 +3,6 @@ package edu.hm.cs.se.activitymeter.controller;
 import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.Comment;
-import edu.hm.cs.se.activitymeter.model.JsonComment;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.CommentDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
@@ -12,6 +11,7 @@ import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 
 import java.util.ArrayList;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +39,8 @@ public class CommentController {
   private PostRepository activityRepository;
 
   @GetMapping
-  public ArrayList<CommentDTO> listAll(@PathVariable Long id) {
-    ArrayList<CommentDTO> comments = new ArrayList<>();
+  public List<CommentDTO> listAll(@PathVariable Long id) {
+    List<CommentDTO> comments = new ArrayList<>();
     Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
     for (Comment comment: publishedComments) {
       if (comment.getPost().getId() == id) {
@@ -56,19 +56,21 @@ public class CommentController {
   }
 
   @PostMapping
-  public CommentDTO create(@PathVariable Long id,@RequestBody JsonComment input) {
+  public CommentDTO create(@PathVariable Long id,@RequestBody Comment input) {
     Post post = activityRepository.findOne(id);
     Comment newComment = commentRepository.save(new Comment(input.getText(), input.getAuthor(),
-            input.getEmail(), false,post));
+            input.getEmail(), false, post));
     ActivationKeyComment activationKey = activationKeyRepository.save(
         new ActivationKeyComment(newComment.getId(), emailController.generateKey()));
-    emailController.sendEmail(newComment, activationKey.getKey());
+    emailController.sendActivationMail(newComment, activationKey.getKey());
     return new CommentDTO(newComment);
   }
 
   @DeleteMapping("{id}")
   public void delete(@PathVariable Long id) {
-    commentRepository.delete(id);
+    String key = emailController.generateKey();
+    activationKeyRepository.save(new ActivationKeyComment(id, key));
+    emailController.sendDeleteMail(commentRepository.findOne(id), key);
   }
 
   @PutMapping("{id}")

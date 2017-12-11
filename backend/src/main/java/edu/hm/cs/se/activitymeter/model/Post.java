@@ -22,7 +22,7 @@ public class Post extends AbstractEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
   @SequenceGenerator(name = "post_id_seq", sequenceName = "post_id_seq", allocationSize = 1)
-  @Column(name = "id")
+  @Column(name = "post_id")
   private Long id;
 
   @Column(name = "title", nullable = false)
@@ -34,18 +34,16 @@ public class Post extends AbstractEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<Comment> comments;
 
-  @ManyToMany()
-  private List<Keyword> keywords;
+  @ManyToMany(mappedBy = "posts")
+  private List<Keyword> keywords = new ArrayList();
 
   public Post() {
     // Leerer Konstruktor für JPA
   }
 
-  public Post(String author, String title, String text, String email, boolean published, List<Keyword> keywords) {
+  public Post(String author, String title, String text, String email, boolean published) {
     super(author, text, email, published);
     this.title = title;
-    this.keywords = keywords;
-    this.comments = new ArrayList<>();
   }
 
   public Long getId() {

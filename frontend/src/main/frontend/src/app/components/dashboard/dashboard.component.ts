@@ -22,10 +22,9 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.getActivities();
-    const param = this.route.snapshot.paramMap.get('alert');
-    if (param == 'activationfailed') {
-      this.alertService.addAlert('Activation failed! Try submitting your activity again.', 'danger');
-    }
+    var param = this.route.snapshot.paramMap.get('alert');
+    this.addAlert(param);
+    // TODO alerts für comments handeln
   }
 
   getActivities() {
@@ -39,5 +38,23 @@ export class DashboardComponent implements OnInit {
 
   openPostModal() {
     this.modal.open(PostComponent);
+  }
+
+  activitiesIsEmpty(): boolean {
+    if (this.activities)
+      return this.activities.length == 0;
+    return false;
+  }
+
+  addAlert(alert: string) {
+    if (alert == 'activityactivationfailed') {
+      this.alertService.addAlert('Activation failed! Try submitting your activity again.', 'danger');
+    }
+    if (alert == 'commentactivationfailed') {
+      this.alertService.addAlert('Activation failed! Try submitting your comment again.', 'danger');
+    }
+    if (alert == 'commentactivationsucceeded') {
+      this.alertService.addAlert('Comment successfully published. Thank you for your submission!', 'success');
+    }
   }
 }

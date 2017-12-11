@@ -1,22 +1,21 @@
 package edu.hm.cs.se.activitymeter.model.dto;
 
+import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PostDTO extends AbstractEntityDTO {
 
   private String title;
 
-  private List<String> keywords;
+  private List<Keyword> keywords;
 
   public PostDTO() {}
 
   public PostDTO(Post p) {
     super(p.getId(), p.getAuthor(), p.getText());
     this.title = p.getTitle();
-    this.keywords = p.getKeywords().stream().map(x -> x.getContent()).collect(Collectors.toList());
+    this.keywords = p.getKeywords();
   }
 
   public String getTitle() {
@@ -27,4 +26,7 @@ public class PostDTO extends AbstractEntityDTO {
     this.title = title;
   }
 
+  public List<Keyword> getTags() {
+    return keywords;
+  }
 }
