@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './components/view/view.component';
 import { AlertComponent } from './components/alert/alert.component';
 import {AlertService} from "./services/alert.service";
+import { PostcommentComponent } from './components/postcomment/postcomment.component';
+import {CommentService} from "./services/comment.service";
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import {AlertService} from "./services/alert.service";
     PostComponent,
     DashboardComponent,
     ViewComponent,
-    AlertComponent
+    AlertComponent,
+    PostcommentComponent
   ],
   imports: [
     BrowserModule,
@@ -30,8 +33,8 @@ import {AlertService} from "./services/alert.service";
     NgbModule.forRoot(),
     AppRoutingModule
   ],
-  providers: [ActivityService, AlertService],
+  providers: [ActivityService, AlertService, CommentService],
   bootstrap: [AppComponent],
-  entryComponents: [PostComponent]
+  entryComponents: [PostComponent, PostcommentComponent]
 })
 export class AppModule { }

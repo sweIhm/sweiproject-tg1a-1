@@ -3,11 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {ActivityDto} from "../model/activity-dto";
 import {Observable} from "rxjs/Observable";
 import {Activity} from "../model/activity";
+import {Tag} from "../model/tag";
 
 @Injectable()
 export class ActivityService {
 
-  url : string = '/activity';
+  url : string = '/api/activity';
 
   constructor(private http:HttpClient) { }
 
@@ -21,5 +22,9 @@ export class ActivityService {
 
   getActivity(id: number) : Observable<Activity> {
     return this.http.get(this.url + '/' + id);
+  }
+
+  getTags() : Observable<Tag[]> {
+    return this.http.get(this.url + '/tags');
   }
 }

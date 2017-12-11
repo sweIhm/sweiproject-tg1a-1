@@ -1,9 +1,9 @@
-export class ActivityDto {
+export class Comment {
 
   constructor (
-    public title: string,
     public text: string,
     public author: string,
-    public email: string
+    public id: number
   ) { };
+
 }

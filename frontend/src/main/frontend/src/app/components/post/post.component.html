@@ -35,6 +35,15 @@
       <div [hidden]="text.valid || text.pristine" class="alert alert-danger">Text is required!</div>
     </div>
   </div>
+  <div class="container">
+    <div *ngFor="let tag of tags.slice(0, limit)" class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input">
+        <span class="badge badge-secondary">{{ tag.content }}</span>
+      </label>
+    </div>
+    <a href *ngIf="limit != tags.length" href="#" (click)="onShowMore($event)">show more...</a>
+  </div>
   <div class="modal-footer">
     <button class="btn btn-outline-danger" (click)="activeModal.close()">Cancel</button>
     <input type="submit" class="btn btn-outline-primary"

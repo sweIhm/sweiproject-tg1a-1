@@ -9,19 +9,20 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Activity")
+@Table(name = "Post")
 public class Post extends AbstractEntity {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
-  @SequenceGenerator(name = "activity_id_seq", sequenceName = "activity_id_seq", allocationSize = 1)
-  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "post_id_seq")
+  @SequenceGenerator(name = "post_id_seq", sequenceName = "post_id_seq", allocationSize = 1)
+  @Column(name = "post_id")
   private Long id;
 
   @Column(name = "title", nullable = false)
@@ -33,6 +34,9 @@ public class Post extends AbstractEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<Comment> comments;
 
+  @ManyToMany(mappedBy = "posts")
+  private List<Keyword> keywords = new ArrayList();
+
   public Post() {
     // Leerer Konstruktor für JPA
   }
@@ -40,7 +44,6 @@ public class Post extends AbstractEntity {
   public Post(String author, String title, String text, String email, boolean published) {
     super(author, text, email, published);
     this.title = title;
-    this.comments = new ArrayList<>();
   }
 
   public Long getId() {
@@ -57,5 +60,9 @@ public class Post extends AbstractEntity {
 
   public void setTitle(String title) {
     this.title = title;
+  }
+
+  public List<Keyword> getKeywords() {
+    return keywords;
   }
 }

@@ -8,18 +8,18 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "Keys")
+@Table(name = "comment_key")
 public class ActivationKeyComment {
 
   @Column(name = "key", unique = true, nullable = false)
   private String key;
 
   @Id
-  @Column(name = "id")
+  @Column(name = "comment_id")
   private long commentId;
 
   @OneToOne
-  @JoinColumn(name = "id")
+  @JoinColumn(name = "comment_id")
   private Comment comment;
 
   public ActivationKeyComment() {
