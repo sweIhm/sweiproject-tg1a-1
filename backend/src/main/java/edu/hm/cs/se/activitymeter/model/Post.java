@@ -48,6 +48,10 @@ public class Post extends AbstractEntity {
     this.keywords.addAll(keywordList);
   }
 
+  public List<Comment> getComments() {
+    return comments;
+  }
+
   public Long getId() {
     return id;
   }
