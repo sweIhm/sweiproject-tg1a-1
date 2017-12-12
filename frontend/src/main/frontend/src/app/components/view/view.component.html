@@ -17,6 +17,7 @@
     </div>
     <div class="card-body">{{comment.text}}</div>
   </div>
+  <h5 *ngIf="!hasComments()" class="m-2">No one commented on this activity yet.</h5>
   <hr>
   <button class="btn btn-primary" routerLink="/">Go Back</button>
   <button class="btn btn-primary ml-1" (click)="openPostcommentModal()">Comment</button>

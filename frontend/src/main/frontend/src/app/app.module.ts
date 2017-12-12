@@ -4,22 +4,22 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { PostComponent } from './components/post/post.component';
+import { PostactivityComponent } from './components/postactivity/postactivity.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import {ActivityService} from "./services/activity.service";
-import {HttpClientModule} from "@angular/common/http";
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import { ActivityService} from "./services/activity.service";
+import { HttpClientModule} from "@angular/common/http";
+import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
 import { ViewComponent } from './components/view/view.component';
 import { AlertComponent } from './components/alert/alert.component';
-import {AlertService} from "./services/alert.service";
+import { AlertService } from "./services/alert.service";
 import { PostcommentComponent } from './components/postcomment/postcomment.component';
-import {CommentService} from "./services/comment.service";
+import { CommentService} from "./services/comment.service";
 
 @NgModule({
   declarations: [
     AppComponent,
-    PostComponent,
+    PostactivityComponent,
     DashboardComponent,
     ViewComponent,
     AlertComponent,
@@ -35,6 +35,6 @@ import {CommentService} from "./services/comment.service";
   ],
   providers: [ActivityService, AlertService, CommentService],
   bootstrap: [AppComponent],
-  entryComponents: [PostComponent, PostcommentComponent]
+  entryComponents: [PostactivityComponent, PostcommentComponent]
 })
 export class AppModule { }

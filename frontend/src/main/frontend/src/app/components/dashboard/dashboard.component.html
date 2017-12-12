@@ -14,7 +14,7 @@
         <td>{{activity.title}}</td>
         <td>{{activity.author}}</td>
       </tr>
-      <tr *ngIf="activitiesIsEmpty()">
+      <tr *ngIf="!hasActivities()">
         <th colspan="3" class="text-center">No Activities submitted</th>
       </tr>
     </tbody>
