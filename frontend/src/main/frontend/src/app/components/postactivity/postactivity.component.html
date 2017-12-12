@@ -1,0 +1,53 @@
+<form (ngSubmit)="onSubmit(); activityForm.reset()" #activityForm="ngForm">
+  <div class="modal-header">
+    <h3>Post Activity</h3>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="formAuthor">Author</label>
+      <input [(ngModel)]="toBePosted.author" class="form-control"
+             placeholder="Your name" #author="ngModel"
+             required name="author" id="formAuthor">
+      <div [hidden]="author.valid || author.pristine" class="alert alert-danger">Author is required!</div>
+    </div>
+    <div class="form-group">
+      <label for="formEmail">Email</label>
+      <input [(ngModel)]="toBePosted.email" class="form-control"
+             placeholder="Email for authentication" #email="ngModel"
+             required name="email" email id="formEmail">
+      <div [hidden]="email.valid || email.pristine" class="alert alert-danger">Valid email is required!</div>
+    </div>
+    <div class="form-group">
+      <label for="formTitle">Title: </label>
+      <input [(ngModel)]="toBePosted.title" class="form-control"
+             placeholder="Title of your activity" #title="ngModel"
+             required name="title" id="formTitle">
+      <div [hidden]="title.valid || title.pristine" class="alert alert-danger">Title is required!</div>
+    </div>
+    <div class="form-group">
+      <label for="formText">Text</label>
+      <textarea [(ngModel)]="toBePosted.text" class="form-control"
+                placeholder="Description of your activity" #text="ngModel"
+                required name="text" id="formText"></textarea>
+      <div [hidden]="text.valid || text.pristine" class="alert alert-danger">Text is required!</div>
+    </div>
+  </div>
+  <div class="container">
+    <div *ngFor="let tag of tags.slice(0, limit)" class="form-check form-check-inline">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input">
+        <span class="badge badge-secondary">{{ tag.content }}</span>
+      </label>
+    </div>
+    <a href *ngIf="limit != tags.length" href="#" (click)="onShowMore($event)">show more...</a>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-outline-danger" (click)="activeModal.close()">Cancel</button>
+    <input type="submit" class="btn btn-outline-primary"
+           value="Submit Activity"
+           [disabled]="!activityForm.form.valid">
+  </div>
+</form>
