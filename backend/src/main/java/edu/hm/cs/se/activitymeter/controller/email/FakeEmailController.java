@@ -19,7 +19,7 @@ public class FakeEmailController extends EmailController {
   }
 
   @Override
-  public boolean sendNotificationMail(Post post) {
+  public boolean sendNotificationMail(Post post,Comment triggger) {
     return true;
   }
 

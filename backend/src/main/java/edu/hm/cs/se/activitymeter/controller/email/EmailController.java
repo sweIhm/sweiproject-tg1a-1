@@ -2,6 +2,8 @@ package edu.hm.cs.se.activitymeter.controller.email;
 
 import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.Post;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
@@ -127,15 +129,18 @@ public class EmailController {
    * @param post Post which was commented on
    * @return if email was send successfully
    */
-  public boolean sendNotificationMail(Post post) {
+  public boolean sendNotificationMail(Post post,Comment trigger) {
     log.info("Try sending notification email to " + post.getEmail());
     boolean result = sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
               String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
-
+    List<Comment> notified = new ArrayList<>();
     for (Comment comment:post.getComments()) {
-      log.info("Try sending notification(comment) email to " + comment.getEmail());
-      result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
-              String.format(NOTIFICATION_COMMENT_TEXT, comment.getAuthor(), host, post.getId()));
+      if (!comment.equals(trigger) && comment.isPublished() && !notified.contains(comment)) {
+        notified.add(comment);
+        log.info("Try sending notification(comment) email to " + comment.getEmail());
+        result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
+                String.format(NOTIFICATION_COMMENT_TEXT, comment.getAuthor(), host, post.getId()));
+      }
     }
     return result;
   }
