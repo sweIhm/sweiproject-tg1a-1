@@ -3,6 +3,7 @@ package edu.hm.cs.se.activitymeter.model.dto;
 import static org.junit.Assert.assertEquals;
 
 import edu.hm.cs.se.activitymeter.model.Post;
+import java.util.ArrayList;
 import org.junit.Test;
 
 public class PostDTOTest {
@@ -10,7 +11,7 @@ public class PostDTOTest {
   @Test
   public void copyFromPost() throws Exception {
     Post p = new Post("Tester", "Test-Post", "Dies ist ein TestPost",
-         "tester@hm.edu", false);
+         "tester@hm.edu", false, new ArrayList<>());
     p.setId(1L);
     PostDTO dto = new PostDTO(p);
     assertEquals("Tester", dto.getAuthor());
@@ -21,7 +22,7 @@ public class PostDTOTest {
 
   @Test
   public void getterAndSetter() throws Exception {
-    PostDTO p = new PostDTO(new Post("a", "b", "c", "e", true));
+    PostDTO p = new PostDTO(new Post("a", "b", "c", "e", true, new ArrayList<>()));
     p.setAuthor("herbert");
     p.setText("textus");
     p.setTitle("titlus");
