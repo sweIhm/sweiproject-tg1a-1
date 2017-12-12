@@ -5,7 +5,7 @@
       <h3>Activity <strong>{{activity.title}}</strong></h3>
       <h4>submitted by <strong>{{activity.author}}</strong></h4>
     </div>
-    <div class="card-body">{{activity.text}}{{activity.tags}}</div><!--todo-->
+    <div class="card-body">{{activity.text}}</div>
     <div class="card-footer"><strong>Tags:</strong><span class="badge badge-secondary ml-2" *ngFor="let keyword of activity.keywords">{{keyword.content}}</span></div>
   </div>
   <button class="btn btn-primary mt-2" routerLink="/">Go Back</button>
