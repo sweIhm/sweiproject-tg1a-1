@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
@@ -33,14 +34,18 @@ public class Post extends AbstractEntity {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<Comment> comments;
 
+  @ManyToMany(mappedBy = "posts")
+  private List<Keyword> keywords = new ArrayList();
+
   public Post() {
     // Leerer Konstruktor für JPA
   }
 
-  public Post(String author, String title, String text, String email, boolean published) {
+  public Post(String author, String title, String text, String email, boolean published,
+      List<Keyword> keywordList) {
     super(author, text, email, published);
     this.title = title;
-    this.comments = new ArrayList<>();
+    this.keywords.addAll(keywordList);
   }
 
   public Long getId() {
@@ -59,7 +64,11 @@ public class Post extends AbstractEntity {
     this.title = title;
   }
 
-  public List<Comment> getComments() {
-    return comments;
+  public List<Keyword> getKeywords() {
+    return keywords;
+  }
+
+  public void setKeywords(List<Keyword> keywords) {
+    this.keywords = keywords;
   }
 }

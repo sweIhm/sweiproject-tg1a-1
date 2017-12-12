@@ -54,7 +54,7 @@ public class ActivationController {
       activationKey.getComment().setPublished(true);
       emailController.sendNotificationMail(activationKey.getComment().getPost());
       commentRepo.save(activationKey.getComment());
-      keyrepo.delete(id);
+      commentkeyrepo.delete(id);
       return String.format("redirect:/view/%d;alert=commentactivationsucceeded",
           activationKey.getComment().getPost().getId());
     }
@@ -68,7 +68,7 @@ public class ActivationController {
     if (activationKey != null && key.equals(activationKey.getKey())) {
       postrepo.delete(activationKey.getPost());
       keyrepo.delete(id);
-      return String.format("redirect:/dashboard;alert=deletesucceeded", id);
+      return "redirect:/dashboard;alert=deletesucceeded";
     }
     return "redirect:/dashboard;alert=deletefailed";
   }
@@ -79,7 +79,7 @@ public class ActivationController {
     ActivationKeyComment activationKey = commentkeyrepo.findOne(id);
     if (activationKey != null && key.equals(activationKey.getKey())) {
       commentRepo.delete(activationKey.getComment());
-      keyrepo.delete(id);
+      commentkeyrepo.delete(id);
       return String.format("redirect:/view/%d;alert=commentdeletesucceeded",
           activationKey.getComment().getPost().getId());
     }

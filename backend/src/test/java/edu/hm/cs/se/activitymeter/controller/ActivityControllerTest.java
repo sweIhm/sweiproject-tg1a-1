@@ -3,8 +3,10 @@ package edu.hm.cs.se.activitymeter.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.hm.cs.se.activitymeter.ActivityMeter;
+import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,17 +50,18 @@ public class ActivityControllerTest {
         "published BOOLEAN NOT NULL);");
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
-    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+    db.execute("DELETE FROM POST_KEYWORD;");
+    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
     p.setId(1L);
   }
 
   @Test
   public void listAll() throws Exception {
     addPostToDB(p);
-    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false);
+    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
     p2.setId(2L);
     addPostToDB(p2);
-    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true);
+    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
     p3.setId(3L);
     addPostToDB(p3);
     mvc.perform(MockMvcRequestBuilders.get(URL))
@@ -136,6 +139,7 @@ public class ActivityControllerTest {
 
   private String postToJson(PostDTO p) throws Exception {
     ObjectWriter w = new ObjectMapper().writer();
+    System.out.println(w.writeValueAsString(p));
     return w.writeValueAsString(p);
   }
 
