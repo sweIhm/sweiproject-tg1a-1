@@ -89,12 +89,12 @@ public class ActivityController {
     return keywordRepository.findAll();
   }
 
-  @GetMapping("keywords/find")
-  public List<Post> getPostsbyKeyword(@RequestParam(value = "tag",
-      defaultValue = "You ain't gonna get anything") List<String> tag) {
-    return keywordRepository.findAllByContentIn(tag).stream()
+  @GetMapping("keywords/search")
+  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
+      defaultValue = "You ain't gonna get anything") List<String> keywords) {
+    return keywordRepository.findAllByContentIn(keywords).stream()
         .flatMap(x -> x.getPosts().stream())
-        .filter(x -> tag.stream().allMatch(
+        .filter(x -> keywords.stream().allMatch(
             k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
         .distinct()
         .collect(Collectors.toList());
