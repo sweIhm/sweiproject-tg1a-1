@@ -3,11 +3,13 @@ package edu.hm.cs.se.activitymeter.controller.email;
 import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.Post;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
+import java.util.StringJoiner;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -76,76 +78,111 @@ public class EmailController {
    * Sends activation mail for a post.
    * @param post Post to be activated
    * @param activationKey Activation key
-   * @return if email was send successfully
    */
-  public boolean sendActivationMail(Post post, String activationKey) {
+  public void sendActivationMail(Post post, String activationKey) {
     log.info("Try sending activation email to " + post.getEmail());
-    return sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
-              String.format(ACTIVITY_ACTIVATION_TEXT, post.getAuthor(), host,
-                      post.getId(), activationKey));
+    sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
+            String.format(ACTIVITY_ACTIVATION_TEXT, post.getAuthor(), host,
+                    post.getId(), activationKey));
   }
 
   /**
    * Sends activation mail for a comment.
    * @param comment Comment to be activated
    * @param activationKey Activation key
-   * @return if email was send successfully
    */
-  public boolean sendActivationMail(Comment comment, String activationKey) {
+  public void sendActivationMail(Comment comment, String activationKey) {
     log.info("Try sending comment activation email to " + comment.getEmail());
-    return sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
-              String.format(COMMENT_ACTIVATION_TEXT, comment.getAuthor(), host,
-                      comment.getId(), activationKey));
+    sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
+            String.format(COMMENT_ACTIVATION_TEXT, comment.getAuthor(), host,
+                    comment.getId(), activationKey));
   }
 
   /**
    * Sends a deletion mail for a activity.
    * @param post Activity to delete
    * @param activationKey Activation key
-   * @return if email was send successfully
    */
-  public boolean sendDeleteMail(Post post, String activationKey) {
+  public void sendDeleteMail(Post post, String activationKey) {
     log.info("Try sending deletion email to " + post.getEmail());
-    return sendMail(post.getEmail(), ACTIVITY_DELETE_SUBJECT,
-        String.format(ACTIVITY_DELETE_TEXT, post.getAuthor(), host,
-            post.getId(), activationKey));
+    sendMail(post.getEmail(), ACTIVITY_DELETE_SUBJECT,
+            String.format(ACTIVITY_DELETE_TEXT, post.getAuthor(), host,
+                    post.getId(), activationKey));
   }
 
   /**
    * Sends a deletion mail for a activity.
    * @param comment Comment to delete
    * @param activationKey Activation key
-   * @return if email was send successfully
    */
-  public boolean sendDeleteMail(Comment comment, String activationKey) {
+  public void sendDeleteMail(Comment comment, String activationKey) {
     log.info("Try sending deletion email to " + comment.getEmail());
-    return sendMail(comment.getEmail(), COMMENT_DELETE_SUBJECT,
-        String.format(COMMENT_DELETE_TEXT, comment.getAuthor(), host,
-            comment.getId(), activationKey));
+    sendMail(comment.getEmail(), COMMENT_DELETE_SUBJECT,
+            String.format(COMMENT_DELETE_TEXT, comment.getAuthor(), host,
+                comment.getId(), activationKey));
   }
 
   /**
    * Sends notification mail about comment to post author and commentators.
    * @param post Post which was commented on
-   * @return if email was send successfully
+   * @param trigger Comment triggering notification
    */
-  public boolean sendNotificationMail(Post post,Comment trigger) {
-    log.info("Try sending notification email to " + post.getEmail());
-    boolean result = sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
-              String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
-    List<Comment> notified = new ArrayList<>();
-    for (Comment comment:post.getComments()) {
-      if (!comment.equals(trigger) && comment.isPublished() && !notified.contains(comment)) {
-        notified.add(comment);
-        log.info("Try sending notification(comment) email to " + comment.getEmail());
-        result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
-                String.format(NOTIFICATION_COMMENT_TEXT, comment.getAuthor(), host, post.getId()));
-      }
-    }
-    return result;
+  public void sendNotificationMails(Post post, Comment trigger) {
+    sendNotificationMailOP(post, trigger);
+    Map<String, List<Comment>> emailCommentsMap = post.getComments().stream()
+            .filter(c -> c.isPublished() && // remove unpublished comments
+                    !c.equals(trigger) && // remove trigger comment
+                    !c.getEmail().equals(post.getEmail())) // remove OP's comments
+            .collect(Collectors.groupingBy(Comment::getEmail, Collectors.toList()));
+    emailCommentsMap.entrySet().stream()
+            .map(Map.Entry::getValue).forEach(c -> sendNotificationMailCommentator(post, c));
   }
 
+  /**
+   * Sends notification mail about comment to post author.
+   * @param post Post commented on
+   * @param trigger Comment triggering notification
+   */
+  private void sendNotificationMailOP(Post post, Comment trigger) {
+    if (post.getEmail().equals(trigger.getEmail())) {
+      log.info("OP commented own post - not sending email to OP");
+      return;
+    }
+    log.info("Try sending notification email to %s (OP)", post.getEmail());
+    sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
+            String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
+  }
 
+  /**
+   * Sends notification mail about comment to commentator.
+   * @param post Post commented on
+   * @param comments All comments on this post by comment author
+   */
+  private void sendNotificationMailCommentator(Post post, List<Comment> comments) {
+    String author = getAuthorByComments(comments);
+    String email = comments.get(0).getEmail();
+    log.info("Try sending notification email to %s (Commentator)", email);
+    sendMail(email, NOTIFICATION_COMMENT_SUBJECT,
+            String.format(NOTIFICATION_COMMENT_TEXT, author, host, post.getId()));
+  }
+
+  private void sendMail(String recipient, String subject, String text) {
+    if (!isValidAddress(recipient)) {
+      log.error("Invalid email: %s", recipient);
+      return;
+    }
+    try {
+      Message msg = new MimeMessage(createSession());
+      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+      msg.setSubject(subject);
+      msg.setText(text);
+      Transport.send(msg);
+    } catch (MessagingException e) {
+      log.error(e.toString());
+      return;
+    }
+    log.info("Mail send successfully!");
+  }
 
   private boolean isValidAddress(String mailAddress) {
     return VALID_DOMAINS.contains(extractDomain(mailAddress));
@@ -159,25 +196,6 @@ public class EmailController {
     return tmp[tmp.length - 1];
   }
 
-  private boolean sendMail(String recipient, String subject, String text) {
-    if (!isValidAddress(recipient)) {
-      log.error("Invalid email: %s", recipient);
-      return false;
-    }
-    try {
-      Message msg = new MimeMessage(createSession());
-      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-      msg.setSubject(subject);
-      msg.setText(text);
-      Transport.send(msg);
-    } catch (MessagingException e) {
-      log.error(e.toString());
-      return false;
-    }
-    log.info("Mail send successfully!");
-    return true;
-  }
-
   private Session createSession() {
     if (session == null) {
       Properties props = new Properties();
@@ -188,6 +206,23 @@ public class EmailController {
       session = Session.getInstance(props, new GMailAuthenticator(gmailUser, gmailPassword));
     }
     return session;
+  }
+
+  private String getAuthorByComments(List<Comment> comments) {
+    if (comments.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+    List<String> pseudonyms = comments.stream()
+            .map(Comment::getAuthor).distinct()
+            .collect(Collectors.toList());
+    String author = pseudonyms.get(0);
+    if (pseudonyms.size() > 1) {
+      StringJoiner joiner = new StringJoiner(", ", " (a.k.a. ", ")");
+      pseudonyms.remove(author);
+      pseudonyms.forEach(joiner::add);
+      author += joiner.toString();
+    }
+    return author;
   }
 
   /**

@@ -52,7 +52,7 @@ public class ActivationController {
     ActivationKeyComment activationKey = commentkeyrepo.findOne(id);
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
-      emailController.sendNotificationMail(activationKey.getComment().getPost(),
+      emailController.sendNotificationMails(activationKey.getComment().getPost(),
               activationKey.getComment());
       commentRepo.save(activationKey.getComment());
       commentkeyrepo.delete(id);

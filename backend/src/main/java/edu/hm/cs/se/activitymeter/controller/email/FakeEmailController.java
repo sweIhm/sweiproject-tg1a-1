@@ -9,28 +9,28 @@ import org.springframework.stereotype.Component;
 @Profile("default")
 public class FakeEmailController extends EmailController {
   @Override
-  public boolean sendActivationMail(Post post, String activationKey) {
-    return true;
+  public void sendActivationMail(Post post, String activationKey) {
+    // Do nothing
   }
 
   @Override
-  public boolean sendActivationMail(Comment comment, String activationKey) {
-    return true;
+  public void sendActivationMail(Comment comment, String activationKey) {
+    // Do nothing
   }
 
   @Override
-  public boolean sendNotificationMail(Post post,Comment triggger) {
-    return true;
+  public void sendNotificationMails(Post post, Comment triggger) {
+    // Do nothing
   }
 
   @Override
-  public boolean sendDeleteMail(Post post, String activationKey) {
-    return true;
+  public void sendDeleteMail(Post post, String activationKey) {
+    // Do nothing
   }
 
   @Override
-  public boolean sendDeleteMail(Comment comment, String activationKey) {
-    return true;
+  public void sendDeleteMail(Comment comment, String activationKey) {
+    // Do nothing
   }
 
   @Override
