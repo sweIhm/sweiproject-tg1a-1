@@ -41,9 +41,11 @@ public class Post extends AbstractEntity {
     // Leerer Konstruktor für JPA
   }
 
-  public Post(String author, String title, String text, String email, boolean published) {
+  public Post(String author, String title, String text, String email, boolean published,
+      List<Keyword> keywordList) {
     super(author, text, email, published);
     this.title = title;
+    this.keywords.addAll(keywordList);
   }
 
   public Long getId() {
@@ -64,5 +66,9 @@ public class Post extends AbstractEntity {
 
   public List<Keyword> getKeywords() {
     return keywords;
+  }
+
+  public void setKeywords(List<Keyword> keywords) {
+    this.keywords = keywords;
   }
 }

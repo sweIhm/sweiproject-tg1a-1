@@ -8,14 +8,14 @@ public class PostDTO extends AbstractEntityDTO {
 
   private String title;
 
-  private List<Keyword> tags;
+  private List<Keyword> keywords;
 
   public PostDTO() {}
 
   public PostDTO(Post p) {
     super(p.getId(), p.getAuthor(), p.getText());
     this.title = p.getTitle();
-    this.tags = p.getKeywords();
+    this.keywords = p.getKeywords();
   }
 
   public String getTitle() {
@@ -26,7 +26,7 @@ public class PostDTO extends AbstractEntityDTO {
     this.title = title;
   }
 
-  public List<Keyword> getTags() {
-    return tags;
+  public List<Keyword> getKeywords() {
+    return keywords;
   }
 }
