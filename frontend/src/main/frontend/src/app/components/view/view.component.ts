@@ -42,4 +42,11 @@ export class ViewComponent implements OnInit {
     const modalref = this.modal.open(PostcommentComponent);
     modalref.componentInstance.activityId = this.activity.id;
   }
+
+  hasComments(): boolean {
+    if (this.comments) {
+      return this.comments.length > 0;
+    }
+    return false;
+  }
 }
