@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {ActivityService} from "../../services/activity.service";
 import {Activity} from "../../model/activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PostComponent} from "../post/post.component";
 import {AlertService} from "../../services/alert.service";
 import {ActivatedRoute} from "@angular/router";
+import {PostactivityComponent} from "../postactivity/postactivity.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -37,12 +37,12 @@ export class DashboardComponent implements OnInit {
   }
 
   openPostModal() {
-    this.modal.open(PostComponent);
+    this.modal.open(PostactivityComponent);
   }
 
-  activitiesIsEmpty(): boolean {
+  hasActivities(): boolean {
     if (this.activities)
-      return this.activities.length == 0;
+      return this.activities.length > 0;
     return false;
   }
 

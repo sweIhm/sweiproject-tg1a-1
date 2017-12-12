@@ -7,10 +7,10 @@ import {Tag} from "../../model/tag";
 
 @Component({
   selector: 'app-post',
-  templateUrl: './post.component.html',
-  styleUrls: ['./post.component.css']
+  templateUrl: './postactivity.component.html',
+  styleUrls: ['./postactivity.component.css']
 })
-export class PostComponent implements OnInit {
+export class PostactivityComponent implements OnInit {
 
   toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
