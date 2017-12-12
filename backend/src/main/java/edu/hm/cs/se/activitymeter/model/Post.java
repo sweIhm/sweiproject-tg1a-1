@@ -41,7 +41,8 @@ public class Post extends AbstractEntity {
     // Leerer Konstruktor für JPA
   }
 
-  public Post(String author, String title, String text, String email, boolean published, List<Keyword> keywordList) {
+  public Post(String author, String title, String text, String email, boolean published,
+      List<Keyword> keywordList) {
     super(author, text, email, published);
     this.title = title;
     this.keywords.addAll(keywordList);
