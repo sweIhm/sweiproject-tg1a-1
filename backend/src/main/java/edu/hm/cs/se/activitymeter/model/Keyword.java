@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,10 +26,7 @@ public class Keyword {
   private long id;
 
   @JsonIgnore
-  @ManyToMany
-  @JoinTable(name = "post_keyword",
-      joinColumns = @JoinColumn(name = "keyword_id"),
-      inverseJoinColumns = @JoinColumn(name = "post_id"))
+  @ManyToMany(mappedBy = "keywords")
   private List<Post> posts;
 
   public Keyword() {
