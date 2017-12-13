@@ -1,36 +1,20 @@
 package edu.hm.cs.se.activitymeter.controller.email;
 
-import edu.hm.cs.se.activitymeter.model.Comment;
-import edu.hm.cs.se.activitymeter.model.Post;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
 @Profile("default")
-public class FakeEmailController extends EmailController {
+public class FakeEmailController extends AbstractEmailController {
+
   @Override
-  public void sendActivationMail(Post post, String activationKey) {
-    // Do nothing
+  protected boolean sendMail(String recipient, String subject, String text) {
+    return true;
   }
 
   @Override
-  public void sendActivationMail(Comment comment, String activationKey) {
-    // Do nothing
-  }
-
-  @Override
-  public void sendNotificationMails(Post post, Comment triggger) {
-    // Do nothing
-  }
-
-  @Override
-  public void sendDeleteMail(Post post, String activationKey) {
-    // Do nothing
-  }
-
-  @Override
-  public void sendDeleteMail(Comment comment, String activationKey) {
-    // Do nothing
+  protected String getHost() {
+    return "http://localhost:8080";
   }
 
   @Override
