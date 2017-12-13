@@ -102,26 +102,8 @@ public abstract class AbstractEmailController {
         String.format(EmailTexts.NOTIFICATION_COMMENT_TEXT, author, getHost(), post.getId()));
   }
 
-  /**
-   * Sends mail. To be implemented by concrete controller.
-   * @param recipient Recipient's address
-   * @param subject Subject of mail to be send
-   * @param text Text of mail to be send
-   * @throws IllegalArgumentException Thrown for illegal email format
-   */
-  protected abstract boolean sendMail(String recipient, String subject, String text);
-
-  protected abstract String getHost();
-
-  public abstract String generateKey();
-
   protected boolean isValidAddress(String mailAddress) {
     return VALID_DOMAINS.contains(extractDomain(mailAddress));
-  }
-
-  private Map<String, List<Comment>> groupCommentsByEmail(Post post) {
-    return post.getComments().stream().filter(Comment::isPublished)
-        .collect(Collectors.groupingBy(Comment::getEmail, Collectors.toList()));
   }
 
   private String extractDomain(String mailAddress) {
@@ -130,6 +112,11 @@ public abstract class AbstractEmailController {
       throw new IllegalArgumentException();
     }
     return tmp[1];
+  }
+
+  private Map<String, List<Comment>> groupCommentsByEmail(Post post) {
+    return post.getComments().stream().filter(Comment::isPublished)
+        .collect(Collectors.groupingBy(Comment::getEmail, Collectors.toList()));
   }
 
   private String getAuthorByComments(List<Comment> comments) {
@@ -145,4 +132,17 @@ public abstract class AbstractEmailController {
     }
     return author;
   }
+
+  /**
+   * Sends mail. To be implemented by concrete controller.
+   * @param recipient Recipient's address
+   * @param subject Subject of mail to be send
+   * @param text Text of mail to be send
+   * @throws IllegalArgumentException Thrown for illegal email format
+   */
+  protected abstract boolean sendMail(String recipient, String subject, String text);
+
+  protected abstract String getHost();
+
+  public abstract String generateKey();
 }
