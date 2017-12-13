@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivityDto} from "../model/activity-dto";
 import {Observable} from "rxjs/Observable";
 import {Activity} from "../model/activity";
-import {Tag} from "../model/tag";
+import {Keyword} from "../model/keyword";
 
 @Injectable()
 export class ActivityService {
@@ -24,7 +24,7 @@ export class ActivityService {
     return this.http.get(this.url + '/' + id);
   }
 
-  getTags() : Observable<Tag[]> {
-    return this.http.get(this.url + '/tags');
+  getKeywords() : Observable<Keyword[]> {
+    return this.http.get(this.url + '/keywords');
   }
 }

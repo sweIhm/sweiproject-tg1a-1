@@ -3,7 +3,7 @@ import {ActivityDto} from "../../model/activity-dto";
 import {ActivityService} from "../../services/activity.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../services/alert.service";
-import {Tag} from "../../model/tag";
+import {Keyword} from "../../model/keyword";
 
 @Component({
   selector: 'app-post',
@@ -14,7 +14,7 @@ export class PostactivityComponent implements OnInit {
 
   toBePosted: ActivityDto = new ActivityDto('', '', '', '');
 
-  tags: Tag[] = [];
+  keywords: Keyword[] = [];
   limit: number = 2;
 
   constructor(private service: ActivityService,
@@ -22,7 +22,7 @@ export class PostactivityComponent implements OnInit {
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.service.getTags().subscribe(tags => this.tags = tags);
+    this.service.getKeywords().subscribe(keywords => this.keywords = keywords);
   }
 
   onSubmit() {
@@ -33,7 +33,7 @@ export class PostactivityComponent implements OnInit {
 
   onShowMore(event) {
     event.preventDefault();
-    this.limit = this.tags.length;
+    this.limit = this.keywords.length;
   }
 
 }

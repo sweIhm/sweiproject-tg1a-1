@@ -1,12 +1,14 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.controller.email.EmailController;
+import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepositoryComment;
 import edu.hm.cs.se.activitymeter.model.repositories.CommentRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +33,9 @@ public class ActivationController {
   private CommentRepository commentRepo;
 
   @Autowired
-  private EmailController emailController;
+  private AbstractEmailController emailController;
+
+  private Logger log = LoggerFactory.getLogger(getClass());
 
   @GetMapping("{id}")
   public String activatePost(@PathVariable Long id, @RequestParam(name = "key",
@@ -41,8 +45,10 @@ public class ActivationController {
       activationKey.getPost().setPublished(true);
       postrepo.save(activationKey.getPost());
       keyrepo.delete(id);
+      log.info("Post activation succeeded (Post: #{})", id);
       return String.format("redirect:/view/%d;alert=activationsucceeded", id);
     }
+    log.error("Post activation failed (Post: #{})", id);
     return "redirect:/dashboard;alert=activationfailed";
   }
 
@@ -52,13 +58,15 @@ public class ActivationController {
     ActivationKeyComment activationKey = commentkeyrepo.findOne(id);
     if (activationKey != null && key.equals(activationKey.getKey())) {
       activationKey.getComment().setPublished(true);
-      emailController.sendNotificationMail(activationKey.getComment().getPost(),
+      emailController.sendNotificationMails(activationKey.getComment().getPost(),
               activationKey.getComment());
       commentRepo.save(activationKey.getComment());
       commentkeyrepo.delete(id);
+      log.info("Comment activation succeeded (Comment: #{})", id);
       return String.format("redirect:/view/%d;alert=commentactivationsucceeded",
           activationKey.getComment().getPost().getId());
     }
+    log.error("Comment activation failed (Comment: #{})", id);
     return "redirect:/dashboard;alert=commentactivationfailed";
   }
 

@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,12 +22,11 @@ public class Keyword {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "keyword_id_seq")
   @SequenceGenerator(name = "keyword_id_seq", sequenceName = "keyword_id_seq", allocationSize = 1)
-  @Column(name = "tag_id")
+  @Column(name = "keyword_id")
   private long id;
 
   @JsonIgnore
-  @ManyToMany
-  @JoinTable(name = "post_keyword")
+  @ManyToMany(mappedBy = "keywords")
   private List<Post> posts;
 
   public Keyword() {
