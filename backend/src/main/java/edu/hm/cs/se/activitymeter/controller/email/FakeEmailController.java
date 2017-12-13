@@ -1,12 +1,13 @@
 package edu.hm.cs.se.activitymeter.controller.email;
 
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+
 
 @Component
 @Profile("default")

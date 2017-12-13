@@ -1,11 +1,12 @@
 package edu.hm.cs.se.activitymeter.controller.email;
 
+import edu.hm.cs.se.activitymeter.model.Comment;
+import edu.hm.cs.se.activitymeter.model.Post;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import edu.hm.cs.se.activitymeter.model.Comment;
-import edu.hm.cs.se.activitymeter.model.Post;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -98,6 +99,5 @@ public class FakeEmailControllerTest {
     assertTrue(controller.isValidAddress("test@calpoly.edu"));
     assertFalse(controller.isValidAddress("test@gmail.com"));
   }
-
 
 }
