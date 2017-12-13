@@ -1,6 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.controller.email.EmailController;
+import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
@@ -36,7 +36,7 @@ public class ActivityController {
   private KeywordRepository keywordRepository;
 
   @Autowired
-  private EmailController emailController;
+  private AbstractEmailController emailController;
 
   @GetMapping
   public List<PostDTO> listAll() {
