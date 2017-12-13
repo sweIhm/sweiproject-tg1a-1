@@ -17,7 +17,6 @@ public abstract class AbstractEmailController {
 
   protected Logger log = LoggerFactory.getLogger(getClass());
 
-
   /**
    * Sends activation mail for a post.
    * @param post Post to be activated
