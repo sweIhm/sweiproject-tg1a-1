@@ -122,7 +122,15 @@ public class CommentControllerTest {
             .andExpect(MockMvcResultMatchers.content().json("[" + commentToJson(new CommentDTO(c)) + "]"));
   }
 
-
+  @Test
+  public void find() throws Exception {
+    c.setId(2L);
+    addPostToDB(p);
+    addCommentToDB(c);
+    mvc.perform(MockMvcRequestBuilders.get(URL + "1/comment/2"))
+            .andExpect(MockMvcResultMatchers.status().isOk())
+            .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
+  }
 
  /*
   @Test
@@ -140,14 +148,7 @@ public class CommentControllerTest {
   }
 
 
- @Test
-  public void find() throws Exception {
-    c.setId(2L);
-    addCommentToDB(c);
-    mvc.perform(MockMvcRequestBuilders.get(URL + "2"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
-  }
+
 
   @Test
   public void update() throws Exception {
