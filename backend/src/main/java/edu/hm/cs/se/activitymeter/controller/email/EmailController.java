@@ -58,7 +58,7 @@ public class EmailController {
 
   private static final String NOTIFICATION_COMMENT_SUBJECT = "Someone commented on the same"
           + "Activity as you";
-  private static final String NOTIFICATION_COMMENT_TEXT = "Hello %s!%nSomeone commented on the"
+  private static final String NOTIFICATION_COMMENT_TEXT = "Hello %s!%nSomeone commented on the "
           + "same Activity as you. Click on the link below to see the activity: %n%s/view/%s";
 
   private static final List<String> VALID_DOMAINS = Arrays.asList("calpoly.edu", "hm.edu");
@@ -80,7 +80,7 @@ public class EmailController {
    * @param activationKey Activation key
    */
   public void sendActivationMail(Post post, String activationKey) {
-    log.info("Try sending activation email to " + post.getEmail());
+    log.info("Try sending activation email to {}", post.getEmail());
     sendMail(post.getEmail(), ACTIVITY_ACTIVATION_SUBJECT,
             String.format(ACTIVITY_ACTIVATION_TEXT, post.getAuthor(), host,
                     post.getId(), activationKey));
@@ -92,7 +92,7 @@ public class EmailController {
    * @param activationKey Activation key
    */
   public void sendActivationMail(Comment comment, String activationKey) {
-    log.info("Try sending comment activation email to " + comment.getEmail());
+    log.info("Try sending comment activation email to {}", comment.getEmail());
     sendMail(comment.getEmail(), COMMENT_ACTIVATION_SUBJECT,
             String.format(COMMENT_ACTIVATION_TEXT, comment.getAuthor(), host,
                     comment.getId(), activationKey));
@@ -104,7 +104,7 @@ public class EmailController {
    * @param activationKey Activation key
    */
   public void sendDeleteMail(Post post, String activationKey) {
-    log.info("Try sending deletion email to " + post.getEmail());
+    log.info("Try sending deletion email to {}", post.getEmail());
     sendMail(post.getEmail(), ACTIVITY_DELETE_SUBJECT,
             String.format(ACTIVITY_DELETE_TEXT, post.getAuthor(), host,
                     post.getId(), activationKey));
@@ -116,7 +116,7 @@ public class EmailController {
    * @param activationKey Activation key
    */
   public void sendDeleteMail(Comment comment, String activationKey) {
-    log.info("Try sending deletion email to " + comment.getEmail());
+    log.info("Try sending deletion email to {}", comment.getEmail());
     sendMail(comment.getEmail(), COMMENT_DELETE_SUBJECT,
             String.format(COMMENT_DELETE_TEXT, comment.getAuthor(), host,
                 comment.getId(), activationKey));
@@ -130,9 +130,9 @@ public class EmailController {
   public void sendNotificationMails(Post post, Comment trigger) {
     sendNotificationMailOP(post, trigger);
     Map<String, List<Comment>> emailCommentsMap = post.getComments().stream()
-            .filter(c -> c.isPublished() && // remove unpublished comments
-                    !c.equals(trigger) && // remove trigger comment
-                    !c.getEmail().equals(post.getEmail())) // remove OP's comments
+            .filter(c -> c.isPublished() &&
+                    !c.getEmail().equals(trigger.getEmail()) &&
+                    !c.getEmail().equals(post.getEmail()))
             .collect(Collectors.groupingBy(Comment::getEmail, Collectors.toList()));
     emailCommentsMap.entrySet().stream()
             .map(Map.Entry::getValue).forEach(c -> sendNotificationMailCommentator(post, c));
@@ -148,7 +148,7 @@ public class EmailController {
       log.info("OP commented own post - not sending email to OP");
       return;
     }
-    log.info("Try sending notification email to %s (OP)", post.getEmail());
+    log.info("Try sending notification email to {} (OP)", post.getEmail());
     sendMail(post.getEmail(), NOTIFICATION_SUBJECT,
             String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
   }
@@ -161,14 +161,14 @@ public class EmailController {
   private void sendNotificationMailCommentator(Post post, List<Comment> comments) {
     String author = getAuthorByComments(comments);
     String email = comments.get(0).getEmail();
-    log.info("Try sending notification email to %s (Commentator)", email);
+    log.info("Try sending notification email to {} (Commentator)", email);
     sendMail(email, NOTIFICATION_COMMENT_SUBJECT,
             String.format(NOTIFICATION_COMMENT_TEXT, author, host, post.getId()));
   }
 
   private void sendMail(String recipient, String subject, String text) {
     if (!isValidAddress(recipient)) {
-      log.error("Invalid email: %s", recipient);
+      log.error("Invalid email: {}", recipient);
       return;
     }
     try {
@@ -191,6 +191,7 @@ public class EmailController {
   private String extractDomain(String mailAddress) {
     String[] tmp = mailAddress.split("@", -1);
     if (tmp.length != 2) {
+      log.error("Illegal email: {}", mailAddress);
       throw new IllegalArgumentException();
     }
     return tmp[tmp.length - 1];
