@@ -130,9 +130,9 @@ public class EmailController {
   public void sendNotificationMails(Post post, Comment trigger) {
     sendNotificationMailOP(post, trigger);
     Map<String, List<Comment>> emailCommentsMap = post.getComments().stream()
-            .filter(c -> c.isPublished() &&
-                    !c.getEmail().equals(trigger.getEmail()) &&
-                    !c.getEmail().equals(post.getEmail()))
+            .filter(c -> c.isPublished()
+                    && !c.getEmail().equals(trigger.getEmail())
+                    && !c.getEmail().equals(post.getEmail()))
             .collect(Collectors.groupingBy(Comment::getEmail, Collectors.toList()));
     emailCommentsMap.entrySet().stream()
             .map(Map.Entry::getValue).forEach(c -> sendNotificationMailCommentator(post, c));
