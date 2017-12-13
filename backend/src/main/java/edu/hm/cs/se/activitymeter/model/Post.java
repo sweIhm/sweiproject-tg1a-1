@@ -57,6 +57,10 @@ public class Post extends AbstractEntity {
     return comments;
   }
 
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
+
   public Long getId() {
     return id;
   }

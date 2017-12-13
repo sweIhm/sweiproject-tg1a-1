@@ -108,7 +108,7 @@ public abstract class AbstractEmailController {
    * @param recipient Recipient's address
    * @param subject Subject of mail to be send
    * @param text Text of mail to be send
-   * @throws IllegalArgumentException Thrown for invalid recipients
+   * @throws IllegalArgumentException Thrown for illegal email format
    */
   protected abstract boolean sendMail(String recipient, String subject, String text);
 
