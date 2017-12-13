@@ -135,7 +135,8 @@ public class EmailController {
               String.format(NOTIFICATION_TEXT, post.getAuthor(), host, post.getId()));
     List<Comment> notified = new ArrayList<>();
     for (Comment comment:post.getComments()) {
-      if (!comment.equals(trigger) && comment.isPublished() && !notified.contains(comment)) {
+      if (!comment.getAuthor().equals(post.getAuthor()) && !comment.equals(trigger)
+              && comment.isPublished() && !notified.contains(comment)) {
         notified.add(comment);
         log.info("Try sending notification(comment) email to " + comment.getEmail());
         result = result || sendMail(comment.getEmail(), NOTIFICATION_COMMENT_SUBJECT,
