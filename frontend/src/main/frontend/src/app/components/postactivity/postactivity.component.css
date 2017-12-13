@@ -1,0 +1,15 @@
+a {
+  text-decoration: none
+}
+
+.badge-primary a{
+  color: white;
+}
+
+.badge-secondary span a{
+  color: black;
+}
+
+a:hover {
+  box-shadow: none;
+}

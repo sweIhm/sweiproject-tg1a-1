@@ -1,3 +1,3 @@
 export class Keyword {
-  content: string;
+  constructor(public content: string) {};
 }

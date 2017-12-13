@@ -38,8 +38,7 @@
   <div class="container">
     <div *ngFor="let keyword of keywords.slice(0, limit)" class="form-check form-check-inline">
       <label class="form-check-label">
-        <input type="checkbox" class="form-check-input">
-        <span class="badge badge-secondary">{{ keyword.content }}</span>
+        <span class="badge badge-secondary" (click)="onTagChoice($event)">{{ keyword.content }}</span>
       </label>
     </div>
     <a href *ngIf="limit != keywords.length" href="#" (click)="onShowMore($event)">show more...</a>
