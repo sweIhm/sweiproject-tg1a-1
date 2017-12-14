@@ -20,7 +20,7 @@ public class CommentTest {
     comment.setText("Hände zum Himmel, Hände zur Hölle");
     comment.setEmail("hansi@hinterse.er");
     comment.setPublished(true);
-    assertEquals("Hansi Hinterseer", comment.getText());
+    assertEquals("Hansi Hinterseer", comment.getAuthor());
     assertEquals("Hände zum Himmel, Hände zur Hölle", comment.getText());
     assertEquals("hansi@hinterse.er", comment.getEmail());
     assertEquals(true, comment.isPublished());

@@ -20,7 +20,8 @@ public class CommentDTOTest {
     assertEquals((Long)3L, commentDTO.getId());
     commentDTO.setAuthor("Hansi Hinterseer");
     commentDTO.setText("Hände zum Himmel, Hände zur Hölle");
-    assertEquals("Hansi Hinterseer", commentDTO.getText());
+    assertEquals("Hansi Hinterseer", commentDTO.getAuthor());
     assertEquals("Hände zum Himmel, Hände zur Hölle", commentDTO.getText());
+    assertNotNull(new CommentDTO());
   }
 }

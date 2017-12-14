@@ -13,7 +13,7 @@ public class ActivationKeyCommentTest {
    assertEquals("1234", activationKeyComment.getKey());
    activationKeyComment.setCommentId(4L);
    activationKeyComment.setKey("12345");
-    assertEquals(5L, activationKeyComment.getCommentId());
+    assertEquals(4L, activationKeyComment.getCommentId());
     assertEquals("12345", activationKeyComment.getKey());
   }
 }

@@ -8,8 +8,9 @@ public class KeywordTest {
 
   @Test
   public void getContent() throws Exception {
-    Keyword keyword = new Keyword("tet");
+    Keyword keyword = new Keyword("test");
     assertEquals("test", keyword.getContent());
+    assertNotNull(new Keyword());
   }
 
 }
