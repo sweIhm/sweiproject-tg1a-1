@@ -119,6 +119,9 @@ public class ActivityControllerTest {
     mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[]"));
+    mvc.perform(MockMvcRequestBuilders.get("/activation/1/delete?key=1234"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=deletefailed"));
   }
 
   @Test
