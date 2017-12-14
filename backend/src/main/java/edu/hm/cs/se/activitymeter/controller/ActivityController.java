@@ -1,67 +1,107 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.*;
+import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
+import edu.hm.cs.se.activitymeter.model.ActivationKey;
+import edu.hm.cs.se.activitymeter.model.Keyword;
+import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
+import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
+import edu.hm.cs.se.activitymeter.model.repositories.KeywordRepository;
+import edu.hm.cs.se.activitymeter.model.repositories.PostRepository;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import edu.hm.cs.se.activitymeter.controller.email.EmailController;
 
 @RestController
-@RequestMapping("/activity")
+@RequestMapping("/api/activity")
 public class ActivityController {
 
-    @Autowired
-    private PostRepository activityRepository;
+  @Autowired
+  private PostRepository postRepository;
 
-    @Autowired
-    private ActivationKeyRepository activationKeyRepository;
+  @Autowired
+  private ActivationKeyRepository activationKeyRepository;
 
-    @Autowired
-    private EmailController emailController;
+  @Autowired
+  private KeywordRepository keywordRepository;
 
-    @GetMapping
-    public ArrayList<PostDTO> listAll() {
-        ArrayList<PostDTO> activities = new ArrayList<>();
-        activityRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
-        return activities;
+  @Autowired
+  private AbstractEmailController emailController;
+
+  @GetMapping
+  public List<PostDTO> listAll() {
+    List<PostDTO> activities = new ArrayList<>();
+    postRepository.findAllByPublishedTrue().forEach(post -> activities.add(new PostDTO(post)));
+    return activities;
+  }
+
+  @GetMapping("{id}")
+  public PostDTO find(@PathVariable Long id) {
+    return new PostDTO(postRepository.findOne(id));
+  }
+
+  @PostMapping
+  public PostDTO create(@RequestBody Post input) {
+    List<Keyword> keywordList = keywordRepository.findAllByContentIn(input.getKeywords().stream()
+        .map(Keyword::getContent)
+        .distinct()
+        .collect(Collectors.toList()));
+    Post newPost = postRepository.save(new Post(input.getAuthor(), input.getTitle(),
+        input.getText(),input.getEmail(), false, keywordList));
+    ActivationKey activationKey = activationKeyRepository.save(
+        new ActivationKey(newPost.getId(), emailController.generateKey()));
+    emailController.sendActivationMail(newPost, activationKey.getKey());
+    return new PostDTO(newPost);
+  }
+
+  @DeleteMapping("{id}")
+  public void delete(@PathVariable Long id) {
+    String key = emailController.generateKey();
+    activationKeyRepository.save(new ActivationKey(id, key));
+    emailController.sendDeleteMail(postRepository.findOne(id), key);
+  }
+
+  @PutMapping("{id}")
+  public PostDTO update(@PathVariable Long id, @RequestBody PostDTO input) {
+    Post post = postRepository.findOne(id);
+    if (post == null) {
+      return null;
+    } else {
+      List<Keyword> keywordList = keywordRepository.findAllByContentIn(input.getKeywords().stream()
+          .map(Keyword::getContent)
+          .distinct()
+          .collect(Collectors.toList()));
+      post.setText(input.getText());
+      post.setTitle(input.getTitle());
+      post.setAuthor(input.getAuthor());
+      post.setKeywords(keywordList);
+      return new PostDTO(postRepository.save(post));
     }
+  }
 
-    @GetMapping("{id}")
-    public PostDTO find(@PathVariable Long id) {
-        return new PostDTO(activityRepository.findOne(id));
-    }
+  @GetMapping("keywords")
+  public List<Keyword> getKeywords() {
+    return keywordRepository.findAll();
+  }
 
-    @PostMapping
-    public PostDTO create(@RequestBody Post input) {
-        Post newPost = activityRepository.save(new Post(input.getText(), input.getTitle(), input.getAuthor(), input.getEmail(), false));
-        ActivationKey activationKey = activationKeyRepository.save(new ActivationKey(newPost.getId(), EmailController.generateKey()));
-        emailController.sendEmail(newPost, activationKey.getKey());
-        return new PostDTO(newPost);
-    }
-
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable Long id) {
-        activityRepository.delete(id);
-    }
-
-    @PutMapping("{id}")
-    public PostDTO update(@PathVariable Long id, @RequestBody PostDTO input) {
-        Post post = activityRepository.findOne(id);
-        if (post == null) {
-            return null;
-        } else {
-            post.setText(input.getText());
-            post.setTitle(input.getTitle());
-            post.setAuthor(input.getAuthor());
-            return new PostDTO(activityRepository.save(post));
-        }
-    }
-
-    @Bean
-    public static EmailController newEmailController() {
-        return new EmailController();
-    }
-
+  @GetMapping("keywords/search")
+  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
+      defaultValue = "You ain't gonna get anything") List<String> keywords) {
+    return keywordRepository.findAllByContentIn(keywords).stream()
+        .flatMap(x -> x.getPosts().stream())
+        .filter(x -> keywords.stream().allMatch(
+            k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
+        .distinct()
+        .collect(Collectors.toList());
+  }
 }

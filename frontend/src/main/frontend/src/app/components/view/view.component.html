@@ -1,0 +1,30 @@
+<div class="container" *ngIf="activity">
+  <h2>Details</h2>
+  <div class="card">
+    <div class="card-header">
+      <h3>Activity <strong>{{activity.title}}</strong></h3>
+      <h4>submitted by <strong>{{activity.author}}</strong></h4>
+    </div>
+    <div class="card-body">{{activity.text}}</div>
+    <div class="card-footer">
+      <strong>Tags:</strong>
+      <a class="badge badge-secondary p-2 ml-2" *ngFor="let keyword of activity.keywords"
+            [routerLink]="['/dashboard', {filter: keyword.content}]">
+        {{keyword.content}}
+      </a>
+    </div>
+  </div>
+  <button class="btn btn-primary mt-2" routerLink="/">Go Back</button>
+  <button class="btn btn-primary mt-2 ml-2" (click)="openPostcommentModal()">Comment</button>
+  <hr>
+  <div class="card ml-5 mt-2" *ngFor="let comment of comments">
+    <div class="card-header">
+      <h5><strong>{{comment.author}}</strong> wrote: </h5>
+    </div>
+    <div class="card-body">{{comment.text}}</div>
+  </div>
+  <h5 *ngIf="!hasComments()" class="m-2">No one commented on this activity yet.</h5>
+  <hr>
+  <button class="btn btn-primary" routerLink="/">Go Back</button>
+  <button class="btn btn-primary ml-1" (click)="openPostcommentModal()">Comment</button>
+</div>
