@@ -5,6 +5,7 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../services/alert.service";
 import {ActivatedRoute} from "@angular/router";
 import {PostactivityComponent} from "../postactivity/postactivity.component";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,6 +15,7 @@ import {PostactivityComponent} from "../postactivity/postactivity.component";
 export class DashboardComponent implements OnInit {
 
   activities : Activity[];
+  query: string;
 
   constructor(private service: ActivityService,
               private modal: NgbModal,
@@ -57,4 +59,9 @@ export class DashboardComponent implements OnInit {
       this.alertService.addAlert('Comment successfully published. Thank you for your submission!', 'success');
     }
   }
+
+  filter() {
+    alert(this.query);
+  }
+
 }

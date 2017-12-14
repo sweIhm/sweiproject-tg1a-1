@@ -1,5 +1,13 @@
 <div class="container">
   <h2>View all Activities</h2>
+  <form class="form-inline mb-2 mt-2">
+    <label for="formQuery" class="sr-only" name="query">Filter Activities</label>
+    <input class="form-control" id="formQuery" [(ngModel)]="query"
+           placeholder="Filter Activities..." name="query">
+    <button class="btn btn-primary ml-2" (click)="filter()">Filter</button>
+    <button class="btn btn-primary ml-2" (click)="refresh();">Refresh Data</button>
+    <button class="btn btn-primary align-content-end ml-2" (click)="openPostModal();">Create Activity</button>
+  </form>
   <table class="table table-hover">
     <thead class="thead-dark">
       <tr>
@@ -19,6 +27,4 @@
       </tr>
     </tbody>
   </table>
-  <button class="btn btn-primary" (click)="refresh();">Refresh Data</button>
-  <button class="btn btn-primary" (click)="openPostModal();">Create Activity</button>
 </div>
