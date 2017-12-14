@@ -31,28 +31,18 @@ export class PostactivityComponent implements OnInit {
     this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
   }
 
-  onShowMore(event) : void {
-    event.preventDefault();
-    this.limit = this.keywords.length;
+  toggleKeyword(keyword: Keyword) {
+    let index = this.toBePosted.keywords.indexOf(keyword);
+    if (index > -1) {
+      this.toBePosted.keywords.splice(index, 1);
+    }
+    else {
+      this.toBePosted.keywords.push(keyword);
+    }
   }
 
-  onTagChoice(event) {
-    event.preventDefault();
-    let target = event.currentTarget;
-    if (target.classList[1] === 'badge-primary') {
-      target.classList.add('badge-secondary');
-      target.classList.remove('badge-primary');
-      for (let i: number = 0; i < this.toBePosted.keywords.length; i++) {
-        if (this.toBePosted.keywords[i].content === target.text) {
-          this.toBePosted.keywords.splice(i,1);
-          i -= 1;
-        }
-      }
-    } else if (target.classList[1] === 'badge-secondary') {
-      target.classList.add('badge-primary');
-      target.classList.remove('badge-secondary');
-      this.toBePosted.keywords.push(new Keyword(target.innerText));
-    }
+  showMore() {
+    this.limit = this.keywords.length;
   }
 
 }
