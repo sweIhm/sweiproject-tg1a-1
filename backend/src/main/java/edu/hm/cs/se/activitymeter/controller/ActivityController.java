@@ -77,9 +77,14 @@ public class ActivityController {
     if (post == null) {
       return null;
     } else {
+      List<Keyword> keywordList = keywordRepository.findAllByContentIn(input.getKeywords().stream()
+          .map(Keyword::getContent)
+          .distinct()
+          .collect(Collectors.toList()));
       post.setText(input.getText());
       post.setTitle(input.getTitle());
       post.setAuthor(input.getAuthor());
+      post.setKeywords(keywordList);
       return new PostDTO(postRepository.save(post));
     }
   }

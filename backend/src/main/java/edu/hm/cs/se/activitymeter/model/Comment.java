@@ -1,5 +1,6 @@
 package edu.hm.cs.se.activitymeter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,6 +32,7 @@ public class Comment extends AbstractEntity {
 
   @ManyToOne(fetch = FetchType.LAZY)
 
+  @JsonIgnore
   @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 

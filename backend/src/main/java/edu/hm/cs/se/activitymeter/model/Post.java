@@ -1,5 +1,6 @@
 package edu.hm.cs.se.activitymeter.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class Post extends AbstractEntity {
   @OneToOne(mappedBy = "post", fetch = FetchType.LAZY)
   private ActivationKey key;
 
+  @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
   private List<Comment> comments;
 

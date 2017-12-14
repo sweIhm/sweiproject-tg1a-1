@@ -83,15 +83,15 @@ public class CommentControllerTest {
     mvc.perform(MockMvcRequestBuilders.get(URL + "1/comment"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content()
-            .json("[" + commentToJson(new CommentDTO(c)) + "," + commentToJson(new CommentDTO(c2)) + "]"));
+            .json("[" + toJson(new CommentDTO(c)) + "," + toJson(new CommentDTO(c2)) + "]"));
   }
 
   @Test
   public void create() throws Exception {
     mvc.perform(MockMvcRequestBuilders.post(URL).contentType("application/json")
-            .content(postToJson(p)))
+            .content(toJson(p)))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(postToJson(new PostDTO(p))));
+            .andExpect(MockMvcResultMatchers.content().json(toJson(new PostDTO(p))));
 
 
 
@@ -105,21 +105,21 @@ public class CommentControllerTest {
             .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=activationfailed"));
     mvc.perform(MockMvcRequestBuilders.get(URL))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) + "]"));
-    System.out.println("Comment_________________________");
+            .andExpect(MockMvcResultMatchers.content().json("[" + toJson(new PostDTO(p)) + "]"));
     c.setPost(null);
     mvc.perform(MockMvcRequestBuilders.post(URL+"1/comment").contentType("application/json")
-            .content(commentToJson(c)))
+            .content(toJson(c)))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
+            .andExpect(MockMvcResultMatchers.content().json(toJson(new CommentDTO(c))));
+    mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1?key=124"))
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=commentactivationfailed"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1?key=1234"))
             .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=commentactivationsucceeded"));
-    System.out.println("Comment__2_______________________");
     mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1?key=1234"))
             .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=commentactivationfailed"));
     mvc.perform(MockMvcRequestBuilders.get(URL+"1/comment"))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json("[" + commentToJson(new CommentDTO(c)) + "]"));
+            .andExpect(MockMvcResultMatchers.content().json("[" + toJson(new CommentDTO(c)) + "]"));
   }
 
   @Test
@@ -129,7 +129,7 @@ public class CommentControllerTest {
     addCommentToDB(c);
     mvc.perform(MockMvcRequestBuilders.get(URL + "1/comment/2"))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
+            .andExpect(MockMvcResultMatchers.content().json(toJson(new CommentDTO(c))));
   }
 
   @Test
@@ -138,6 +138,9 @@ public class CommentControllerTest {
     addCommentToDB(c);
     mvc.perform(MockMvcRequestBuilders.delete(URL + "1/comment/1"))
             .andExpect(MockMvcResultMatchers.status().isOk());
+    mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1/delete?key=124"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=commentdeletefailed"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1/delete?key=1234"))
             .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
             .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=commentdeletesucceeded"));
@@ -159,9 +162,9 @@ public class CommentControllerTest {
     c.setText("gerstenmeier");
 
     mvc.perform(MockMvcRequestBuilders.put(URL + "1/comment/1")
-        .content(commentToJson(c)).contentType("application/json"))
+        .content(toJson(c)).contentType("application/json"))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
+        .andExpect(MockMvcResultMatchers.content().json(toJson(new CommentDTO(c))));
   }
 
 
@@ -169,7 +172,7 @@ public class CommentControllerTest {
   public void updateNonExisting() throws Exception {
     mvc.perform(MockMvcRequestBuilders.put(URL + "1/comment/1")
         .contentType("application/json")
-        .content(postToJson(p)))
+        .content(toJson(p)))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().string(""));
@@ -186,26 +189,9 @@ public class CommentControllerTest {
   }
 
 
-  private String postToJson(PostDTO p) throws Exception {
+  private String toJson(Object p) throws Exception {
     ObjectWriter w = new ObjectMapper().writer();
     System.out.println(w.writeValueAsString(p));
-    return w.writeValueAsString(p);
-  }
-
-  private String commentToJson(Comment c) throws Exception {
-    ObjectWriter w = new ObjectMapper().writer();
-    System.out.println(w.writeValueAsString(c));
-    return w.writeValueAsString(c);
-  }
-
-  private String commentToJson(CommentDTO c) throws Exception {
-    ObjectWriter w = new ObjectMapper().writer();
-    System.out.println(w.writeValueAsString(c));
-    return w.writeValueAsString(c);
-  }
-
-  private String postToJson(Post p) throws Exception {
-    ObjectWriter w = new ObjectMapper().writer();
     return w.writeValueAsString(p);
   }
 }
