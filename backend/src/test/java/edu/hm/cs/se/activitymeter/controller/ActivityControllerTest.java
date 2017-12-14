@@ -62,7 +62,9 @@ public class ActivityControllerTest {
     db.execute("INSERT INTO Keyword " +
         "VALUES(1,'testKeyword1');");
     k = new ArrayList<Keyword>();
-    k.add(new Keyword("testKeyword1"));
+    Keyword k1 = new Keyword("testKeyword1");
+    k1.setId(1L);
+    k.add(k1);
     p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, k);
     p.setId(1L);
   }
@@ -151,7 +153,7 @@ public class ActivityControllerTest {
     db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
     for (Keyword k : p.getKeywords()) {
-      db.execute(String.format("INSERT INTO POST_KEYWORD VALUES(%d, %d);",
+      db.execute(String.format("INSERT INTO post_keyword VALUES(%d, %d);",
           p.getId(), k.getId()));
     }
   }

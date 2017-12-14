@@ -45,6 +45,10 @@ public class Keyword {
     return id;
   }
 
+  public void setId(long id) {
+    this.id = id;
+  }
+
   public List<Post> getPosts() {
     return posts;
   }
