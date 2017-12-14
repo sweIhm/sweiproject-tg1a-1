@@ -3,7 +3,6 @@ package edu.hm.cs.se.activitymeter.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.hm.cs.se.activitymeter.ActivityMeter;
-import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import java.util.ArrayList;
