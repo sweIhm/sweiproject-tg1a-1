@@ -5,7 +5,6 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../services/alert.service";
 import {ActivatedRoute} from "@angular/router";
 import {PostactivityComponent} from "../postactivity/postactivity.component";
-import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +13,9 @@ import {Observable} from "rxjs/Observable";
 })
 export class DashboardComponent implements OnInit {
 
-  activities : Activity[];
+  activities : Activity[] = [];
+  filtered : Activity[] = [];
+  filterEnabled: boolean = false;
   query: string;
 
   constructor(private service: ActivityService,
@@ -23,14 +24,25 @@ export class DashboardComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit() {
+    let alert = this.route.snapshot.paramMap.get('alert');
+    this.addAlert(alert);
+    let query = this.route.snapshot.paramMap.get('filter');
+    if (query) {
+      this.query = query;
+      this.filterEnabled = true;
+    }
     this.getActivities();
-    var param = this.route.snapshot.paramMap.get('alert');
-    this.addAlert(param);
-    // TODO alerts für comments handeln
   }
 
   getActivities() {
-    this.service.getActivities().subscribe(activities => this.activities = activities);
+    this.service.getActivities().subscribe(activities => this.initActivities(activities));
+  }
+
+  initActivities(activities: Activity[]) {
+    this.activities = activities;
+    if (this.filterEnabled) {
+      this.filter();
+    }
   }
 
   refresh() {
@@ -61,7 +73,29 @@ export class DashboardComponent implements OnInit {
   }
 
   filter() {
-    alert(this.query);
+    this.filterEnabled = true;
+    this.filtered = [];
+    for (let activity of this.activities) {
+      if (activity.title == this.query) {
+        this.filtered.push(activity);
+      }
+      else if (activity.author == this.query) {
+        this.filtered.push(activity);
+      }
+      else {
+        for (let keyword of activity.keywords) {
+          if (keyword.content == this.query) {
+            this.filtered.push(activity);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  removeFilter() {
+    this.query = "";
+    this.filterEnabled = false;
   }
 
 }

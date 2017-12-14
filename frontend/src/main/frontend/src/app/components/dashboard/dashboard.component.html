@@ -5,6 +5,7 @@
     <input class="form-control" id="formQuery" [(ngModel)]="query"
            placeholder="Filter Activities..." name="query">
     <button class="btn btn-primary ml-2" (click)="filter()">Filter</button>
+    <button class="btn btn-primary ml-2" (click)="removeFilter()" [disabled]="!filterEnabled">Remove Filter</button>
     <button class="btn btn-primary ml-2" (click)="refresh();">Refresh Data</button>
     <button class="btn btn-primary align-content-end ml-2" (click)="openPostModal();">Create Activity</button>
   </form>
@@ -16,7 +17,7 @@
         <th scope="col">Author</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody *ngIf="!filterEnabled">
       <tr *ngFor="let activity of activities" routerLink="/view/{{activity.id}}">
         <th scope="row">{{activity.id}}</th>
         <td>{{activity.title}}</td>
@@ -24,6 +25,16 @@
       </tr>
       <tr *ngIf="!hasActivities()">
         <th colspan="3" class="text-center">No Activities submitted</th>
+      </tr>
+    </tbody>
+    <tbody *ngIf="filterEnabled" >
+      <tr *ngFor="let activity of filtered" routerLink="/view/{{activity.id}}">
+        <th scope="row">{{activity.id}}</th>
+        <td>{{activity.title}}</td>
+        <td>{{activity.author}}</td>
+      </tr>
+      <tr *ngIf="filtered.length == 0">
+        <th colspan="3" class="text-center">No Activities matching given filter</th>
       </tr>
     </tbody>
   </table>
