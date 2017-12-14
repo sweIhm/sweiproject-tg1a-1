@@ -1,6 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.controller.email.EmailController;
+import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
@@ -36,12 +36,12 @@ public class ActivityController {
   private KeywordRepository keywordRepository;
 
   @Autowired
-  private EmailController emailController;
+  private AbstractEmailController emailController;
 
   @GetMapping
   public List<PostDTO> listAll() {
     List<PostDTO> activities = new ArrayList<>();
-    postRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
+    postRepository.findAllByPublishedTrue().forEach(post -> activities.add(new PostDTO(post)));
     return activities;
   }
 
@@ -89,17 +89,17 @@ public class ActivityController {
     }
   }
 
-  @GetMapping("tags")
-  public List<Keyword> getTags() {
+  @GetMapping("keywords")
+  public List<Keyword> getKeywords() {
     return keywordRepository.findAll();
   }
 
-  @GetMapping("tags/find")
-  public List<Post> getPostsbyTag(@RequestParam(value = "tag",
-      defaultValue = "You ain't gonna get anything") List<String> tag) {
-    return keywordRepository.findAllByContentIn(tag).stream()
+  @GetMapping("keywords/search")
+  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
+      defaultValue = "You ain't gonna get anything") List<String> keywords) {
+    return keywordRepository.findAllByContentIn(keywords).stream()
         .flatMap(x -> x.getPosts().stream())
-        .filter(x -> tag.stream().allMatch(
+        .filter(x -> keywords.stream().allMatch(
             k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
         .distinct()
         .collect(Collectors.toList());

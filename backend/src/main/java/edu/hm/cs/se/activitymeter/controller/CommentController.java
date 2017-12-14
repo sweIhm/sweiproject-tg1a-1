@@ -1,6 +1,6 @@
 package edu.hm.cs.se.activitymeter.controller;
 
-import edu.hm.cs.se.activitymeter.controller.email.EmailController;
+import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKeyComment;
 import edu.hm.cs.se.activitymeter.model.Comment;
 import edu.hm.cs.se.activitymeter.model.Post;
@@ -33,7 +33,7 @@ public class CommentController {
   private ActivationKeyRepositoryComment activationKeyRepository;
 
   @Autowired
-  private EmailController emailController;
+  private AbstractEmailController emailController;
 
   @Autowired
   private PostRepository activityRepository;
@@ -41,12 +41,8 @@ public class CommentController {
   @GetMapping
   public List<CommentDTO> listAll(@PathVariable Long id) {
     List<CommentDTO> comments = new ArrayList<>();
-    Iterable<Comment> publishedComments = commentRepository.findAllByPublished(true);
-    for (Comment comment: publishedComments) {
-      if (comment.getPost().getId() == id) {
-        comments.add(new CommentDTO(comment));
-      }
-    }
+    commentRepository.findAllByPublishedTrueAndPostId(id)
+        .forEach(c -> comments.add(new CommentDTO(c)));
     return comments;
   }
 
