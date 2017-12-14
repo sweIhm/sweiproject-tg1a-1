@@ -3,6 +3,7 @@ package edu.hm.cs.se.activitymeter.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import edu.hm.cs.se.activitymeter.ActivityMeter;
+import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import java.util.ArrayList;
@@ -43,7 +44,7 @@ public class ActivityControllerTest {
   public void setUp() throws Exception {
     db.execute("DROP TABLE Keyword;");
     db.execute("CREATE TABLE Keyword(" +
-        "tag_id INTEGER PRIMARY KEY," +
+        "keyword_id INTEGER PRIMARY KEY," +
         "content VARCHAR(255) NOT NULL);");
     db.execute("DROP SEQUENCE keyword_id_seq;");
     db.execute("CREATE SEQUENCE keyword_id_seq START WITH 1 INCREMENT BY 1;");
@@ -149,6 +150,10 @@ public class ActivityControllerTest {
   private void addPostToDB(Post p) {
     db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
+    for (Keyword k : p.getKeywords()) {
+      db.execute(String.format("INSERT INTO POST_KEYWORD VALUES(%d, %d);",
+          p.getId(), k.getId()));
+    }
   }
 
   private String postToJson(PostDTO p) throws Exception {
