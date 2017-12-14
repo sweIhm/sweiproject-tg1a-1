@@ -132,19 +132,21 @@ public class CommentControllerTest {
             .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
   }
 
- /*
   @Test
   public void delete() throws Exception {
     addPostToDB(p);
     addCommentToDB(c);
-    mvc.perform(MockMvcRequestBuilders.delete(URL + "1/comment"))
+    mvc.perform(MockMvcRequestBuilders.delete(URL + "1/comment/1"))
             .andExpect(MockMvcResultMatchers.status().isOk());
     mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1/delete?key=1234"))
             .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-            .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=commentdeletesucceeded"));
-    mvc.perform(MockMvcRequestBuilders.get(URL + "/1/comment"))
+            .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=commentdeletesucceeded"));
+    mvc.perform(MockMvcRequestBuilders.get(URL + "/1/comment/"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().json("[]"));
+    mvc.perform(MockMvcRequestBuilders.get("/activation/comment/1/delete?key=1234"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=commentdeletefailed"));
   }
 
 
@@ -156,7 +158,7 @@ public class CommentControllerTest {
     c.setAuthor("gerste");
     c.setText("gerstenmeier");
 
-    mvc.perform(MockMvcRequestBuilders.put(URL + "1/comment")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1/comment/1")
         .content(commentToJson(c)).contentType("application/json"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json(commentToJson(new CommentDTO(c))));
@@ -165,13 +167,13 @@ public class CommentControllerTest {
 
   @Test
   public void updateNonExisting() throws Exception {
-    mvc.perform(MockMvcRequestBuilders.put(URL + "1")
+    mvc.perform(MockMvcRequestBuilders.put(URL + "1/comment/1")
         .contentType("application/json")
         .content(postToJson(p)))
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().string(""));
-  }*/
+  }
 
   private void addPostToDB(Post p) {
     db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",

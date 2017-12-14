@@ -41,7 +41,7 @@ public class ActivityController {
   @GetMapping
   public List<PostDTO> listAll() {
     List<PostDTO> activities = new ArrayList<>();
-    postRepository.findAllByPublished(true).forEach(post -> activities.add(new PostDTO(post)));
+    postRepository.findAllByPublishedTrue().forEach(post -> activities.add(new PostDTO(post)));
     return activities;
   }
 
