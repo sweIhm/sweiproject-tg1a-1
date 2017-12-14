@@ -36,10 +36,18 @@ public class ActivityControllerTest {
 
   private Post p;
 
+  private ArrayList<Keyword> k;
+
   private static final String URL = "/api/activity/";
 
   @Before
   public void setUp() throws Exception {
+    db.execute("DROP TABLE Keyword;");
+    db.execute("CREATE TABLE Keyword(" +
+        "tag_id INTEGER PRIMARY KEY," +
+        "content VARCHAR(255) NOT NULL);");
+    db.execute("DROP SEQUENCE keyword_id_seq;");
+    db.execute("CREATE SEQUENCE keyword_id_seq START WITH 1 INCREMENT BY 1;");
     db.execute("DROP TABLE Post;");
     db.execute("CREATE TABLE Post(" +
         "post_id INTEGER PRIMARY KEY," +
@@ -51,17 +59,21 @@ public class ActivityControllerTest {
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
     db.execute("DELETE FROM POST_KEYWORD;");
-    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
+    db.execute("INSERT INTO Keyword " +
+        "VALUES(1,'testKeyword1');");
+    k = new ArrayList<Keyword>();
+    k.add(new Keyword("testKeyword1"));
+    p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, k);
     p.setId(1L);
   }
 
   @Test
   public void listAll() throws Exception {
     addPostToDB(p);
-    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
+    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, k);
     p2.setId(2L);
     addPostToDB(p2);
-    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
+    Post p3 = new Post("testText", "testTitel", "testAuthor", "testEmail", true, k);
     p3.setId(3L);
     addPostToDB(p3);
     mvc.perform(MockMvcRequestBuilders.get(URL))
