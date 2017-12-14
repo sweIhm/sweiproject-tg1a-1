@@ -59,8 +59,7 @@ public class ActivityControllerTest {
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
     db.execute("DELETE FROM POST_KEYWORD;");
-    db.execute("INSERT INTO Keyword " +
-        "VALUES(1,'testKeyword1');");
+    db.execute("INSERT INTO Keyword VALUES(1,'testKeyword1');");
     k = new ArrayList<Keyword>();
     Keyword k1 = new Keyword("testKeyword1");
     k1.setId(1L);
@@ -114,6 +113,8 @@ public class ActivityControllerTest {
     mvc.perform(MockMvcRequestBuilders.get(URL))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[]"));
+    mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=124"))
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=activationfailed"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
         .andExpect(MockMvcResultMatchers.redirectedUrl("/view/1;alert=activationsucceeded"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1?key=1234"))
@@ -128,6 +129,9 @@ public class ActivityControllerTest {
     addPostToDB(p);
     mvc.perform(MockMvcRequestBuilders.delete(URL + "1"))
         .andExpect(MockMvcResultMatchers.status().isOk());
+    mvc.perform(MockMvcRequestBuilders.get("/activation/1/delete?key=124"))
+        .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+        .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=deletefailed"));
     mvc.perform(MockMvcRequestBuilders.get("/activation/1/delete?key=1234"))
         .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
         .andExpect(MockMvcResultMatchers.redirectedUrl("/dashboard;alert=deletesucceeded"));
@@ -149,6 +153,32 @@ public class ActivityControllerTest {
         .andExpect(MockMvcResultMatchers.content().string(""));
   }
 
+  @Test
+  public void getTags() throws Exception {
+    db.execute("INSERT INTO Keyword VALUES(2,'testKeyword2');");
+    db.execute("INSERT INTO Keyword VALUES(3,'testKeyword3');");
+    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content()
+            .json("[{\"content\":\"testKeyword3\"},{\"content\":\"testKeyword2\"},{\"content\":\"testKeyword1\"}]"));
+  }
+
+  @Test
+  public void getSearch() throws Exception {
+    addPostToDB(p);
+    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
+    p2.setId(2L);
+    addPostToDB(p2);
+    System.out.println("[" + postToJson(p) +"]");
+    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=testKeyword1"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(p) +"]"));
+    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=uh"))
+        .andExpect(MockMvcResultMatchers.status().isOk())
+        .andExpect(MockMvcResultMatchers.content().json("[]"));
+
+  }
+
   private void addPostToDB(Post p) {
     db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
@@ -158,14 +188,9 @@ public class ActivityControllerTest {
     }
   }
 
-  private String postToJson(PostDTO p) throws Exception {
+  private String postToJson(Object p) throws Exception {
     ObjectWriter w = new ObjectMapper().writer();
     System.out.println(w.writeValueAsString(p));
-    return w.writeValueAsString(p);
-  }
-
-  private String postToJson(Post p) throws Exception {
-    ObjectWriter w = new ObjectMapper().writer();
     return w.writeValueAsString(p);
   }
 }
