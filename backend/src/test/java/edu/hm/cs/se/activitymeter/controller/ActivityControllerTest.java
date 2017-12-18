@@ -172,7 +172,7 @@ public class ActivityControllerTest {
     System.out.println("[" + postToJson(p) +"]");
     mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=testKeyword1"))
         .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(p) +"]"));
+        .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) +"]"));
     mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=uh"))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().json("[]"));
