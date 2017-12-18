@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {ActivityDto} from "../model/activity-dto";
 import {Observable} from "rxjs/Observable";
-import {Activity} from "../model/activity";
-import {Keyword} from "../model/keyword";
 
 @Injectable()
 export class ActivityService {
@@ -12,19 +10,19 @@ export class ActivityService {
 
   constructor(private http:HttpClient) { }
 
-  addActivity(activity : ActivityDto) : Observable<ActivityDto> {
+  addActivity(activity : ActivityDto) : Observable<any> {
     return this.http.post(this.url, activity);
   }
 
-  getActivities() : Observable<Activity[]> {
+  getActivities() : Observable<any> {
     return this.http.get(this.url);
   }
 
-  getActivity(id: number) : Observable<Activity> {
+  getActivity(id: number) : Observable<any> {
     return this.http.get(this.url + '/' + id);
   }
 
-  getKeywords() : Observable<Keyword[]> {
+  getKeywords() : Observable<any> {
     return this.http.get(this.url + '/keywords');
   }
 }

@@ -15,6 +15,7 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from "./services/alert.service";
 import { PostcommentComponent } from './components/postcomment/postcomment.component';
 import { CommentService} from "./services/comment.service";
+import { FilterComponent } from './components/filter/filter.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CommentService} from "./services/comment.service";
     DashboardComponent,
     ViewComponent,
     AlertComponent,
-    PostcommentComponent
+    PostcommentComponent,
+    FilterComponent
   ],
   imports: [
     BrowserModule,
