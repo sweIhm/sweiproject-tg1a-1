@@ -96,9 +96,13 @@ public class ActivityController {
 
   @GetMapping("keywords/search")
   public List<PostDTO> getPostsbyKeyword(@RequestParam(value = "keywords",
-      defaultValue = "You ain't gonna get anything") List<String> keywords) {
-    return postRepository.searchFor(keywords).stream()
+      defaultValue = "") List<String> keywords) {
+
+    keywords = keywordRepository.findAllByContentIn(keywords).parallelStream()
+        .map(Keyword::getContent).collect(Collectors.toList());
+
+    return keywords.size() > 0 ? postRepository.searchFor(keywords).stream()
         .map(PostDTO::new)
-        .collect(Collectors.toList());
+        .collect(Collectors.toList()) : new ArrayList<>();
   }
 }
