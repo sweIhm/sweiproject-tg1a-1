@@ -95,13 +95,10 @@ public class ActivityController {
   }
 
   @GetMapping("keywords/search")
-  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
+  public List<PostDTO> getPostsbyKeyword(@RequestParam(value = "keywords",
       defaultValue = "You ain't gonna get anything") List<String> keywords) {
-    return keywordRepository.findAllByContentIn(keywords).stream()
-        .flatMap(x -> x.getPosts().stream())
-        .filter(x -> keywords.stream().allMatch(
-            k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
-        .distinct()
+    return postRepository.searchFor(keywords).stream()
+        .map(PostDTO::new)
         .collect(Collectors.toList());
   }
 }
