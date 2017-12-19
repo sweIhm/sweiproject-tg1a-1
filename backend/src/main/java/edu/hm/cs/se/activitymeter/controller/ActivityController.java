@@ -4,6 +4,7 @@ import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.dto.KeywordDTO;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.KeywordRepository;
@@ -90,18 +91,19 @@ public class ActivityController {
   }
 
   @GetMapping("keywords")
-  public List<Keyword> getKeywords() {
-    return keywordRepository.findAll();
+  public List<KeywordDTO> getKeywords() {
+    return keywordRepository.countAll();
   }
 
   @GetMapping("keywords/search")
-  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
-      defaultValue = "You ain't gonna get anything") List<String> keywords) {
-    return keywordRepository.findAllByContentIn(keywords).stream()
-        .flatMap(x -> x.getPosts().stream())
-        .filter(x -> keywords.stream().allMatch(
-            k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
-        .distinct()
-        .collect(Collectors.toList());
+  public List<PostDTO> getPostsbyKeyword(@RequestParam(value = "keywords",
+      defaultValue = "") List<String> keywords) {
+
+    keywords = keywordRepository.findAllByContentIn(keywords).parallelStream()
+        .map(Keyword::getContent).collect(Collectors.toList());
+
+    return keywords.size() > 0 ? postRepository.searchFor(keywords).stream()
+        .map(PostDTO::new)
+        .collect(Collectors.toList()) : new ArrayList<>();
   }
 }
