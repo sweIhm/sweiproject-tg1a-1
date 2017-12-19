@@ -4,6 +4,7 @@ import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
+import edu.hm.cs.se.activitymeter.model.dto.KeywordDTO;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.KeywordRepository;
@@ -90,8 +91,8 @@ public class ActivityController {
   }
 
   @GetMapping("keywords")
-  public List<Keyword> getKeywords() {
-    return keywordRepository.findAll();
+  public List<KeywordDTO> getKeywords() {
+    return keywordRepository.countAll();
   }
 
   @GetMapping("keywords/search")

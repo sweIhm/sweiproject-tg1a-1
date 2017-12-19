@@ -14,6 +14,7 @@ public interface PostRepository extends CrudRepository<Post, Long> {
       + "JOIN KEYWORD as k1 ON pk1.keyword_id = k1.keyword_id WHERE NOT EXISTS ("
       + "SELECT k2.keyword_id FROM KEYWORD as k2 WHERE k2.content IN (?1) AND NOT EXISTS ("
       + "SELECT pk3.post_id FROM POST_KEYWORD as pk3 WHERE pk1.post_id = pk3.post_id "
-      + "AND k2.keyword_id = pk3.keyword_id ))) as found ON POST.post_id = found.post_id;", nativeQuery = true)
+      + "AND k2.keyword_id = pk3.keyword_id ))) as found ON POST.post_id = found.post_id;",
+      nativeQuery = true)
   List<Post> searchFor(List<String> list);
 }
