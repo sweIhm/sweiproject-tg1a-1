@@ -48,6 +48,7 @@ public class ActivityController {
 
   @GetMapping("{id}")
   public PostDTO find(@PathVariable Long id) {
+    postRepository.increaseViewCount(id);
     return new PostDTO(postRepository.findOne(id));
   }
 
