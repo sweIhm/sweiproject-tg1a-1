@@ -42,24 +42,14 @@ public class ActivityControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    db.execute("DROP TABLE Keyword;");
-    db.execute("CREATE TABLE Keyword(" +
-        "keyword_id INTEGER PRIMARY KEY," +
-        "content VARCHAR(255) NOT NULL);");
+    db.execute("DELETE FROM POST_KEYWORD;");
+    db.execute("DELETE FROM Keyword;");
     db.execute("DROP SEQUENCE keyword_id_seq;");
     db.execute("CREATE SEQUENCE keyword_id_seq START WITH 1 INCREMENT BY 1;");
-    db.execute("DROP TABLE Post;");
-    db.execute("CREATE TABLE Post(" +
-        "post_id INTEGER PRIMARY KEY," +
-        "title VARCHAR(255) NOT NULL," +
-        "text VARCHAR(255) NOT NULL," +
-        "author VARCHAR(255) NOT NULL," +
-        "email VARCHAR(1000) NOT NULL," +
-        "published BOOLEAN NOT NULL);");
+    db.execute("DELETE FROM Post;");
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
-    db.execute("DELETE FROM POST_KEYWORD;");
-    db.execute("INSERT INTO Keyword VALUES(1,'testKeyword1');");
+    db.execute("INSERT INTO Keyword(keyword_id, content) VALUES(1,'testKeyword1');");
     k = new ArrayList<Keyword>();
     Keyword k1 = new Keyword("testKeyword1");
     k1.setId(1L);
@@ -180,10 +170,10 @@ public class ActivityControllerTest {
   }
 
   private void addPostToDB(Post p) {
-    db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
+    db.execute(String.format("INSERT INTO Post(post_id, title, text, author, email, published, views) VALUES(%d,'%s','%s','%s','%s',%s,0);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
     for (Keyword k : p.getKeywords()) {
-      db.execute(String.format("INSERT INTO post_keyword VALUES(%d, %d);",
+      db.execute(String.format("INSERT INTO post_keyword(post_id, keyword_id) VALUES(%d, %d);",
           p.getId(), k.getId()));
     }
   }
