@@ -23,6 +23,6 @@ export class ActivityService {
   }
 
   getKeywords() : Observable<any> {
-    return this.http.get(this.url + '/keywords');
+    return this.http.get('/api/lookup/keywords');
   }
 }

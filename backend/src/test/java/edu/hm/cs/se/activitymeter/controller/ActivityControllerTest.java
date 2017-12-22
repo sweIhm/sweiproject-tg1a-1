@@ -42,6 +42,7 @@ public class ActivityControllerTest {
 
   @Before
   public void setUp() throws Exception {
+    db.execute("DELETE FROM Comment");
     db.execute("DELETE FROM POST_KEYWORD;");
     db.execute("DELETE FROM Keyword;");
     db.execute("DROP SEQUENCE keyword_id_seq;");
@@ -141,32 +142,6 @@ public class ActivityControllerTest {
         .andDo(MockMvcResultHandlers.print())
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andExpect(MockMvcResultMatchers.content().string(""));
-  }
-
-  @Test
-  public void getTags() throws Exception {
-    db.execute("INSERT INTO Keyword VALUES(2,'testKeyword2');");
-    db.execute("INSERT INTO Keyword VALUES(3,'testKeyword3');");
-    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content()
-            .json("[{\"content\":\"testKeyword3\"},{\"content\":\"testKeyword2\"},{\"content\":\"testKeyword1\"}]"));
-  }
-
-  @Test
-  public void getSearch() throws Exception {
-    addPostToDB(p);
-    Post p2 = new Post("testText", "testTitel", "testAuthor", "testEmail", false, new ArrayList<>());
-    p2.setId(2L);
-    addPostToDB(p2);
-    System.out.println("[" + postToJson(p) +"]");
-    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=testKeyword1"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().json("[" + postToJson(new PostDTO(p)) +"]"));
-    mvc.perform(MockMvcRequestBuilders.get("/api/activity/keywords/search?keywords=uh"))
-        .andExpect(MockMvcResultMatchers.status().isOk())
-        .andExpect(MockMvcResultMatchers.content().json("[]"));
-
   }
 
   private void addPostToDB(Post p) {
