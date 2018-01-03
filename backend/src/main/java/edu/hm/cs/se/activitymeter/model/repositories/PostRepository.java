@@ -24,4 +24,12 @@ public interface PostRepository extends CrudRepository<Post, Long> {
   @Modifying
   @Query(value = "UPDATE Post p SET p.views = p.views + 1 WHERE p.id = ?1")
   void increaseViewCount(Long id);
+
+  @Query(value = "SELECT p.post_id, p.author, p.email, p.published, p.text, p.title, p.views "
+      + "FROM Post p JOIN (SELECT p.post_id, "
+      + "((p.views + 1) * 10 * (count(c.post_id) + 1)) * (count(c.email) + 1) as val FROM Post as p"
+      + " LEFT JOIN Comment as c ON p.post_id = c.post_id WHERE p.published = true "
+      + "GROUP BY p.post_id) as stats ON p.post_id = stats.post_id "
+      + "ORDER BY stats.val DESC LIMIT 5;", nativeQuery = true)
+  List<Post> trending();
 }
