@@ -1,0 +1,76 @@
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <h2>Trending keywords</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scop="col">#</th>
+            <th scop="col">Keyword</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let keyword of trendingKeywords">
+            <th scope="row">{{ trendingKeywords.indexOf(keyword) + 1 }}</th>
+            <td><span class="badge badge-secondary">{{ keyword.content }}</span></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md">
+        <h2>Trending activities</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scop="col">#</th>
+            <th scop="col">Activity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let activity of trendingPosts">
+            <th scope="row">{{ trendingPosts.indexOf(activity) + 1 }}</th>
+            <td>{{ activity.title }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md">
+        <h2>HM represents</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scop="col">#</th>
+            <th scop="col">Activity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let activity of trendingHM">
+            <th scope="row">{{ trendingHM.indexOf(activity) + 1 }}</th>
+            <td>{{ activity.title }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md">
+        <h2>CALPOLY represents</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scop="col">#</th>
+            <th scop="col">Activity</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let activity of trendingCALPOLY">
+            <th scope="row">{{ trendingCALPOLY.indexOf(activity) + 1 }}</th>
+            <td>{{ activity.title }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
