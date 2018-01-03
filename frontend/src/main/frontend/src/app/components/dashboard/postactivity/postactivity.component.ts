@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivityDto} from "../../model/activity-dto";
-import {ActivityService} from "../../services/activity.service";
+import {ActivityDto} from "../../../model/activity-dto";
+import {ActivityService} from "../../../services/activity.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {AlertService} from "../../services/alert.service";
-import {Keyword} from "../../model/keyword";
+import {AlertService} from "../../../services/alert.service";
+import {Keyword} from "../../../model/keyword";
 
 @Component({
   selector: 'app-post',

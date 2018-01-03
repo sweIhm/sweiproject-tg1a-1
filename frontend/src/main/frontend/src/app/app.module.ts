@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { PostactivityComponent } from './components/postactivity/postactivity.component';
+import { PostactivityComponent } from './components/dashboard/postactivity/postactivity.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ActivityService} from "./services/activity.service";
 import { HttpClientModule} from "@angular/common/http";
@@ -15,8 +15,9 @@ import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from "./services/alert.service";
 import { PostcommentComponent } from './components/postcomment/postcomment.component';
 import { CommentService} from "./services/comment.service";
-import { FilterComponent } from './components/filter/filter.component';
+import { FilterComponent } from './components/dashboard/filter/filter.component';
 import { FrontpageComponent } from './components/frontpage/frontpage.component';
+import { ListComponent } from './components/dashboard/list/list.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { FrontpageComponent } from './components/frontpage/frontpage.component';
     AlertComponent,
     PostcommentComponent,
     FilterComponent,
-    FrontpageComponent
+    FrontpageComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,
