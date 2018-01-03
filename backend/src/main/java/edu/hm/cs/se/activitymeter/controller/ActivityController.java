@@ -4,7 +4,6 @@ import edu.hm.cs.se.activitymeter.controller.email.AbstractEmailController;
 import edu.hm.cs.se.activitymeter.model.ActivationKey;
 import edu.hm.cs.se.activitymeter.model.Keyword;
 import edu.hm.cs.se.activitymeter.model.Post;
-import edu.hm.cs.se.activitymeter.model.dto.KeywordDTO;
 import edu.hm.cs.se.activitymeter.model.dto.PostDTO;
 import edu.hm.cs.se.activitymeter.model.repositories.ActivationKeyRepository;
 import edu.hm.cs.se.activitymeter.model.repositories.KeywordRepository;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,6 +46,7 @@ public class ActivityController {
 
   @GetMapping("{id}")
   public PostDTO find(@PathVariable Long id) {
+    postRepository.increaseViewCount(id);
     return new PostDTO(postRepository.findOne(id));
   }
 
@@ -88,22 +87,5 @@ public class ActivityController {
       post.setKeywords(keywordList);
       return new PostDTO(postRepository.save(post));
     }
-  }
-
-  @GetMapping("keywords")
-  public List<KeywordDTO> getKeywords() {
-    return keywordRepository.countAll();
-  }
-
-  @GetMapping("keywords/search")
-  public List<PostDTO> getPostsbyKeyword(@RequestParam(value = "keywords",
-      defaultValue = "") List<String> keywords) {
-
-    keywords = keywordRepository.findAllByContentIn(keywords).parallelStream()
-        .map(Keyword::getContent).collect(Collectors.toList());
-
-    return keywords.size() > 0 ? postRepository.searchFor(keywords).stream()
-        .map(PostDTO::new)
-        .collect(Collectors.toList()) : new ArrayList<>();
   }
 }

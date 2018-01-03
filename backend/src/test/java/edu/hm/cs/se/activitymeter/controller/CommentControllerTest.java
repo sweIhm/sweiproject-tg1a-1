@@ -43,31 +43,15 @@ public class CommentControllerTest {
 
   @Before
   public void setUp() throws Exception {
-    db.execute("DROP TABLE Post;");
-    db.execute("CREATE TABLE Post(" +
-        "post_id INTEGER PRIMARY KEY," +
-        "title VARCHAR(255) NOT NULL," +
-        "text VARCHAR(255) NOT NULL," +
-        "author VARCHAR(255) NOT NULL," +
-        "email VARCHAR(1000) NOT NULL," +
-        "published BOOLEAN NOT NULL);");
+    db.execute("DELETE FROM POST_KEYWORD;");
+    db.execute("DELETE FROM Comment;");
+    db.execute("DELETE FROM Post;");
     db.execute("DROP SEQUENCE post_id_seq;");
     db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
-    db.execute("DELETE FROM POST_KEYWORD;");
+    db.execute("DROP SEQUENCE post_id_seq;");
+    db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
     p = new Post("testText", "testTitel", "testAuthor", "testEmail", true, new ArrayList<>());
     p.setId(1L);
-
-    db.execute("DROP TABLE Comment;");
-    db.execute("CREATE TABLE Comment(" +
-            "comment_id INTEGER PRIMARY KEY," +
-            "text VARCHAR(255) NOT NULL," +
-            "author VARCHAR(255) NOT NULL," +
-            "email VARCHAR(1000) NOT NULL," +
-            "published BOOLEAN NOT NULL," +
-            "post_id INT  NOT NULL );");
-    db.execute("DROP SEQUENCE post_id_seq;");
-    db.execute("CREATE SEQUENCE post_id_seq START WITH 1 INCREMENT BY 1;");
-    db.execute("DELETE FROM POST_KEYWORD;");
     c = new Comment("testText",  "testAuthor", "testEmail", true,p);
     c.setId(1L);
   }
@@ -92,8 +76,6 @@ public class CommentControllerTest {
             .content(toJson(p)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().json(toJson(new PostDTO(p))));
-
-
 
     mvc.perform(MockMvcRequestBuilders.get(URL))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -157,6 +139,8 @@ public class CommentControllerTest {
 
   @Test
   public void update() throws Exception {
+    addPostToDB(p);
+    c.setPost(p);
     addCommentToDB(c);
     c.setAuthor("gerste");
     c.setText("gerstenmeier");
@@ -179,12 +163,12 @@ public class CommentControllerTest {
   }
 
   private void addPostToDB(Post p) {
-    db.execute(String.format("INSERT INTO Post VALUES(%d,'%s','%s','%s','%s',%s);",
+    db.execute(String.format("INSERT INTO Post(post_id, title, text, author, email, published, views) VALUES(%d,'%s','%s','%s','%s',%s, 0);",
         p.getId(), p.getTitle(), p.getText(), p.getAuthor(), p.getEmail(), p.isPublished()));
   }
 
   private void addCommentToDB(Comment c) {
-    db.execute(String.format("INSERT INTO Comment VALUES(%d,'%s','%s','%s','%s',%d);",
+    db.execute(String.format("INSERT INTO Comment(comment_id, text, author, email, published, post_id) VALUES(%d,'%s','%s','%s','%s',%d);",
             c.getId(), c.getText(),  c.getAuthor(), c.getEmail(), c.isPublished(), c.getPost().getId()));
   }
 
