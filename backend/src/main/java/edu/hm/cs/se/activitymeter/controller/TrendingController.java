@@ -21,13 +21,26 @@ public class TrendingController {
   @Autowired
   KeywordRepository keywordRepository;
 
-  @GetMapping("all")
+  @GetMapping
   public List<PostDTO> trendingActivities() {
-    return postRepository.trending().stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+    return postRepository.trending()
+        .stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
   }
 
   @GetMapping("keywords")
   public List<Keyword> trendingTags() {
     return keywordRepository.trending();
+  }
+
+  @GetMapping("hm")
+  public List<PostDTO> trendingOnHM() {
+    return postRepository.trending("hm")
+        .stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
+  }
+
+  @GetMapping("calpoly")
+  public List<PostDTO> trendingOnCalpoly() {
+    return postRepository.trending("calpoly")
+        .stream().map(x -> new PostDTO(x)).collect(Collectors.toList());
   }
 }

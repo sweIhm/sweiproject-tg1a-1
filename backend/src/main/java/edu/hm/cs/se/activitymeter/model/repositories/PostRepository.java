@@ -32,4 +32,14 @@ public interface PostRepository extends CrudRepository<Post, Long> {
       + "GROUP BY p.post_id) as stats ON p.post_id = stats.post_id "
       + "ORDER BY stats.val DESC LIMIT 5;", nativeQuery = true)
   List<Post> trending();
+
+  @Query(value = "SELECT p.post_id, p.author, p.email, p.published, p.text, p.title, p.views "
+      + "FROM Post p JOIN (SELECT p.post_id, ((p.views + 1) * 10 * (count(c.post_id) + 1))"
+      + " * (count(c.email) + 1) as val FROM (SELECT p.post_id, p.views, p.published "
+      + "FROM Post as p JOIN (SELECT kp.post_id, kp.keyword_id FROM Post_Keyword as kp "
+      + "JOIN Keyword as k ON kp.keyword_id = k.keyword_id WHERE k.content = ?) as k "
+      + "ON p.post_id = k.post_id) as p LEFT JOIN Comment as c ON p.post_id = c.post_id "
+      + "WHERE p.published = true GROUP BY p.post_id) as stats ON p.post_id = stats.post_id "
+      + "ORDER BY stats.val DESC LIMIT 5", nativeQuery = true)
+  List<Post> trending(String keyword);
 }
