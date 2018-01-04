@@ -85,11 +85,8 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['/dashboard'], {queryParams: {'filter': params }});
     }
     else {
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
-  get diagnostic(): string {
-    return JSON.stringify(this.filters);
-  }
 }

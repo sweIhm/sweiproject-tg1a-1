@@ -28,7 +28,7 @@ export class PostactivityComponent implements OnInit {
   onSubmit() {
     this.service.addActivity(this.toBePosted).subscribe();
     this.activeModal.close();
-    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
+    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'success')
   }
 
   toggleKeyword(keyword: Keyword) {
