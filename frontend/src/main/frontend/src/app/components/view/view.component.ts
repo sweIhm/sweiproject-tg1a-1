@@ -33,7 +33,7 @@ export class ViewComponent implements OnInit {
   }
 
   getData() {
-    const id = +this.route.snapshot.paramMap.get('id');
+    let id = +this.route.snapshot.paramMap.get('id');
     this.activityService.getActivity(id).subscribe(activity => this.activity = activity);
     this.commentService.getComments(id).subscribe(comments => this.comments = comments);
   }

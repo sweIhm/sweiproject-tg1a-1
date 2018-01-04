@@ -3,8 +3,9 @@ import {ActivityService} from "../../services/activity.service";
 import {Activity} from "../../model/activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../services/alert.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
 import {PostactivityComponent} from "./postactivity/postactivity.component";
+import {Filter} from "../../model/filter";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,25 +15,45 @@ import {PostactivityComponent} from "./postactivity/postactivity.component";
 export class DashboardComponent implements OnInit {
 
   activities : Activity[] = [];
+  filters: Filter[] = [];
 
   constructor(private service: ActivityService,
               private modal: NgbModal,
               private alertService: AlertService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) {
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.getData();
+      }
+    });
+  }
 
   ngOnInit() {
     let alert = this.route.snapshot.paramMap.get('alert');
     this.addAlert(alert);
-    let query = this.route.snapshot.paramMap.get('filter');
-    this.getActivities();
   }
 
-  getActivities() {
-    this.service.getActivities().subscribe(activities => this.activities = activities);
+  getData() {
+    let query = this.route.snapshot.queryParamMap.getAll('filter');
+    // todo remove
+    for (let key of query) {
+      console.log('lel: ' + key);
+    }
+    this.service.getActivities(query).subscribe(activities => this.activities = activities);
+    this.service.getKeywords().subscribe((keywords) => {
+      this.filters = [];
+      for (let keyword of keywords) {
+        let filter = new Filter(keyword);
+        filter.active = query.indexOf(keyword.content) >= 0;
+        filter.selected = query.indexOf(keyword.content) >= 0;
+        this.filters.push(filter);
+      }
+    });
   }
 
   refresh() {
-    this.getActivities();
+    this.getData();
     this.alertService.addAlert('Data refreshed!', 'info')
   }
 
@@ -53,4 +74,22 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  navigate() {
+    let params: string[] = [];
+    for (let filter of this.filters) {
+      if (filter.selected) {
+        params.push(filter.keyword.content);
+      }
+    }
+    if (params.length > 0) {
+      this.router.navigate(['/dashboard'], {queryParams: {'filter': params }});
+    }
+    else {
+      this.router.navigate(['dashboard']);
+    }
+  }
+
+  get diagnostic(): string {
+    return JSON.stringify(this.filters);
+  }
 }

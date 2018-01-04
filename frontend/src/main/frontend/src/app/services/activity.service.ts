@@ -14,7 +14,14 @@ export class ActivityService {
     return this.http.post(this.url, activity);
   }
 
-  getActivities() : Observable<any> {
+  getActivities(keywords?: string[]) : Observable<any> {
+    if (keywords && keywords.length > 0) {
+      return this.http.get('/api/lookup/search', {
+        params: {
+          'keywords': keywords
+        }
+      });
+    }
     return this.http.get(this.url);
   }
 
