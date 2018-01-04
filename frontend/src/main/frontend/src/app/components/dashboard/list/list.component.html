@@ -1,19 +1,30 @@
-<table class="table table-hover">
+<table class="table table-striped table-bordered">
   <thead class="thead-dark">
   <tr>
-    <th scope="col">ID</th>
-    <th scope="col">Title</th>
     <th scope="col">Author</th>
+    <th scope="col">Title</th>
+    <th scope="col">Keywords</th>
+    <th scope="col">Date</th>
   </tr>
   </thead>
   <tbody>
-  <tr *ngFor="let activity of activities" routerLink="/view/{{activity.id}}">
-    <th scope="row">{{activity.id}}</th>
-    <td>{{activity.title}}</td>
+  <tr *ngFor="let activity of activities">
     <td>{{activity.author}}</td>
+    <td>
+      <a routerLink="/view/{{activity.id}}">
+        {{activity.title}}
+      </a>
+    </td>
+    <td>
+      <a *ngFor="let keyword of activity.keywords" class="badge badge-secondary p-2 mr-1"
+            [routerLink]="['/dashboard']" [queryParams]="{filter: keyword.content}">
+        {{keyword.content}}
+      </a>
+    </td>
+    <td>TODO</td>
   </tr>
   <tr *ngIf="activities.length === 0">
-    <th colspan="3" class="text-center">No Activities found</th>
+    <th colspan="4" class="text-center">No Activities found</th>
   </tr>
   </tbody>
 </table>
