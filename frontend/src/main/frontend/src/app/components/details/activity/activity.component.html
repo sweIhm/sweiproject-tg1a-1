@@ -1,0 +1,14 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Activity <strong>{{activity.title}}</strong></h3>
+    <h4>submitted by <strong>{{activity.author}}</strong></h4>
+  </div>
+  <div class="card-body">{{activity.text}}</div>
+  <div class="card-footer">
+    <strong>Tags:</strong>
+    <a class="badge badge-secondary p-2 ml-2" *ngFor="let keyword of activity.keywords"
+       [routerLink]="['/dashboard']" [queryParams]="{filter: keyword.content}">
+      {{keyword.content}}
+    </a>
+  </div>
+</div>

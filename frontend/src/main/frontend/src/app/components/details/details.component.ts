@@ -4,15 +4,15 @@ import {ActivatedRoute} from "@angular/router";
 import {ActivityService} from "../../services/activity.service";
 import {AlertService} from "../../services/alert.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PostcommentComponent} from "../postcomment/postcomment.component";
+import {PostcommentComponent} from "./postcomment/postcomment.component";
 import {CommentService} from "../../services/comment.service";
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.css']
+  selector: 'app-details',
+  templateUrl: './details.component.html',
+  styleUrls: ['./details.component.css']
 })
-export class ViewComponent implements OnInit {
+export class DetailsComponent implements OnInit {
 
   activity: Activity;
   comments: Comment[];
@@ -43,10 +43,4 @@ export class ViewComponent implements OnInit {
     modalref.componentInstance.activityId = this.activity.id;
   }
 
-  hasComments(): boolean {
-    if (this.comments) {
-      return this.comments.length > 0;
-    }
-    return false;
-  }
 }
