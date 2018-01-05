@@ -8,7 +8,8 @@
     <strong>Tags:</strong>
     <a class="badge badge-secondary p-2 ml-2" *ngFor="let keyword of activity.keywords"
        [routerLink]="['/dashboard']" [queryParams]="{filter: keyword.content}">
-      {{keyword.content}}
+      <i class="fa fa-hashtag" aria-hidden="true"></i>
+      <span class="ml-1">{{keyword.content}}</span>
     </a>
   </div>
 </div>

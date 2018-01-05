@@ -1,14 +1,20 @@
 <div class="container" *ngIf="activity">
   <h2>Details</h2>
   <app-activity [activity]="activity"></app-activity>
-  <button class="btn btn-primary mt-2" routerLink="/dashboard">Go Back</button>
-  <button class="btn btn-primary mt-2 ml-2" (click)="openPostcommentModal()">Comment</button>
+  <button class="btn btn-info mt-2" routerLink="/dashboard">Go Back</button>
+  <button class="btn btn-success mt-2 ml-2" (click)="openPostcommentModal()">
+    <i class="fa fa-comment" aria-hidden="true"></i>
+    <span class="ml-1">Comment</span>
+  </button>
   <hr>
   <h4 *ngIf="comments.length > 1">{{comments.length}} Comments</h4>
   <h4 *ngIf="comments.length === 1">{{comments.length}} Comment</h4>
   <h5 *ngIf="comments.length === 0" class="m-2">No comments</h5>
   <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
   <hr>
-  <button class="btn btn-primary" routerLink="/dashboard">Go Back</button>
-  <button class="btn btn-primary ml-1" (click)="openPostcommentModal()">Comment</button>
+  <button class="btn btn-info" routerLink="/dashboard">Go Back</button>
+  <button class="btn btn-success ml-2" (click)="openPostcommentModal()">
+    <i class="fa fa-comment" aria-hidden="true"></i>
+    <span class="ml-1">Comment</span>
+  </button>
 </div>

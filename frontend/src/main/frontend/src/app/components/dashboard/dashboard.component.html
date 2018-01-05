@@ -21,7 +21,8 @@
         <h2>Filter</h2>
         <app-filter [filters]="filters"></app-filter>
         <div class="d-flex justify-content-end">
-          <button class="btn btn-danger mr-2" [routerLink]="['/dashboard']">
+          <button class="btn btn-danger mr-2"
+                  [routerLink]="['/dashboard']" *ngIf="hasActiveFilters">
             <i class="fa fa-times"></i>
             <span class="ml-1">Clear</span>
           </button>

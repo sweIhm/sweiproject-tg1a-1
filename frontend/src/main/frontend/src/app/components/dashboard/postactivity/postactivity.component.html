@@ -39,9 +39,10 @@
       <div id="formTags" class="border rounded">
         <span class="badge p-2 ml-2 mt-2 mb-2" *ngFor="let keyword of keywords.slice(0, limit)"
               (click)="toggleKeyword(keyword)"
-              [class.badge-primary]="toBePosted.keywords.indexOf(keyword)>-1"
+              [class.badge-info]="toBePosted.keywords.indexOf(keyword)>-1"
               [class.badge-secondary]="toBePosted.keywords.indexOf(keyword)<0">
-          {{keyword.content}}
+          <i class="fa fa-hashtag" aria-hidden="true"></i>
+          <span class="ml-1">{{keyword.content}}</span>
         </span>
         <button *ngIf="limit != keywords.length" class="btn btn-link"
                 (click)="showMore()">show more...</button>

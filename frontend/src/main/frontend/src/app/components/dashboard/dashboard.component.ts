@@ -36,10 +36,6 @@ export class DashboardComponent implements OnInit {
 
   getData() {
     let query = this.route.snapshot.queryParamMap.getAll('filter');
-    // todo remove
-    for (let key of query) {
-      console.log('lel: ' + key);
-    }
     this.service.getActivities(query).subscribe(activities => this.activities = activities);
     this.service.getKeywords().subscribe((keywords) => {
       this.filters = [];
@@ -89,4 +85,7 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  get hasActiveFilters() {
+    return this.filters.some(filter => filter.active); // entspricht javas Stream.anyMatch
+  }
 }
