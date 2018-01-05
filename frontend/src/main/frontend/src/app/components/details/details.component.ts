@@ -26,9 +26,12 @@ export class DetailsComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
-    const param = this.route.snapshot.paramMap.get('alert');
+    let param = this.route.snapshot.paramMap.get('alert');
     if (param == 'activationsucceeded') {
       this.alertService.addAlert('Activity successfully published. Thank you for your submission!', 'success');
+    }
+    if (param == 'commentactivationsucceeded') {
+      this.alertService.addAlert('Comment successfully published. Thank you for your submission!', 'success');
     }
   }
 

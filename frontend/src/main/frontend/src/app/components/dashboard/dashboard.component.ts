@@ -64,10 +64,6 @@ export class DashboardComponent implements OnInit {
     if (alert == 'commentactivationfailed') {
       this.alertService.addAlert('Activation failed! Try submitting your comment again.', 'danger');
     }
-    // TODO Dieser alert gehört eigentlich zu view
-    if (alert == 'commentactivationsucceeded') {
-      this.alertService.addAlert('Comment successfully published. Thank you for your submission!', 'success');
-    }
   }
 
   navigate() {
