@@ -3,8 +3,8 @@
     <div class="row">
       <div class="col-md">
         <h2>Trending keywords</h2>
-        <table class="table">
-          <thead>
+        <table class="table table-bordered">
+          <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Keyword</th>
@@ -13,15 +13,20 @@
           <tbody>
           <tr *ngFor="let keyword of trendingKeywords">
             <th scope="row">{{ trendingKeywords.indexOf(keyword) + 1 }}</th>
-            <td><span class="badge badge-secondary">{{ keyword.content }}</span></td>
+            <td>
+              <a class="badge badge-secondary p-2" [routerLink]="['dashboard']"
+                    [queryParams]="{filter: keyword.content}">
+                <i class="fa fa-hashtag"></i>
+                <span class="ml-1">{{ keyword.content }}</span></a>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
       <div class="col-md">
         <h2>Trending activities</h2>
-        <table class="table table-hover">
-          <thead>
+        <table class="table table-hover table-bordered">
+          <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
@@ -39,8 +44,8 @@
     <div class="row">
       <div class="col-md">
         <h2>HM represents</h2>
-        <table class="table table-hover">
-          <thead>
+        <table class="table table-hover table-bordered">
+          <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
@@ -56,8 +61,8 @@
       </div>
       <div class="col-md">
         <h2>CALPOLY represents</h2>
-        <table class="table table-hover">
-          <thead>
+        <table class="table table-hover table-bordered">
+          <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
