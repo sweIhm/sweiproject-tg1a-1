@@ -3,21 +3,22 @@
     <div class="row">
       <div class="col-md">
         <h2>Trending keywords</h2>
-        <table class="table table-bordered">
-          <thead class="thead-dark">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Keyword</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let keyword of trendingKeywords">
+          <tr *ngFor="let keyword of trendingKeywords" [routerLink]="['dashboard']"
+              [queryParams]="{filter: keyword.content}">
             <th scope="row">{{ trendingKeywords.indexOf(keyword) + 1 }}</th>
             <td>
-              <a class="badge badge-secondary p-2" [routerLink]="['dashboard']"
-                    [queryParams]="{filter: keyword.content}">
+              <span class="badge badge-secondary p-2">
                 <i class="fa fa-hashtag"></i>
-                <span class="ml-1">{{ keyword.content }}</span></a>
+                <span class="ml-1">{{ keyword.content }}</span>
+              </span>
             </td>
           </tr>
           </tbody>
@@ -26,7 +27,7 @@
       <div class="col-md">
         <h2>Trending activities</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-dark">
+          <thead class="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
@@ -45,7 +46,7 @@
       <div class="col-md">
         <h2>HM represents</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-dark">
+          <thead class="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
@@ -62,7 +63,7 @@
       <div class="col-md">
         <h2>CALPOLY represents</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-dark">
+          <thead class="thead-light">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
