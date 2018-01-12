@@ -1,0 +1,31 @@
+<header class="modal-header">
+  <h3>Search Activity</h3>
+  <button type="button" class="close" aria-label="Close" (click)="close()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</header>
+<div class="modal-body">
+  <div class="form-group">
+    <input [(ngModel)]="searchterm" class="form-control" placeholder="Search...">
+    <table class="table table-bordered table-hover">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">Author</th>
+          <th scope="col">Title</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let activity of search" class="clickable" (click)="navigate(activity)">
+          <td>{{activity.author}}</td>
+          <th scope="row">{{activity.title}}</th>
+        </tr>
+        <tr *ngIf="search.length === 0">
+          <th scope="row" colspan="2" class="text-center">No activities found</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<footer class="modal-footer">
+  <button class="btn btn-outline-success" (click)="close()">Done</button>
+</footer>

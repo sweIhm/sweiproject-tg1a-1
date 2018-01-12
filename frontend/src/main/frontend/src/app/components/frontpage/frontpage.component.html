@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md">
         <h2>Trending keywords</h2>
-        <table class="table">
+        <table class="table table-bordered table-hover">
           <thead>
           <tr>
             <th scope="col">#</th>
@@ -11,16 +11,22 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let keyword of trendingKeywords">
+          <tr *ngFor="let keyword of trendingKeywords" [routerLink]="['dashboard']"
+              [queryParams]="{filter: keyword.content}" class="clickable">
             <th scope="row">{{ trendingKeywords.indexOf(keyword) + 1 }}</th>
-            <td><span class="badge badge-secondary">{{ keyword.content }}</span></td>
+            <td>
+              <span class="badge badge-secondary p-2">
+                <i class="fa fa-hashtag"></i>
+                <span class="ml-1">{{ keyword.content }}</span>
+              </span>
+            </td>
           </tr>
           </tbody>
         </table>
       </div>
       <div class="col-md">
         <h2>Trending activities</h2>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
           <thead>
           <tr>
             <th scope="col">#</th>
@@ -28,7 +34,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingPosts" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingPosts" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingPosts.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>
@@ -39,7 +45,7 @@
     <div class="row">
       <div class="col-md">
         <h2>HM represents</h2>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
           <thead>
           <tr>
             <th scope="col">#</th>
@@ -47,7 +53,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingHM" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingHM" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingHM.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>
@@ -56,7 +62,7 @@
       </div>
       <div class="col-md">
         <h2>CALPOLY represents</h2>
-        <table class="table table-hover">
+        <table class="table table-hover table-bordered">
           <thead>
           <tr>
             <th scope="col">#</th>
@@ -64,7 +70,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingCALPOLY" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingCALPOLY" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingCALPOLY.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>

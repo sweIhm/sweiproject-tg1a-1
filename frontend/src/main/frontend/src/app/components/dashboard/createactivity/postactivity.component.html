@@ -1,6 +1,6 @@
 <form (ngSubmit)="onSubmit(); activityForm.reset()" #activityForm="ngForm">
   <div class="modal-header">
-    <h3>Post Activity</h3>
+    <h3>Create Activity</h3>
     <button type="button" class="close" aria-label="Close" (click)="activeModal.close()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -28,7 +28,7 @@
       <div [hidden]="title.valid || title.pristine" class="alert alert-danger">Title is required!</div>
     </div>
     <div class="form-group">
-      <label for="formText">Text</label>
+      <label for="formText">Text <small>{{toBePosted.text.length}} characters</small></label>
       <textarea [(ngModel)]="toBePosted.text" class="form-control"
                 placeholder="Description of your activity" #text="ngModel"
                 required name="text" id="formText"></textarea>
@@ -37,11 +37,12 @@
     <div class="form-group">
       <label for="formTags">Tags <small>{{toBePosted.keywords.length}} selected</small></label>
       <div id="formTags" class="border rounded">
-        <span class="badge p-2 ml-2 mt-2 mb-2" *ngFor="let keyword of keywords.slice(0, limit)"
+        <span class="badge p-2 ml-2 mt-2 mb-2" *ngFor="let keyword of keywords | slice:0:limit"
               (click)="toggleKeyword(keyword)"
-              [class.badge-primary]="toBePosted.keywords.indexOf(keyword)>-1"
+              [class.badge-info]="toBePosted.keywords.indexOf(keyword)>-1"
               [class.badge-secondary]="toBePosted.keywords.indexOf(keyword)<0">
-          {{keyword.content}}
+          <i class="fa fa-hashtag" aria-hidden="true"></i>
+          <span class="ml-1">{{keyword.content}}</span>
         </span>
         <button *ngIf="limit != keywords.length" class="btn btn-link"
                 (click)="showMore()">show more...</button>
@@ -51,7 +52,7 @@
 
   <div class="modal-footer">
     <button class="btn btn-outline-danger" (click)="activeModal.close()">Cancel</button>
-    <input type="submit" class="btn btn-outline-primary"
+    <input type="submit" class="btn btn-outline-success"
            value="Submit Activity"
            [disabled]="!activityForm.form.valid">
   </div>

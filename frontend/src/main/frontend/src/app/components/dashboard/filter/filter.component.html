@@ -1,0 +1,15 @@
+<div class="form-group">
+  <div *ngFor="let filter of filters" class="form-check">
+    <input type="checkbox" class="form-check-input" id="{{filter.keyword.content}}"
+           [(ngModel)]="filter.selected">
+    <label class="form-check-label d-flex justify-content-end" for="{{filter.keyword.content}}">
+      <span class="mr-auto">
+        {{filter.keyword.content}}
+      </span>
+      <span class="badge badge-info align-self-center mr-1" *ngIf="filter.active">active</span>
+      <span class="badge badge-secondary badge-pill align-self-center mr-1">
+        {{filter.keyword.count}}
+      </span>
+    </label>
+  </div>
+</div>
