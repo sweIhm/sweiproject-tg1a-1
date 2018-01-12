@@ -2,11 +2,15 @@
   <div class="row">
     <div class="col-sm-9">
       <div class="p-2">
-        <header class="d-flex">
-          <h2>Dashboard</h2>
-          <button class="btn btn-info ml-auto align-self-center" (click)="refresh()">
+        <header class="d-flex flex-wrap justify-content-end">
+          <h2 class="mr-auto">Dashboard</h2>
+          <button class="btn btn-info align-self-center" (click)="refresh()">
             <i class="fa fa-refresh"></i>
             <span class="ml-1">Refresh</span>
+          </button>
+          <button class="btn btn-info ml-2 align-self-center" (click)="openSearchModal()">
+            <i class="fa fa-search"></i>
+            <span class="ml-1">Search</span>
           </button>
           <button class="btn btn-success ml-2 align-self-center" (click)="openPostModal()">
             <i class="fa fa-plus"></i>

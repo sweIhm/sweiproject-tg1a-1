@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { PostactivityComponent } from './components/dashboard/postactivity/postactivity.component';
+import { PostactivityComponent } from './components/dashboard/createactivity/postactivity.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ActivityService} from "./services/activity.service";
 import { HttpClientModule} from "@angular/common/http";
@@ -19,6 +19,7 @@ import { ListComponent } from './components/dashboard/list/list.component';
 import { DetailsComponent } from './components/details/details.component';
 import { ActivityComponent } from './components/details/activity/activity.component';
 import { CommentComponent } from './components/details/comment/comment.component';
+import { SearchactivityComponent } from './components/dashboard/searchactivity/searchactivity.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { CommentComponent } from './components/details/comment/comment.component
     ListComponent,
     DetailsComponent,
     ActivityComponent,
-    CommentComponent
+    CommentComponent,
+    SearchactivityComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +45,6 @@ import { CommentComponent } from './components/details/comment/comment.component
   ],
   providers: [ActivityService, AlertService, CommentService],
   bootstrap: [AppComponent],
-  entryComponents: [PostactivityComponent, PostcommentComponent]
+  entryComponents: [PostactivityComponent, PostcommentComponent, SearchactivityComponent]
 })
 export class AppModule { }

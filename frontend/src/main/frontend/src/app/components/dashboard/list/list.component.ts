@@ -15,4 +15,10 @@ export class ListComponent implements OnInit {
   ngOnInit() {
   }
 
+  shortText(activity: Activity): string {
+    if (activity.text.length >= 100) {
+      return activity.text.slice(0, 98) + '\u2026'; // ellipse
+    }
+    return activity.text;
+  }
 }

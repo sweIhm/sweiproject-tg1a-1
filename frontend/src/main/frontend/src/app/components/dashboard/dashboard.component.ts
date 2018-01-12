@@ -4,8 +4,9 @@ import {Activity} from "../../model/activity";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AlertService} from "../../services/alert.service";
 import {ActivatedRoute, NavigationEnd, Router} from "@angular/router";
-import {PostactivityComponent} from "./postactivity/postactivity.component";
+import {PostactivityComponent} from "./createactivity/postactivity.component";
 import {Filter} from "../../model/filter";
+import {SearchactivityComponent} from "./searchactivity/searchactivity.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -55,6 +56,11 @@ export class DashboardComponent implements OnInit {
 
   openPostModal() {
     this.modal.open(PostactivityComponent);
+  }
+
+  openSearchModal() {
+    let modalref = this.modal.open(SearchactivityComponent);
+    modalref.componentInstance.activities = this.activities;
   }
 
   addAlert(alert: string) {

@@ -4,7 +4,7 @@
       <div class="col-md">
         <h2>Trending keywords</h2>
         <table class="table table-bordered table-hover">
-          <thead class="thead-light">
+          <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Keyword</th>
@@ -12,7 +12,7 @@
           </thead>
           <tbody>
           <tr *ngFor="let keyword of trendingKeywords" [routerLink]="['dashboard']"
-              [queryParams]="{filter: keyword.content}">
+              [queryParams]="{filter: keyword.content}" class="clickable">
             <th scope="row">{{ trendingKeywords.indexOf(keyword) + 1 }}</th>
             <td>
               <span class="badge badge-secondary p-2">
@@ -27,14 +27,14 @@
       <div class="col-md">
         <h2>Trending activities</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-light">
+          <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingPosts" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingPosts" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingPosts.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>
@@ -46,14 +46,14 @@
       <div class="col-md">
         <h2>HM represents</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-light">
+          <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingHM" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingHM" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingHM.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>
@@ -63,14 +63,14 @@
       <div class="col-md">
         <h2>CALPOLY represents</h2>
         <table class="table table-hover table-bordered">
-          <thead class="thead-light">
+          <thead>
           <tr>
             <th scope="col">#</th>
             <th scope="col">Activity</th>
           </tr>
           </thead>
           <tbody>
-          <tr *ngFor="let activity of trendingCALPOLY" routerLink="/view/{{activity.id}}">
+          <tr *ngFor="let activity of trendingCALPOLY" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingCALPOLY.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>

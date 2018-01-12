@@ -42,7 +42,7 @@ export class DetailsComponent implements OnInit {
   }
 
   openPostcommentModal() {
-    const modalref = this.modal.open(PostcommentComponent);
+    let modalref = this.modal.open(PostcommentComponent);
     modalref.componentInstance.activityId = this.activity.id;
   }
 
