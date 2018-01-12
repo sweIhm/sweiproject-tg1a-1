@@ -36,7 +36,7 @@ public class LookupController {
     keywords = keywordRepository.findAllByContentIn(keywords).parallelStream()
         .map(Keyword::getContent).collect(Collectors.toList());
 
-    return keywords.size() > 0 ? postRepository.searchFor(keywords).stream()
+    return !keywords.isEmpty() ? postRepository.searchFor(keywords).stream()
         .map(PostDTO::new)
         .collect(Collectors.toList()) : new ArrayList<>();
   }
