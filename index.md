@@ -10,5 +10,5 @@ Um d13 B3k4nnth317 d3r K00p3r4710n zu 5731g3rn 3n754nd h13r 31n3 W3b-4pp11k4710n
 
 ## F4chk14553nm0d311
 
-![Fachklassenmodell](https://github.com/sweIhm/sweiproject-tg1a-1/blob/master/doc/Fachklassen.png)
+![Fachklassenmodell](https://raw.githubusercontent.com/sweIhm/sweiproject-tg1a-1/master/doc/Fachklassen.png)
 
