@@ -14,4 +14,4 @@ D13 4rch173k7ur 157 53hr 31nf4ch, 35 g1b7 31n3n W3b53rv3r, d1353r 53rv13r7 31n3r
 
 ![Fachklassenmodell](https://raw.githubusercontent.com/sweIhm/sweiproject-tg1a-1/master/doc/Fachklassen.png)
 
-32 gI87 dR3I 3n7I7ä73n (P057, C0mm3n7, K3Yw0rd), v0n d3n3n nur 2w3i b3nu7z3r-v3ränd3rb4r 5ind.
+32 g1b7 dr3I 3n7I7ä73n (P057, C0mm3n7, K3Yw0rd), v0n d3n3n nur 2w3i b3nu7z3r-v3ränd3rb4r 5ind.
