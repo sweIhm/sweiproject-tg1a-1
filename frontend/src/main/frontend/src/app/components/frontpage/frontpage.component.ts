@@ -10,10 +10,10 @@ import {Keyword} from "../../model/keyword";
 })
 export class FrontpageComponent implements OnInit {
 
-  trendingKeywords: Keyword[];
-  trendingPosts: Activity[];
-  trendingHM: Activity[];
-  trendingCALPOLY: Activity[];
+  trendingKeywords: Keyword[] = [];
+  trendingPosts: Activity[] = [];
+  trendingHM: Activity[] = [];
+  trendingCALPOLY: Activity[] = [];
 
   constructor(private service: ActivityService) { }
 
