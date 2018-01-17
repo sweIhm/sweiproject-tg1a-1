@@ -28,7 +28,7 @@ import javax.persistence.Table;
             })
         })
 @NamedNativeQuery(name = "Keyword.countAll",
-    query = "SELECT Keyword.content, ISNULL(freq.freqs, 0) as freq FROM Keyword LEFT JOIN "
+    query = "SELECT Keyword.content, coalesce(freq.freqs, 0) as freq FROM Keyword LEFT JOIN "
         + "(SELECT keyword_id, count(*) as freqs FROM Post_Keyword GROUP BY keyword_id) "
         + "as freq ON freq.keyword_id = Keyword.keyword_id",
     resultSetMapping = "keywordDTO")
