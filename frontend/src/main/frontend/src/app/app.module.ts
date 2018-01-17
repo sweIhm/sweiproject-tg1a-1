@@ -11,7 +11,7 @@ import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { AppRoutingModule } from './app-routing.module';
 import { AlertComponent } from './components/alert/alert.component';
 import { AlertService } from "./services/alert.service";
-import { PostcommentComponent } from './components/details/postcomment/postcomment.component';
+import { PostcommentComponent } from './components/details/createcomment/postcomment.component';
 import { CommentService} from "./services/comment.service";
 import { FilterComponent } from './components/dashboard/filter/filter.component';
 import { FrontpageComponent } from './components/frontpage/frontpage.component';

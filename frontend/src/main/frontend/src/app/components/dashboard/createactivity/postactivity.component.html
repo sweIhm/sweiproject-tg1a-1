@@ -37,7 +37,7 @@
     <div class="form-group">
       <label for="formTags">Tags <small>{{toBePosted.keywords.length}} selected</small></label>
       <div id="formTags" class="border rounded">
-        <span class="badge p-2 ml-2 mt-2 mb-2" *ngFor="let keyword of keywords | slice:0:limit"
+        <span class="badge p-2 ml-2 mt-2 mb-2 clickable" *ngFor="let keyword of keywords | slice:0:limit"
               (click)="toggleKeyword(keyword)"
               [class.badge-info]="toBePosted.keywords.indexOf(keyword)>-1"
               [class.badge-secondary]="toBePosted.keywords.indexOf(keyword)<0">

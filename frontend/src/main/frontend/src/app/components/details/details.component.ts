@@ -4,7 +4,7 @@ import {ActivatedRoute} from "@angular/router";
 import {ActivityService} from "../../services/activity.service";
 import {AlertService} from "../../services/alert.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {PostcommentComponent} from "./postcomment/postcomment.component";
+import {PostcommentComponent} from "./createcomment/postcomment.component";
 import {CommentService} from "../../services/comment.service";
 
 @Component({
@@ -15,7 +15,7 @@ import {CommentService} from "../../services/comment.service";
 export class DetailsComponent implements OnInit {
 
   activity: Activity;
-  comments: Comment[];
+  comments: Comment[] = [];
 
   constructor (
     private route: ActivatedRoute,
@@ -41,9 +41,25 @@ export class DetailsComponent implements OnInit {
     this.commentService.getComments(id).subscribe(comments => this.comments = comments);
   }
 
-  openPostcommentModal() {
+  openCreateCommentModal() {
     let modalref = this.modal.open(PostcommentComponent);
     modalref.componentInstance.activityId = this.activity.id;
   }
 
+  refresh() {
+    this.getData();
+    this.addAlert('refreshed');
+  }
+
+  addAlert(alert: string) {
+    if (alert == 'activityactivationfailed') {
+      this.alertService.addAlert('Activation failed! Try submitting your activity again.', 'danger');
+    }
+    if (alert == 'commentactivationfailed') {
+      this.alertService.addAlert('Activation failed! Try submitting your comment again.', 'danger');
+    }
+    if (alert == 'refreshed') {
+      this.alertService.addAlert('Data refreshed!', 'info')
+    }
+  }
 }
