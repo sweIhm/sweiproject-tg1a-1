@@ -10,7 +10,7 @@
   <tr *ngFor="let activity of activities" routerLink="/view/{{activity.id}}" class="clickable">
     <td>{{activity.author}}</td>
     <th scope="row">{{activity.title}}</th>
-    <td class="breakwords">{{shortText(activity)}}</td>
+    <td>{{shortText(activity)}}</td>
   </tr>
   <tr *ngIf="activities.length === 0">
     <th colspan="3" class="text-center">No Activities found</th>

@@ -6,7 +6,7 @@
     <groupId>edu.hm.se.tg1a1</groupId>
     <artifactId>activitymemer</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
 
     <properties>
         <java.version>1.8</java.version>

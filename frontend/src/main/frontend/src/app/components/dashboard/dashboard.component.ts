@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
 
   refresh() {
     this.getData();
-    this.alertService.addAlert('Data refreshed!', 'info')
+    this.addAlert('refreshed');
   }
 
   openPostModal() {
@@ -69,6 +69,9 @@ export class DashboardComponent implements OnInit {
     }
     if (alert == 'commentactivationfailed') {
       this.alertService.addAlert('Activation failed! Try submitting your comment again.', 'danger');
+    }
+    if (alert == 'refreshed') {
+      this.alertService.addAlert('Data refreshed!', 'info')
     }
   }
 

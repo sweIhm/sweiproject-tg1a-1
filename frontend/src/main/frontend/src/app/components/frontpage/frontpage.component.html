@@ -21,6 +21,9 @@
               </span>
             </td>
           </tr>
+          <tr *ngIf="trendingKeywords.length === 0">
+            <th colspan="2" class="text-center">Shh! Keywords are asleep</th>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -37,6 +40,9 @@
           <tr *ngFor="let activity of trendingPosts" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingPosts.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
+          </tr>
+          <tr *ngIf="trendingPosts.length === 0">
+            <th colspan="2" class="text-center">Shh! Posts are asleep</th>
           </tr>
           </tbody>
         </table>
@@ -57,6 +63,9 @@
             <th scope="row">{{ trendingHM.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
           </tr>
+          <tr *ngIf="trendingHM.length === 0">
+            <th colspan="2" class="text-center">Shh! HM is sleeping</th>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -73,6 +82,9 @@
           <tr *ngFor="let activity of trendingCALPOLY" routerLink="/view/{{activity.id}}" class="clickable">
             <th scope="row">{{ trendingCALPOLY.indexOf(activity) + 1 }}</th>
             <td>{{ activity.title }}</td>
+          </tr>
+          <tr *ngIf="trendingCALPOLY.length === 0">
+            <th colspan="2" class="text-center">Shh! CALPOLY is sleeping</th>
           </tr>
           </tbody>
         </table>
