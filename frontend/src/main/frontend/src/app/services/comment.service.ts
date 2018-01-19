@@ -8,13 +8,13 @@ export class CommentService {
 
   constructor(private http: HttpClient) { }
 
-  addComment(activityId: number, comment : CommentDto) : Observable<CommentDto> {
-    var url = '/api/activity/' + activityId + '/comment';
+  addComment(activityId: number, comment : CommentDto) : Observable<any> {
+    let url = '/api/activity/' + activityId + '/comment';
     return this.http.post(url, comment);
   }
 
-  getComments(activityId: number) : Observable<Comment[]> {
-    var url = '/api/activity/' + activityId + '/comment';
+  getComments(activityId: number) : Observable<any> {
+    let url = '/api/activity/' + activityId + '/comment';
     return this.http.get(url);
   }
 

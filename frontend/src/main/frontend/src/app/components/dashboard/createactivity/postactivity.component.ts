@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivityDto} from "../../model/activity-dto";
-import {ActivityService} from "../../services/activity.service";
+import {ActivityDto} from "../../../model/activity-dto";
+import {ActivityService} from "../../../services/activity.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {AlertService} from "../../services/alert.service";
-import {Keyword} from "../../model/keyword";
+import {AlertService} from "../../../services/alert.service";
+import {Keyword} from "../../../model/keyword";
 
 @Component({
   selector: 'app-post',
@@ -28,7 +28,7 @@ export class PostactivityComponent implements OnInit {
   onSubmit() {
     this.service.addActivity(this.toBePosted).subscribe();
     this.activeModal.close();
-    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'info')
+    this.alertService.addAlert('Thank you very much! Check your mails so you can post your activity!', 'success')
   }
 
   toggleKeyword(keyword: Keyword) {

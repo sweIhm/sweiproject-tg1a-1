@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -47,6 +46,7 @@ public class ActivityController {
 
   @GetMapping("{id}")
   public PostDTO find(@PathVariable Long id) {
+    postRepository.increaseViewCount(id);
     return new PostDTO(postRepository.findOne(id));
   }
 
@@ -87,21 +87,5 @@ public class ActivityController {
       post.setKeywords(keywordList);
       return new PostDTO(postRepository.save(post));
     }
-  }
-
-  @GetMapping("keywords")
-  public List<Keyword> getKeywords() {
-    return keywordRepository.findAll();
-  }
-
-  @GetMapping("keywords/search")
-  public List<Post> getPostsbyKeyword(@RequestParam(value = "keywords",
-      defaultValue = "You ain't gonna get anything") List<String> keywords) {
-    return keywordRepository.findAllByContentIn(keywords).stream()
-        .flatMap(x -> x.getPosts().stream())
-        .filter(x -> keywords.stream().allMatch(
-            k -> x.getKeywords().stream().anyMatch(c -> c.getContent().equals(k))))
-        .distinct()
-        .collect(Collectors.toList());
   }
 }

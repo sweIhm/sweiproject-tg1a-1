@@ -1,0 +1,30 @@
+<div class="container" *ngIf="activity">
+  <header class="d-flex justify-content-end">
+    <h2 class="mr-auto">Details</h2>
+    <button class="btn btn-info align-self-center" (click)="refresh()">
+      <i class="fa fa-refresh"></i>
+      <span class="ml-1">Refresh</span>
+    </button>
+    <button class="btn btn-success align-self-center ml-2" (click)="openCreateCommentModal()">
+      <i class="fa fa-comment" aria-hidden="true"></i>
+      <span class="ml-1">Comment</span>
+    </button>
+  </header>
+  <app-activity [activity]="activity"></app-activity>
+  <div class="mt-2">
+    <h4 *ngIf="comments.length > 1">{{comments.length}} Comments</h4>
+    <h4 *ngIf="comments.length === 1">{{comments.length}} Comment</h4>
+    <h5 *ngIf="comments.length === 0" class="m-2">No comments</h5>
+    <app-comment *ngFor="let comment of comments" [comment]="comment"></app-comment>
+    <div class="d-flex justify-content-end mt-2">
+      <button class="btn btn-info" (click)="refresh()">
+        <i class="fa fa-refresh"></i>
+        <span class="ml-1">Refresh</span>
+      </button>
+      <button class="btn btn-success ml-2" (click)="openCreateCommentModal()">
+        <i class="fa fa-comment" aria-hidden="true"></i>
+        <span class="ml-1">Comment</span>
+      </button>
+    </div>
+  </div>
+</div>
