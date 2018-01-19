@@ -66,6 +66,7 @@ public class ProdEmailController extends AbstractEmailController {
   }
 
   private Session createSession() {
+    log.info("gmailuser: {}", gmailUser);
     if (session == null) {
       Properties props = new Properties();
       props.put("mail.smtp.auth", "true");
